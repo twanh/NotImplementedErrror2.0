@@ -18,14 +18,14 @@
 
 ```json
 {
-  "id": '1231231',
-  board: [
-    [{player: 1, pawn: "bomb"}, ...],
+  "id": "1231231",
+  "board": [
+    [{"player": 1, "pawn": "bomb"}, ...],
     ...
-    [{player: 2, pawn: "flag"}, ...],
+    [{"player": 2, "pawn": "flag"}, ...]
   ],
   "player1Name": "",
-  "player2Name": "",
+  "player2Name": ""
 }
 ```
 
