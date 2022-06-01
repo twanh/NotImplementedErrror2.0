@@ -1,0 +1,30 @@
+:root {
+    --board_size: 550px;
+}
+
+#board tr td {
+    width: 1fr;
+    height: 1fr;
+    background-color: rgba(0,0,0,0.2);
+}
+
+#red-pawns tr td {
+    width: 55px;
+    height: 50px;
+    background-color: rgba(255,0,0,0.2);
+    text-align: center;
+}
+
+#blue-pawns tr td {
+    width: 55px;
+    height: 50px;
+    background-color: rgba(0,0,255,0.2);
+    text-align: center;
+}
+
+#board {
+    background-image: url(../images/board.svg);
+    background-size: var(--board_size);
+    width: var(--board_size);
+    height: var(--board_size);
+}

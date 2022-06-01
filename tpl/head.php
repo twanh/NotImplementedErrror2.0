@@ -19,7 +19,7 @@
     </head>
     <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow p-3 mb-5 bg-white rounded">
             <a class="navbar-brand" href="#">WP22</a>
             <ul class="navbar-nav mr-auto">
                 <?php $active = $navigation['active']; ?>
