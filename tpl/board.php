@@ -1,6 +1,6 @@
 <div class="row">
-    <div class="d-flex justify-content-around">
-        <div class="col-md-2">
+    <div class="d-flex justify-content-around" style="width: 100%;">
+        <div class="col-md-2 d-flex justify-content-around">
             <table id="red-pawns" border="1">
                 <tr id="red-1">
                     <td id="red-1-img"></td>
@@ -48,7 +48,7 @@
                 </tr>
             </table>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-8 d-flex justify-content-around">
             <table id="board" border="1">
                 <tr id="row-1">
                     <td id="row-1-col-1"></td>
@@ -172,7 +172,7 @@
                 </tr>
             </table>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 d-flex justify-content-around">
             <table id="blue-pawns" border="1">
                 <tr id="blue-1">
                     <td id="blue-1-img"></td>
