@@ -15,7 +15,7 @@
     include __DIR__ . '/tpl/body-start.php';
 ?>
     <div class="col-md-12">
-        <h1>Welcome to my site index!</h1>
+        <h1>Stratego WP22</h1>
     </div>
 <?php
     include __DIR__ . '/tpl/body-end.php';
