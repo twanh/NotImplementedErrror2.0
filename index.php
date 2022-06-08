@@ -9,7 +9,7 @@
     <div class="col-md-12">
         <h1>Stratego WP22</h1>
         <?php if(!isset($_POST['name'])) {?>
-        <form id="usernameForm" action="api/initiate.php" method="post">
+        <form id="usernameForm" action="api/start_game.php" method="post">
             <div class="form-group">
                 <label for="name">Username</label>
                 <input type="text" id="name" name="name" class="form-control">
@@ -18,10 +18,10 @@
                 <p>Choose a color below:</p>
                 <div>
                     <input type="radio" id="red" checked="checked"
-                           name="color" value="red" class="form-control">
+                           name="color" value="red">
                     <label for="red" style="color: red;">Red</label>
                     <input type="radio" id="blue"
-                           name="color" value="blue" class="form-control">
+                           name="color" value="blue">
                     <label for="blue" style="color: blue;">Blue</label>
                 </div>
             </div>
