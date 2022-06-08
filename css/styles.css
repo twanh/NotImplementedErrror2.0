@@ -106,3 +106,8 @@
     width: 100%;
     background-image: url(../images/pieces/U.colors-black-blue-red.svg)
 }
+
+#red-1-img, #red-4-img, #red-5-img, #red-6-img, #red-7-img, #red-8-img, #red-9-img, #red-spy-img, #red-bomb-img, 
+#blue-2-img, #blue-3-img {
+    transform: scaleX(-1);
+}

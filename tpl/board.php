@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row shadow p-3 mb-5 bg-white rounded">
     <div class="d-flex justify-content-around" style="width: 100%;">
         <div class="col-md-2 d-flex justify-content-around">
             <table id="red-pawns" border="1">
