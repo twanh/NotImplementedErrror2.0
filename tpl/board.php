@@ -3,172 +3,172 @@
         <div class="col-md-2 d-flex justify-content-around">
             <table id="red-pawns" border="1">
                 <tr id="red-1">
-                    <td id="red-1-img"></td>
                     <td id="red-1-count">0/1</td>
+                    <td id="red-1-img"></td>
                 </tr>
                 <tr id="red-2">
-                    <td id="red-2-img"></td>
                     <td id="red-2-count">0/1</td>
+                    <td id="red-2-img"></td>
                 </tr>
                 <tr id="red-3">
-                    <td id="red-3-img"></td>
                     <td id="red-3-count">0/2</td>
+                    <td id="red-3-img"></td>
                 </tr>
                 <tr id="red-4">
-                    <td id="red-4-img"></td>
                     <td id="red-4-count">0/3</td>
+                    <td id="red-4-img"></td>
                 </tr>
                 <tr id="red-5">
-                    <td id="red-5-img"></td>
                     <td id="red-5-count">0/4</td>
+                    <td id="red-5-img"></td>
                 </tr>
                 <tr id="red-6">
-                    <td id="red-6-img"></td>
                     <td id="red-6-count">0/4</td>
+                    <td id="red-6-img"></td>
                 </tr>
                 <tr id="red-7">
-                    <td id="red-7-img"></td>
                     <td id="red-7-count">0/4</td>
+                    <td id="red-7-img"></td>
                 </tr>
                 <tr id="red-8">
-                    <td id="red-8-img"></td>
                     <td id="red-8-count">0/5</td>
+                    <td id="red-8-img"></td>
                 </tr>
                 <tr id="red-9">
-                    <td id="red-9-img"></td>
                     <td id="red-9-count">0/8</td>
+                    <td id="red-9-img"></td>
                 </tr>
                 <tr id="red-spy">
-                    <td id="red-spy-img"></td>
                     <td id="red-spy-count">0/1</td>
+                    <td id="red-spy-img"></td>
                 </tr>
                 <tr id="red-bomb">
-                    <td id="red-bomb-img"></td>
                     <td id="red-bomb-count">0/6</td>
+                    <td id="red-bomb-img"></td>
                 </tr>
             </table>
         </div>
         <div class="col-md-8 d-flex justify-content-around">
             <table id="board" border="1">
                 <tr id="row-1">
-                    <td id="row-1-col-1"></td>
-                    <td id="row-1-col-2"></td>
-                    <td id="row-1-col-3"></td>
-                    <td id="row-1-col-4"></td>
-                    <td id="row-1-col-5"></td>
-                    <td id="row-1-col-6"></td>
-                    <td id="row-1-col-7"></td>
-                    <td id="row-1-col-8"></td>
-                    <td id="row-1-col-9"></td>
-                    <td id="row-1-col-10"></td>
+                    <td id="r-1-c-1"></td>
+                    <td id="r-1-c-2"></td>
+                    <td id="r-1-c-3"></td>
+                    <td id="r-1-c-4"></td>
+                    <td id="r-1-c-5"></td>
+                    <td id="r-1-c-6"></td>
+                    <td id="r-1-c-7"></td>
+                    <td id="r-1-c-8"></td>
+                    <td id="r-1-c-9"></td>
+                    <td id="r-1-c-10"></td>
                 </tr>
                 <tr id="row-2">
-                    <td id="row-2-col-1"></td>
-                    <td id="row-2-col-2"></td>
-                    <td id="row-2-col-3"></td>
-                    <td id="row-2-col-4"></td>
-                    <td id="row-2-col-5"></td>
-                    <td id="row-2-col-6"></td>
-                    <td id="row-2-col-7"></td>
-                    <td id="row-2-col-8"></td>
-                    <td id="row-2-col-9"></td>
-                    <td id="row-2-col-10"></td>
+                    <td id="r-2-c-1"></td>
+                    <td id="r-2-c-2"></td>
+                    <td id="r-2-c-3"></td>
+                    <td id="r-2-c-4"></td>
+                    <td id="r-2-c-5"></td>
+                    <td id="r-2-c-6"></td>
+                    <td id="r-2-c-7"></td>
+                    <td id="r-2-c-8"></td>
+                    <td id="r-2-c-9"></td>
+                    <td id="r-2-c-10"></td>
                 </tr>
                 <tr id="row-3">
-                    <td id="row-3-col-1"></td>
-                    <td id="row-3-col-2"></td>
-                    <td id="row-3-col-3"></td>
-                    <td id="row-3-col-4"></td>
-                    <td id="row-3-col-5"></td>
-                    <td id="row-3-col-6"></td>
-                    <td id="row-3-col-7"></td>
-                    <td id="row-3-col-8"></td>
-                    <td id="row-3-col-9"></td>
-                    <td id="row-3-col-10"></td>
+                    <td id="r-3-c-1"></td>
+                    <td id="r-3-c-2"></td>
+                    <td id="r-3-c-3"></td>
+                    <td id="r-3-c-4"></td>
+                    <td id="r-3-c-5"></td>
+                    <td id="r-3-c-6"></td>
+                    <td id="r-3-c-7"></td>
+                    <td id="r-3-c-8"></td>
+                    <td id="r-3-c-9"></td>
+                    <td id="r-3-c-10"></td>
                 </tr>
                 <tr id="row-4">
-                    <td id="row-4-col-1"></td>
-                    <td id="row-4-col-2"></td>
-                    <td id="row-4-col-3"></td>
-                    <td id="row-4-col-4"></td>
-                    <td id="row-4-col-5"></td>
-                    <td id="row-4-col-6"></td>
-                    <td id="row-4-col-7"></td>
-                    <td id="row-4-col-8"></td>
-                    <td id="row-4-col-9"></td>
-                    <td id="row-4-col-10"></td>
+                    <td id="r-4-c-1"></td>
+                    <td id="r-4-c-2"></td>
+                    <td id="r-4-c-3"></td>
+                    <td id="r-4-c-4"></td>
+                    <td id="r-4-c-5"></td>
+                    <td id="r-4-c-6"></td>
+                    <td id="r-4-c-7"></td>
+                    <td id="r-4-c-8"></td>
+                    <td id="r-4-c-9"></td>
+                    <td id="r-4-c-10"></td>
                 </tr>
                 <tr id="row-5">
-                    <td id="row-5-col-1"></td>
-                    <td id="row-5-col-2"></td>
-                    <td id="row-5-col-3"></td>
-                    <td id="row-5-col-4"></td>
-                    <td id="row-5-col-5"></td>
-                    <td id="row-5-col-6"></td>
-                    <td id="row-5-col-7"></td>
-                    <td id="row-5-col-8"></td>
-                    <td id="row-5-col-9"></td>
-                    <td id="row-5-col-10"></td>
+                    <td id="r-5-c-1"></td>
+                    <td id="r-5-c-2"></td>
+                    <td id="r-5-c-3"></td>
+                    <td id="r-5-c-4"></td>
+                    <td id="r-5-c-5"></td>
+                    <td id="r-5-c-6"></td>
+                    <td id="r-5-c-7"></td>
+                    <td id="r-5-c-8"></td>
+                    <td id="r-5-c-9"></td>
+                    <td id="r-5-c-10"></td>
                 </tr>
                 <tr id="row-6">
-                    <td id="row-6-col-1"></td>
-                    <td id="row-6-col-2"></td>
-                    <td id="row-6-col-3"></td>
-                    <td id="row-6-col-4"></td>
-                    <td id="row-6-col-5"></td>
-                    <td id="row-6-col-6"></td>
-                    <td id="row-6-col-7"></td>
-                    <td id="row-6-col-8"></td>
-                    <td id="row-6-col-9"></td>
-                    <td id="row-6-col-10"></td>
+                    <td id="r-6-c-1"></td>
+                    <td id="r-6-c-2"></td>
+                    <td id="r-6-c-3"></td>
+                    <td id="r-6-c-4"></td>
+                    <td id="r-6-c-5"></td>
+                    <td id="r-6-c-6"></td>
+                    <td id="r-6-c-7"></td>
+                    <td id="r-6-c-8"></td>
+                    <td id="r-6-c-9"></td>
+                    <td id="r-6-c-10"></td>
                 </tr>
                 <tr id="row-7">
-                    <td id="row-7-col-1"></td>
-                    <td id="row-7-col-2"></td>
-                    <td id="row-7-col-3"></td>
-                    <td id="row-7-col-4"></td>
-                    <td id="row-7-col-5"></td>
-                    <td id="row-7-col-6"></td>
-                    <td id="row-7-col-7"></td>
-                    <td id="row-7-col-8"></td>
-                    <td id="row-7-col-9"></td>
-                    <td id="row-7-col-10"></td>
+                    <td id="r-7-c-1"></td>
+                    <td id="r-7-c-2"></td>
+                    <td id="r-7-c-3"></td>
+                    <td id="r-7-c-4"></td>
+                    <td id="r-7-c-5"></td>
+                    <td id="r-7-c-6"></td>
+                    <td id="r-7-c-7"></td>
+                    <td id="r-7-c-8"></td>
+                    <td id="r-7-c-9"></td>
+                    <td id="r-7-c-10"></td>
                 </tr>
                 <tr id="row-8">
-                    <td id="row-8-col-1"></td>
-                    <td id="row-8-col-2"></td>
-                    <td id="row-8-col-3"></td>
-                    <td id="row-8-col-4"></td>
-                    <td id="row-8-col-5"></td>
-                    <td id="row-8-col-6"></td>
-                    <td id="row-8-col-7"></td>
-                    <td id="row-8-col-8"></td>
-                    <td id="row-8-col-9"></td>
-                    <td id="row-8-col-10"></td>
+                    <td id="r-8-c-1"></td>
+                    <td id="r-8-c-2"></td>
+                    <td id="r-8-c-3"></td>
+                    <td id="r-8-c-4"></td>
+                    <td id="r-8-c-5"></td>
+                    <td id="r-8-c-6"></td>
+                    <td id="r-8-c-7"></td>
+                    <td id="r-8-c-8"></td>
+                    <td id="r-8-c-9"></td>
+                    <td id="r-8-c-10"></td>
                 </tr>
                 <tr id="row-9">
-                    <td id="row-9-col-1"></td>
-                    <td id="row-9-col-2"></td>
-                    <td id="row-9-col-3"></td>
-                    <td id="row-9-col-4"></td>
-                    <td id="row-9-col-5"></td>
-                    <td id="row-9-col-6"></td>
-                    <td id="row-9-col-7"></td>
-                    <td id="row-9-col-8"></td>
-                    <td id="row-9-col-9"></td>
-                    <td id="row-9-col-10"></td>
+                    <td id="r-9-c-1"></td>
+                    <td id="r-9-c-2"></td>
+                    <td id="r-9-c-3"></td>
+                    <td id="r-9-c-4"></td>
+                    <td id="r-9-c-5"></td>
+                    <td id="r-9-c-6"></td>
+                    <td id="r-9-c-7"></td>
+                    <td id="r-9-c-8"></td>
+                    <td id="r-9-c-9"></td>
+                    <td id="r-9-c-10"></td>
                 </tr>
                 <tr id="row-10">
-                    <td id="row-10-col-1"></td>
-                    <td id="row-10-col-2"></td>
-                    <td id="row-10-col-3"></td>
-                    <td id="row-10-col-4"></td>
-                    <td id="row-10-col-5"></td>
-                    <td id="row-10-col-6"></td>
-                    <td id="row-10-col-7"></td>
-                    <td id="row-10-col-8"></td>
-                    <td id="row-10-col-9"></td>
-                    <td id="row-10-col-10"></td>
+                    <td id="r-10-c-1"></td>
+                    <td id="r-10-c-2"></td>
+                    <td id="r-10-c-3"></td>
+                    <td id="r-10-c-4"></td>
+                    <td id="r-10-c-5"></td>
+                    <td id="r-10-c-6"></td>
+                    <td id="r-10-c-7"></td>
+                    <td id="r-10-c-8"></td>
+                    <td id="r-10-c-9"></td>
+                    <td id="r-10-c-10"></td>
                 </tr>
             </table>
         </div>
