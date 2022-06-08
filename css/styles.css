@@ -28,3 +28,81 @@
     width: var(--board_size);
     height: var(--board_size);
 }
+
+.img-1 {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/1.colors-black-blue-red.svg)
+}
+
+.img-2 {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/2.colors-black-blue-red.svg)
+}
+
+.img-3 {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/3.colors-black-blue-red.svg)
+}
+
+.img-4 {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/4.colors-black-blue-red.svg)
+}
+
+.img-5 {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/5.colors-black-blue-red.svg)
+}
+
+.img-6 {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/6.colors-black-blue-red.svg)
+}
+
+.img-7 {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/7.colors-black-blue-red.svg)
+}
+
+.img-8 {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/8.colors-black-blue-red.svg)
+}
+
+.img-9 {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/9.colors-black-blue-red.svg)
+}
+
+.img-B {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/B.colors-black-blue-red.svg)
+}
+
+.img-F {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/F.colors-black-blue-red.svg)
+}
+
+.img-S {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/S.colors-black-blue-red.svg)
+}
+
+.img-U {
+    background-size: cover;
+    width: 100%;
+    background-image: url(../images/pieces/U.colors-black-blue-red.svg)
+}
