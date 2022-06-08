@@ -12,8 +12,8 @@
       [{"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}],
       [{"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}, {"player": 0, "pawn": ""}]
     ],
-    "player1Name": "",
-    "player2Name": ""
+    "player1Name": "red",
+    "player2Name": "blue"
 },
 {
     "id": "4564564",
@@ -31,4 +31,4 @@
     ],
     "player1Name": "",
     "player2Name": ""
-}]
+}]  

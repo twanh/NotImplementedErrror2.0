@@ -34,6 +34,10 @@
     if(isset($_POST['name'])) {
         include __DIR__ . '/tpl/board.php';
     }
+    
+    //testing for php and json
+    include __DIR__ . '/scripts/save_to_board.php';
+
     include __DIR__ . '/tpl/body-end.php';
     /* Footer */
     include __DIR__ . '/tpl/footer.php';
