@@ -5,6 +5,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title id="title"><?php echo $page_title; ?></title>
+        <meta content="Twan Huiskens, Wessel Heereme, Kylian and Koen Snelten" name="Author">
+        <meta content="Stratego, game, videogame, strategy, boardgame" name="Keywords">
+        <meta content="This is stragego made with html, css, js and php" name="Description">
 
         <!-- Styles -->
         <link rel="preconnect" href="https://cdnjs.cloudflare.com">
