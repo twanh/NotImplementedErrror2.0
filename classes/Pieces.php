@@ -8,7 +8,6 @@ class Piece
     public $name;
     public $value;
     public $movable;
-    public $movesMore;
 
     // TODO: These parameters are not final
     public function canMove($board, $move)
@@ -46,9 +45,9 @@ class Piece
                 $own = $this->value;
                 $other = $piece->getValue();
 
-                if ($own === 'F') {
+                if ($other === 'F') {
                     // TODO: Win condition, make sure that this is handled properly
-                    return false;
+                    return true;
                 }
 
                 // Nobody can hit the bomb expect minor.
@@ -58,7 +57,8 @@ class Piece
                 }
 
             } else {
-                // Current piece is string value and the other one is numeric so we can hit.
+                // Current piece is string value and the other one is numeric so we can hit (although
+                // bombs and flags should never be the hitting one!).
                 return true;
             }
         }
@@ -92,7 +92,12 @@ class Flag extends Piece
     public $name = 'Flag';
     public $value = 'F';
     public $movable = false;
-    public $movesMore = false;
+
+    public function canHit(Piece $piece) : bool
+    {
+        // Flags cannot hit anything.
+        return false;
+    }
 
 }
 
@@ -103,7 +108,6 @@ class Bomb extends Piece
     public $name = 'Bomb';
     public $value = 'B';
     public $movable = false;
-    public $movesMore = false;
 
 }
 
@@ -113,7 +117,6 @@ class Spy extends Piece
     public $name = 'Spy';
     public $value = '1';
     public $movable = true;
-    public $movesMore = false;
 
     public function canHit(Piece $piece)
     {
@@ -132,7 +135,6 @@ class Scout extends Piece
     public $name = 'Scout';
     public $value = '2';
     public $movable = true;
-    public $movesMore = true;
 
 }
 
@@ -142,7 +144,6 @@ class Miner extends Piece
     public $name = 'Miner';
     public $value = '3';
     public $movable = true;
-    public $movesMore = false;
 
     function canHit(Piece $piece)
     {
@@ -161,7 +162,6 @@ class Sergeant extends Piece
     public $name = 'Sergeant';
     public $value = '4';
     public $movable = true;
-    public $movesMore = false;
 
 }
 
@@ -171,7 +171,6 @@ class Lieutenant extends Piece
     public $name = 'Lieutenant';
     public $value = '5';
     public $movable = true;
-    public $movesMore = false;
 
 }
 
@@ -181,7 +180,6 @@ class Captain extends Piece
     public $name = 'Captain';
     public $value = '6';
     public $movable = true;
-    public $movesMore = false;
 
 }
 
@@ -191,7 +189,6 @@ class Major extends Piece
     public $name = 'Major';
     public $value = '7';
     public $movable = true;
-    public $movesMore = false;
 
 }
 
@@ -201,7 +198,6 @@ class Colonel extends Piece
     public $name = 'Colonel';
     public $value = '8';
     public $movable = true;
-    public $movesMore = false;
 
 }
 
@@ -211,7 +207,6 @@ class General extends Piece
     public $name = 'General';
     public $value = '9';
     public $movable = true;
-    public $movesMore = false;
 
 }
 
@@ -221,6 +216,5 @@ class Marshal extends Piece
     public $name = 'Marshal';
     public $value = '10';
     public $movable = true;
-    public $movesMore = false;
 
 }
