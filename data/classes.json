@@ -1,4 +1,4 @@
-"Classes": {
+"Classes": [
 	{
 		"Name": "Flag",
 		"Value": "F",
@@ -6,7 +6,7 @@
 		"Defeats_Marshal": false,
 		"Moves_More": false
 
-	}
+	},
 	{
 		"Name": "Bomb",
 		"Value": "B",
@@ -14,70 +14,70 @@
 		"Defeats_Marshal": true,
 		"Moves_More": false
 
-	}
+	},
 	{
 		"Name": "Spy",
 		"Value": "1",
 		"Moveable": true,
 		"Defeats_Marshal": true,
 		"Moves_More": false
-	}
+	},
 	{
 		"Name": "Scout",
 		"Value": "2",
 		"Moveable": true,
 		"Defeats_Marshal": false,
 		"Moves_More": true
-	}
+	},
 	{
 		"Name": "Miner",
 		"Value": "3",
 		"Moveable": true,
 		"Defeats_Marshal": false,
 		"Moves_More": false
-	}
+	},
 	{
 		"Name": "Sergeant",
 		"Value": "4",
 		"Moveable": true,
 		"Defeats_Marshal": false,
 		"Moves_More": false
-	}
+	},
 	{
 		"Name": "Lieutenant",
 		"Value": "5",
 		"Moveable": true,
 		"Defeats_Marshal": false,
 		"Moves_More": false
-	}
+	},
 	{
 		"Name": "Captains",
 		"Value": "6",
 		"Moveable": true,
 		"Defeats_Marshal": false,
 		"Moves_More": false
-	}
+	},
 	{
 		"Name": "Major",
 		"Value": "7",
 		"Moveable": true,
 		"Defeats_Marshal": false,
 		"Moves_More": false
-	}
+	},
 	{
 		"Name": "Colonel",
 		"Value": "8",
 		"Moveable": true,
 		"Defeats_Marshal": false,
 		"Moves_More": false
-	}
+	},
 	{
 		"Name": "General",
 		"Value": "9",
 		"Moveable": true,
 		"Defeats_Marshal": false,
 		"Moves_More": false
-	}
+	},
 	{
 		"Name": "Marshal",
 		"Value": "10",
@@ -85,4 +85,4 @@
 		"Defeats_Marshal": true,
 		"Moves_More": false
 	}
-}
+]
