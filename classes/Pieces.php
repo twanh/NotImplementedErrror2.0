@@ -10,20 +10,26 @@ class Piece
     public $movable;
 
     // TODO: These parameters are not final
-    public function canMove($board, $move)
+    public function canMoveDistance($move_distance) : bool
     {
 
         if (!$this->movable) {
             return false;
         }
 
-        // TODO: Implement basic move code!
+        if ($move_distance < 2) {
+            return true;
+        }
+
+        return false;
 
     }
 
     // General hit method
     public function canHit(Piece $piece)
     {
+        // TODO: Make sure that the other piece belongs to the other player!!
+        // But we first need Player classes and then assign them to the pieces.
         if (is_numeric($this->value)) {
             if (is_numeric($piece->getValue())) {
                 if ($this->value > $piece->getValue()) {
@@ -135,6 +141,15 @@ class Scout extends Piece
     public $name = 'Scout';
     public $value = '2';
     public $movable = true;
+
+    public function canMoveDistance($move_distance): bool
+    {
+        // Scouts can move as far as they want!
+        // TODO: Find out if scouts can hit in the same turn as they moved.
+        //       If not, handle it!
+        return true;
+    }
+
 
 }
 
