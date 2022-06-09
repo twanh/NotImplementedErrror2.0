@@ -36,8 +36,7 @@ abstract class Piece
                $other = $piece->getValue();
 
                if ($own === 'F') {
-                   // TODO: Win condition, make sure that this
-                   // is handled properly
+                   // TODO: Win condition, make sure that this is handled properly
                    return false;
                }
 
