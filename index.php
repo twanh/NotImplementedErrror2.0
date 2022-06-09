@@ -8,13 +8,12 @@
 <div class="row">
     <div class="col-md-12">
         <h1>Stratego WP22</h1>
-        <?php if(!isset($_POST['name'])) {?>
-        <form id="usernameForm" action="api/start_game.php" method="post">
+        <form id="usernameForm" action="game.php" method="post">
             <div class="form-group">
                 <label for="name">Username</label>
                 <input type="text" id="name" name="name" class="form-control">
             </div>
-            <div class="form-group">
+            <div class="form-group" id="color-tab">
                 <p>Choose a color below:</p>
                 <div>
                     <input type="radio" id="red" checked="checked"
@@ -25,15 +24,11 @@
                     <label for="blue" style="color: blue;">Blue</label>
                 </div>
             </div>
-            <div id="name-submit" class="btn btn-primary">Start a Game</div>
+            <button type="submit" class="btn btn-primary">Start a Game</div>
         </form>
-        <?php } ?>
     </div>
 </div>
 <?php
-    if(isset($_POST['name'])) {
-        include __DIR__ . '/tpl/board.php';
-    }
     
     //testing for php and json
     include __DIR__ . '/scripts/save_to_board.php';
