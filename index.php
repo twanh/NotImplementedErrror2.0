@@ -18,7 +18,7 @@
                 <label for="name" class="form-label">Username:</label>
                 <input type="text" id="name" name="name" class="form-control" style="color: white;  background-color: rgba(0, 0, 0, 0);" >
             </div>
-            <div class="form-group">
+            <div class="form-group" id="color-tab">
                 <p>Choose a color below:</p>
                 <div>
                     <input type="radio" class="btn-check" name="color" id="red" autocomplete="off" checked="checked">
@@ -28,15 +28,11 @@
                     <label class="btn btn-primary" for="blue">Blue</label>
                 </div>
             </div>
-            <div id="name-submit" class="btn btn-primary">Start a Game</div>
+            <button type="submit" class="btn btn-primary">Start a Game</div>
         </form>
-        <?php } ?>
     </div>
 </div>
 <?php
-    if(isset($_POST['name'])) {
-        include __DIR__ . '/tpl/board.php';
-    }
     
     //testing for php and json
     //include __DIR__ . '/scripts/save_to_board.php';
