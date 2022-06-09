@@ -8,9 +8,12 @@
     $json = json_decode($json_string, true);
     foreach($json as $elem) {
         echo $elem['id'];
-        if ($elem['id'] == $board_id) {
-            echo $elem;
-            echo $elem['board'][0][0]['player'];
+        echo '<br/>';
+        foreach($elem['board'] as $elem2) {
+            foreach($elem2 as $elem3) {
+                echo $elem3['player'];
+            }
+            echo '<br/>';
         }
     }
 ?>
