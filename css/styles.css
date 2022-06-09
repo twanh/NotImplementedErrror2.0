@@ -2,6 +2,11 @@
     --board_size: 550px;
 }
 
+body {
+    background-color: #303030;
+    color: #fff;
+}
+
 #board tr td {
     width: 1fr;
     height: 1fr;
