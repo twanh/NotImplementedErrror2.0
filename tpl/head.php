@@ -20,24 +20,24 @@
         <script type="application/javascript" src="scripts/main.js"></script>
     </head>
     <body>
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow p-3 mb-5 bg-white rounded">
-            <a class="navbar-brand" href="#">WP22</a>
-            <ul class="navbar-nav mr-auto">
-                <?php $active = $navigation['active']; ?>
-                <?php foreach($navigation['items'] as $title => $url){
-                    if ($title == $active){ ?>
-                        <li class="nav-item active">
-                            <a class="nav-link" href="<?= $url ?>"><?= $title ?></a>
-                        </li>
-                    <?php } else {?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="<?= $url ?>"><?= $title ?></a>
-                        </li>
+        <header>
+            <nav class="navbar navbar-dark bg-dark">
+                <a class="navbar-brand" href="#">WP22</a>
+                <ul class="navbar-nav mr-auto">
+                    <?php $active = $navigation['active']; ?>
+                    <?php foreach($navigation['items'] as $title => $url){
+                        if ($title == $active){ ?>
+                            <li class="nav-item active">
+                                <a class="nav-link" href="<?= $url ?>"><?= $title ?></a>
+                            </li>
+                        <?php } else {?>
+                            <li class="nav-item">
+                                <a class="nav-link" href="<?= $url ?>"><?= $title ?></a>
+                            </li>
+                        <?php } ?>
                     <?php } ?>
-                <?php } ?>
-            </ul>
-        </nav>
-    </header>
+                </ul>
+            </nav>
+        </header>
 
     

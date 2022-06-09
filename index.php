@@ -5,24 +5,27 @@
     /* Body */
     include __DIR__ . '/tpl/body-start.php';
 ?>
-<div class="row">
-    <div class="col-md-12">
-        <h1>Stratego WP22</h1>
+<div class="row my-4">
+    <div class="col-md-12 bg-dark rounded">
+        <h1 class="text-center">Stratego WP22</h1>
+    </div>
+</div>
+<div class="row my-4">
+    <div class="col-md-12 bg-dark rounded">
         <?php if(!isset($_POST['name'])) {?>
-        <form id="usernameForm" action="api/start_game.php" method="post">
-            <div class="form-group">
-                <label for="name">Username</label>
-                <input type="text" id="name" name="name" class="form-control">
+        <form id="usernameForm" action="api/start_game.php" method="post" class="my-4">
+            <div class="form-outline form-white mb-4">
+                <label for="name" class="form-label">Username:</label>
+                <input type="text" id="name" name="name" class="form-control" style="color: white;  background-color: rgba(0, 0, 0, 0);" >
             </div>
             <div class="form-group">
                 <p>Choose a color below:</p>
                 <div>
-                    <input type="radio" id="red" checked="checked"
-                           name="color" value="red">
-                    <label for="red" style="color: red;">Red</label>
-                    <input type="radio" id="blue"
-                           name="color" value="blue">
-                    <label for="blue" style="color: blue;">Blue</label>
+                    <input type="radio" class="btn-check" name="color" id="red" autocomplete="off" checked="checked">
+                    <label class="btn btn-danger" for="red">Red</label>
+
+                    <input type="radio" class="btn-check" name="color" id="blue" autocomplete="off">
+                    <label class="btn btn-primary" for="blue">Blue</label>
                 </div>
             </div>
             <div id="name-submit" class="btn btn-primary">Start a Game</div>
@@ -36,7 +39,7 @@
     }
     
     //testing for php and json
-    include __DIR__ . '/scripts/save_to_board.php';
+    //include __DIR__ . '/scripts/save_to_board.php';
 
     include __DIR__ . '/tpl/body-end.php';
     /* Footer */
