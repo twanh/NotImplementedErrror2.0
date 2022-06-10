@@ -18,18 +18,20 @@
                 <label for="name" class="form-label">Username:</label>
                 <input type="text" id="name" name="name" class="form-control" style="color: white;  background-color: rgba(0, 0, 0, 0);" >
             </div>
-            <div class="form-group" id="color-tab">
+            <div class="form-group mb-4" id="color-tab">
                 <p>Choose a color below:</p>
-                <div>
-                    <input type="radio" class="btn-check" name="color" id="red" autocomplete="off" checked="checked">
-                    <label class="btn btn-danger" for="red">Red</label>
-
-                    <input type="radio" class="btn-check" name="color" id="blue" autocomplete="off">
-                    <label class="btn btn-primary" for="blue">Blue</label>
-                </div>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label class="btn btn-danger active">
+                    <input type="radio" name="color" id="red" checked> Red
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name="color" id="blue"> Blue
+                </label>
             </div>
-            <button type="submit" class="btn btn-primary">Start a Game</div>
+            <br/>
+            <button type="submit" class="btn btn-primary mt-4">Start a Game</div>
         </form>
+        <?php } ?>
     </div>
 </div>
 <?php
