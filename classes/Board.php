@@ -13,6 +13,12 @@ class Board
         return $this->board;
     }
 
+    public function getPositionOnBoard(int $y, int $x)
+    {
+       return $this->board[$y][$x] ;
+    }
+
+
     /**
      * Creates the 10x10 grid that is used as board;
      * TODO: Add a special value to the water area's! So that it is clear that
