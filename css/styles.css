@@ -7,6 +7,11 @@ body {
     color: #fff;
 }
 
+#name {
+    color: white !important;  
+    background-color: rgba(0, 0, 0, 0) !important;
+}
+
 .button {
     border: 5px solid rgba(0,0,0,0) !important;
 }
