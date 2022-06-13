@@ -1,36 +1,44 @@
 <?php
+
+require __DIR__ . '/../classes/Board.php';
+require __DIR__ . '/../db/Database.php';
+
 if (isset($_POST['name']) && isset($_POST['color'])) {
-    $json_file = file_get_contents("../data/board.json");
-    $boards = json_decode($json_file, true);
+
+    $board = new board\Board();
+
     $gameid = uniqid();
     $userid = uniqid();
-    echo json_encode(["test" => 0]);
+
+    $player1Name = '';
+    $player1Id = null;
+    $player2Name = '';
+    $player2Id = null;
+
+    $db = new Database('../data/database.json');
     if ($_POST['color'] === "red") {
-        $new_board = [
-            "id" => $gameid,
-            "board" => [],
-            "player1Name" => $_POST['name'],
-            "player1ID" => $userid,
-            "player2Name" => "",
-            "player2ID" => ""
-        ];
+        $player1Name = $_POST['name'];
+        $player1Id = $userid;
+        // TODO: Find a better way to add to gameIds
+        $u_ret = $db->addUser($userid, $player1Name, [$gameid]);
     } else {
-        $new_board = [
-            "id" => $gameid,
-            "board" => [],
-            "player1Name" => "",
-            "player1ID" => "",
-            "player2Name" => $_POST['name'],
-            "player2ID" => $userid
-        ];
+        $player2Name = $_POST['name'];
+        $player2Id = $userid;
+        $u_ret = $db->addUser($userid, $player2Name, [$gameid]);
     }
-    $boards[] = $new_board;
-    echo json_encode(["test" => 1]);
-    $json_file = fopen('../data/board.json', 'w');
-    fwrite($json_file, json_encode($boards));
-    fclose($json_file);
-    header("Location: ../game.php?gameid=" . $gameid . "&userid=" . $userid);
-    die();
+
+    if (!$u_ret) {
+        echo "ERROR: Could not create new user!";
+    }
+
+    $ret = $db->addGame($gameid, $player1Id, $player2Id, $board);
+
+    if (!$ret) {
+        echo "Could not create game!";
+    }
+
+   header("Location: ../game.php?gameid=" . $gameid . "&userid=" . $userid);
+   die();
 } else {
     return false;
 }
