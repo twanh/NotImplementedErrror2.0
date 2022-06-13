@@ -31,7 +31,7 @@ if (isset($_POST['name']) && isset($_POST['color'])) {
         echo "ERROR: Could not create new user!";
     }
 
-    $ret = $db->addGame($gameid, $player1Id, $player2Id, $board);
+    $ret = $db->addGame($gameid, $player1Id, $player2Id, $board->getBoard());
 
     if (!$ret) {
         echo "Could not create game!";
