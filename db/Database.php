@@ -13,7 +13,7 @@ class Database
         //       If not -> add them.
     }
 
-    private function save($db_content)
+    private function save($db_content): bool
     {
 
         $db_out = json_encode($db_content);
@@ -52,8 +52,16 @@ class Database
         return $ret;
     }
 
-    public function getBoardById($id)
+    public function getGameById($id)
     {
+        $db_content = $this->load();
+        foreach ($db_content['games'] as $game) {
+            if ($game['id'] == $id) {
+                return $game;
+            }
+        }
+
+        return NULL;
 
     }
 
