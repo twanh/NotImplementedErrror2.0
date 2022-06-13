@@ -32,6 +32,12 @@ class Board
             $row = array();
             for ($x = 0; $x < 10; $x++) {
                 $row[$x] = NULL;
+                // Add water tiles
+                if ($y === 4 or $y === 5) {
+                   if ($x === 2 or $x === 3 or $x === 6 or $x === 7) {
+                       $row[$x] = 'WATER';
+                   }
+                }
             }
             $board[$y] = $row;
         }
@@ -70,6 +76,11 @@ class Board
         if (is_null($this->board[$y][$x])) {
             $this->board[$y][$x] = $piece;
             return true;
+        }
+
+        // Make sure that players cannot place pieces on water
+        if ($this->board[$y][$x] === 'WATER') {
+            return false;
         }
 
         // TODO: When players are implemented this should also check if the currentPiece
