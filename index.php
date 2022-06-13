@@ -12,7 +12,7 @@
 </div>
 <div class="row my-4">
     <div class="col-md-12 bg-dark rounded">
-        <form id="usernameForm" method="post" class="my-4">
+        <form id="usernameForm" action="api/start_game.php" method="post" class="my-4">
             <div class="form-outline form-white mb-4">
                 <label for="name" class="form-label">Username:</label>
                 <input type="text" id="name" name="name" class="form-control">
@@ -28,7 +28,7 @@
                 </label>
             </div>
             <br/>
-            <button type="submit" class="btn btn-primary mt-4">Start a Game</div>
+            <div id="submit" class="btn btn-primary mt-4">Start a Game</div>
         </form>
     </div>
 </div>

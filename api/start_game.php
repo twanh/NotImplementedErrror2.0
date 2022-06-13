@@ -6,33 +6,31 @@ if (isset($_POST['name']) && isset($_POST['color'])) {
     $userid = uniqid();
     echo json_encode(["test" => 0]);
     if ($_POST['color'] === "red") {
-        array_push($boards, [
+        $new_board = [
             "id" => $gameid,
             "board" => [],
             "player1Name" => $_POST['name'],
             "player1ID" => $userid,
             "player2Name" => "",
             "player2ID" => ""
-        ]);
+        ];
     } else {
-        array_push($boards, [
+        $new_board = [
             "id" => $gameid,
             "board" => [],
             "player1Name" => "",
             "player1ID" => "",
             "player2Name" => $_POST['name'],
             "player2ID" => $userid
-        ]);
+        ];
     }
+    $boards[] = $new_board;
     echo json_encode(["test" => 1]);
     $json_file = fopen('../data/board.json', 'w');
     fwrite($json_file, json_encode($boards));
     fclose($json_file);
-    $out = [
-        "gameid" => $gameid,
-        "userid" => $userid
-    ];
-    echo json_encode($out);
+    header("Location: ../game.php?gameid=" . $gameid . "&userid=" . $userid);
+    die();
 } else {
     return false;
 }

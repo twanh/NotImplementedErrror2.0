@@ -15,7 +15,7 @@ function validateName(name) {
 function initGame(input) {
     if (validateName($("#name")) === true && $('input[name="color"]:checked').val() !== undefined) {
         console.log(input)
-        let request = $.ajax({
+        /*let request = $.ajax({
             type: 'post',
             url: 'api/start_game.php',
             data: input,
@@ -24,13 +24,13 @@ function initGame(input) {
         request.done(function (data) {
             let url = "game.php?gameid=" + data.gameid + "&userid=" + data.userid;
             window.location.replace(url);
-        });
+        });*/
+        $("#usernameForm").submit()
     }
 }
 
 $(function(){
-    $("#usernameForm").submit(function(e) {
-        e.preventDefault();
-        initGame($(this).serialize());
+    $("#submit").click(function() {
+        initGame($("#usernameForm").serialize());
     })
 })
