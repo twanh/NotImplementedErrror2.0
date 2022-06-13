@@ -176,6 +176,7 @@ class Scout extends Piece
         // Scouts can move as far as they want!
         // TODO: Find out if scouts can hit in the same turn as they moved.
         //       If not, handle it!
+        // TODO: checks if its not moving over any pieces.
         return true;
     }
 
