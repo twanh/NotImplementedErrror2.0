@@ -1,6 +1,6 @@
-<div class="row shadow p-3 mb-5 bg-white rounded">
+<div class="row m-4 bg-dark rounded" id="game_container">
     <div class="d-flex justify-content-around" style="width: 100%;">
-        <div class="col-md-2 d-flex justify-content-around">
+        <div class="col-md-2 d-flex justify-content-end">
             <table id="red-pawns" border="1">
                 <tr id="red-1">
                     <td id="red-1-count">0/1</td>
@@ -172,7 +172,7 @@
                 </tr>
             </table>
         </div>
-        <div class="col-md-2 d-flex justify-content-around">
+        <div class="col-md-2 d-flex justify-content-start">
             <table id="blue-pawns" border="1">
                 <tr id="blue-1">
                     <td id="blue-1-img"  class="img-1"></td>
