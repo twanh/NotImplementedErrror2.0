@@ -3,14 +3,31 @@
 class Database
 {
     public $file;
-    public $open; // To check if the file is currently opened.
 
     // Load for file, or perhaps id
     public function __construct($file)
     {
         $this->file = $file;
-        // TODO: Make sure that the file has 'games' and 'users'
-        //       If not -> add them.
+
+        $content  = $this->load();
+
+        if (!is_array($content)) {
+            $content = Array(
+                "games" => [],
+                "users" => [],
+            );
+        }
+
+        if(!array_key_exists('games', $content)) {
+            $content['games'] = [];
+        }
+
+        if(!array_key_exists('users', $content)) {
+           $content['users'] = [];
+        }
+
+        $this->save($content);
+
     }
 
     private function save($db_content): bool
@@ -39,7 +56,6 @@ class Database
     public function addUser($id, $userName, $gameIds)
     {
         $db_content = $this->load();
-        echo "ADDING USER!!!";
 
         $newUser = [
             "id" => $id,
@@ -121,45 +137,6 @@ class Database
         unset($game);
 
         return $this->save($db_content);
-
-    }
-
-    // public function saveBoard($gameId, $board)
-    // {
-    //     // Load the current db
-    //     $db_content = file_get_contents($this->file);
-    //     $db = json_decode($db_content);
-    //     // Save the board in the correct 'table'
-    //     foreach ($db as $elem) {
-    //         $found = false;
-    //         foreach ($elem['games'] as $game) {
-    //             if (is_numeric($game['id'])) {
-    //                if (intval($game['id']) === $gameId) {
-    //                    $found = true;
-    //                    // TODO: Save to board!
-    //                }
-    //             }
-    //         }
-    //         if (!$found) {
-    //             // Make new item
-    //             array_push($game, {
-    //                 id: uniqid();,
-    //             })
-    //         }
-    //     }
-
-    //     // Save the file again...
-    //    $json = json_encode($board);
-    //    file_put_contents($this->file, $json);
-
-    //    return $boardId;
-
-    // }
-
-    public function loadBoard($boardId)
-    {
-       $raw_json = file_get_contents($this->file);
-       $json = json_decode($raw_json);
 
     }
 
