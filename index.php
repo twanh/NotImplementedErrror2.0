@@ -12,8 +12,7 @@
 </div>
 <div class="row my-4">
     <div class="col-md-12 bg-dark rounded">
-        <?php if(!isset($_POST['name'])) {?>
-        <form id="usernameForm" action="api/start_game.php" method="post" class="my-4">
+        <form id="usernameForm" method="post" class="my-4">
             <div class="form-outline form-white mb-4">
                 <label for="name" class="form-label">Username:</label>
                 <input type="text" id="name" name="name" class="form-control" style="color: white;  background-color: rgba(0, 0, 0, 0);" >
@@ -22,18 +21,18 @@
                 <p>Choose a color below:</p>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
                 <label class="btn btn-danger active">
-                    <input type="radio" name="color" id="red" checked> Red
+                    <input type="radio" name="color" id="red" value="red" checked> Red
                 </label>
                 <label class="btn btn-primary">
-                    <input type="radio" name="color" id="blue"> Blue
+                    <input type="radio" name="color" id="blue" value="blue"> Blue
                 </label>
             </div>
             <br/>
             <button type="submit" class="btn btn-primary mt-4">Start a Game</div>
         </form>
-        <?php } ?>
     </div>
 </div>
+<script src="scripts/login.js"></script>
 <?php
     
     //testing for php and json
