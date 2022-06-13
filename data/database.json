@@ -1,4 +1,1 @@
-{
-  "games": [],
-  "users": []
-}
+{"games":[{"id":"62a716880c79d","player1Id":null,"player2Id":"62a716880c7a1","board":"{}"}],"users":[{"id":"62a716880c7a1","userName":"Koen","gameIds":["62a716880c79d"]}]}
