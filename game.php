@@ -37,11 +37,16 @@ if ($game['player1Id'] !== $userId and $game['player2Id'] !== $userId) {
         </div>
     </div>
     <script src="scripts/genlink.js"></script>
+    <?php
+        if (!is_null($game['player1Id']) and !is_null($game['player2Id'])) {
+            echo "Moi";
+        }
+    ?>
 <?php
 
 //testing for php and json
 //include __DIR__ . '/scripts/save_to_board.php';
-include __DIR__ . '/tpl/board.php';
+//include __DIR__ . '/tpl/board.php';
 include __DIR__ . '/tpl/body-end.php';
 /* Footer */
 include __DIR__ . '/tpl/footer.php';
