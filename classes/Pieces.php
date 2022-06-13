@@ -32,6 +32,7 @@ class Piece
         // But we first need Player classes and then assign them to the pieces.
         if (is_numeric($this->value)) {
             if (is_numeric($piece->getValue())) {
+                // TODO: Should this use intval?
                 if ($this->value > $piece->getValue()) {
                     return true;
                 } elseif ($this->value == $piece->getValue()) {

@@ -27,10 +27,18 @@ class Database
         return true;
     }
 
-    public function addUser($id, $userName, $gameIds)
+    private function load()
     {
+
         $db_raw = file_get_contents($this->file);
         $db_content = json_decode($db_raw, true);
+
+        return $db_content;
+    }
+
+    public function addUser($id, $userName, $gameIds)
+    {
+        $db_content = $this->load();
 
         $newUser = [
             "id" => $id,
@@ -44,10 +52,15 @@ class Database
         return $ret;
     }
 
+    public function getBoardById($id)
+    {
+
+    }
+
     public function addGame($id, $player1Id, $player2Id, $board)
     {
-        $db_content = file_get_contents($this->file);
-        $db = json_decode($db_content, true);
+
+        $db_content = $this->load();
 
         $newGame = [
             "id" => $id,
@@ -56,17 +69,9 @@ class Database
             "board" => json_encode($board),
         ];
 
-        array_push($db['games'], $newGame);
+        array_push($db_content['games'], $newGame);
 
-        $db_out = json_encode($db);
-        $ret = file_put_contents($this->file, $db_out);
-
-        if ($ret === false) {
-            echo "ERROR: Could not write to database!!";
-            return false;
-        }
-
-        return true;
+        return $this->save($db_content);
 
     }
 
