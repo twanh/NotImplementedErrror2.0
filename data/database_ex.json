@@ -1,7 +1,7 @@
 {
   "games": [
     {
-      "gameId": "123123",
+      "id": "123123",
       "player1Id": "1234234",
       "player2Id": "1234233",
       "board": [
@@ -21,17 +21,17 @@
   "users": [
     {
       "userName": "Twan",
-      "userId": "1234234",
+      "id": "1234234",
       "gameIds": ["game-123"]
     },
     {
       "userName": "Wessel",
-      "userId": "1234233",
+      "id": "1234233",
       "gameIds": ["game-123"]
     },
     {
       "userName": "Twan2",
-      "userId": "1234234",
+      "id": "1234234",
       "gameIds": ["game-124"]
     }
   ]
