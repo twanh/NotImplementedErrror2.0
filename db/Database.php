@@ -83,6 +83,46 @@ class Database
 
     }
 
+    public function updateGame($id, $player1Id, $player2Id, $board)
+    {
+
+        $db_content = $this->load();
+        $gameToUpdate = NULL;
+
+        foreach ($db_content['games'] as $game) {
+            if ($game['id'] == $id) {
+                $gameToUpdate = $game;
+            }
+        }
+
+        if (is_null($gameToUpdate)) {
+            echo "ERROR: Could not find game with id " . $id . "so could not update";
+            return false;
+        }
+
+        if(!is_null($player1Id)) {
+            $gameToUpdate['player1Id'] = $player2Id;
+        }
+
+        if(!is_null($player2Id)) {
+            $gameToUpdate['player2Id'] = $player2Id;
+        }
+
+        if(!is_null($board)) {
+            $gameToUpdate['board'] = $board;
+        }
+
+        foreach ($db_content['games'] as &$game) {
+            if ($game['id'] == $id) {
+                $game[$id] = $gameToUpdate;
+            }
+        }
+        unset($game);
+
+        return $this->save($db_content);
+
+    }
+
     // public function saveBoard($gameId, $board)
     // {
     //     // Load the current db
