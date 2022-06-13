@@ -7,6 +7,14 @@ body {
     color: #fff;
 }
 
+.button {
+    border: 5px solid rgba(0,0,0,0) !important;
+}
+
+.active {
+    border: 5px solid rgba(0,0,0,0.2) !important;
+}
+
 #board tr td {
     width: 1fr;
     height: 1fr;

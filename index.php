@@ -20,10 +20,10 @@
             <div class="form-group mb-4" id="color-tab">
                 <p>Choose a color below:</p>
                 <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-danger active">
+                <label class="btn btn-danger button active">
                     <input type="radio" name="color" id="red" value="red" checked> Red
                 </label>
-                <label class="btn btn-primary">
+                <label class="btn btn-primary button">
                     <input type="radio" name="color" id="blue" value="blue"> Blue
                 </label>
             </div>
