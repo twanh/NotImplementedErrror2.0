@@ -12,7 +12,7 @@ include __DIR__ . '/tpl/body-start.php';
     </div>
     <div class="row my-4">
         <div id="urlShare" class="col-md-12 bg-dark rounded">
-            <div id="submit" class="btn btn-primary mt-4">Generate Join Link</div>
+            <div id="submit" class="btn btn-primary my-4">Generate Join Link</div>
         </div>
     </div>
     <script src="scripts/genlink.js"></script>
