@@ -9,16 +9,98 @@ class Database
     public function __construct($file)
     {
         $this->file = $file;
+        // TODO: Make sure that the file has 'games' and 'users'
+        //       If not -> add them.
     }
 
-    public function saveBoard($boardId, $board)
+    private function save($db_content)
     {
-       $json = json_encode($board);
-       file_put_contents($this->file, $json);
 
-       return $boardId;
+        $db_out = json_encode($db_content);
+        $ret = file_put_contents($this->file, $db_out);
+
+        if ($ret === false) {
+            echo "ERROR: Could not write to database!!";
+            return false;
+        }
+
+        return true;
+    }
+
+    public function addUser($id, $userName, $gameIds)
+    {
+        $db_raw = file_get_contents($this->file);
+        $db_content = json_decode($db_raw, true);
+
+        $newUser = [
+            "id" => $id,
+            "userName" => $userName,
+            "gameIds" => $gameIds,
+        ];
+
+        array_push($db_content['users'], $newUser);
+
+        $ret = $this->save($db_content);
+        return $ret;
+    }
+
+    public function addGame($id, $player1Id, $player2Id, $board)
+    {
+        $db_content = file_get_contents($this->file);
+        $db = json_decode($db_content, true);
+
+        $newGame = [
+            "id" => $id,
+            "player1Id" => $player1Id,
+            "player2Id" => $player2Id,
+            "board" => json_encode($board),
+        ];
+
+        array_push($db['games'], $newGame);
+
+        $db_out = json_encode($db);
+        $ret = file_put_contents($this->file, $db_out);
+
+        if ($ret === false) {
+            echo "ERROR: Could not write to database!!";
+            return false;
+        }
+
+        return true;
 
     }
+
+    // public function saveBoard($gameId, $board)
+    // {
+    //     // Load the current db
+    //     $db_content = file_get_contents($this->file);
+    //     $db = json_decode($db_content);
+    //     // Save the board in the correct 'table'
+    //     foreach ($db as $elem) {
+    //         $found = false;
+    //         foreach ($elem['games'] as $game) {
+    //             if (is_numeric($game['id'])) {
+    //                if (intval($game['id']) === $gameId) {
+    //                    $found = true;
+    //                    // TODO: Save to board!
+    //                }
+    //             }
+    //         }
+    //         if (!$found) {
+    //             // Make new item
+    //             array_push($game, {
+    //                 id: uniqid();,
+    //             })
+    //         }
+    //     }
+
+    //     // Save the file again...
+    //    $json = json_encode($board);
+    //    file_put_contents($this->file, $json);
+
+    //    return $boardId;
+
+    // }
 
     public function loadBoard($boardId)
     {
