@@ -221,6 +221,14 @@ class Board
     }
 
 
+    public static function fromJsonArr($json) : Board
+    {
+        $board = new static();
+
+        return $board;
+
+    }
+
 
 
 }

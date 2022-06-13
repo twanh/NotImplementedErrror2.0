@@ -118,6 +118,34 @@ class Piece
         return $this->movable;
     }
 
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    public static function fromJson($json)
+    {
+
+        $subclasses = array();
+        foreach (get_declared_classes() as $class) {
+            if (is_subclass_of($class, Piece))
+                $subclasses[] = $class;
+        }
+
+        $jsonName = $json['name'];
+
+        $piece = new static();
+        foreach ($subclasses as $subclass) {
+            $t = new $subclass();
+            if ($t->getName() === $jsonName) {
+                $t->setName($jsonName);
+
+            }
+        }
+
+
+        return $piece;
+    }
 
 }
 

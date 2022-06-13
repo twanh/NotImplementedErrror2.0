@@ -1,5 +1,7 @@
 <?php
 
+include __DIR__ . '../classes/Board.php';
+
 class Database
 {
     public $file;
@@ -82,6 +84,14 @@ class Database
 
     }
 
+    public function getBoard($gameId)
+    {
+        $game = $this->getGameById($gameId);
+        $board = $game['board'];
+        return Board::fromJsonArr($board);
+
+    }
+
     public function addGame($id, $player1Id, $player2Id, $board)
     {
 
@@ -139,6 +149,7 @@ class Database
         return $this->save($db_content);
 
     }
+
 
 
 }
