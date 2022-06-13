@@ -22,7 +22,7 @@ class BoardTest extends TestCase
     public function testSetPieceOnPositionOnNull()
     {
         $board = new \board\Board();
-        $piece = new \pieces\Flag();
+        $piece = new \pieces\Flag('1');
 
         self::assertEquals(NULL, $board->getPositionOnBoard(0,0));
         $canMove = $board->setPieceOnPosition($piece, 0,0);
@@ -34,8 +34,8 @@ class BoardTest extends TestCase
     {
 
         $board = new \board\Board();
-        $piece1 = new \pieces\Marshal();
-        $piece2 = new \pieces\Lieutenant();
+        $piece1 = new \pieces\Marshal('1');
+        $piece2 = new \pieces\Lieutenant('2');
 
         self::assertEquals(NULL, $board->getPositionOnBoard(0,0));
         $canMove = $board->setPieceOnPosition($piece1, 0,0);

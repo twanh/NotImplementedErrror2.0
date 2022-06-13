@@ -8,6 +8,14 @@ class Piece
     public $name;
     public $value;
     public $movable;
+    public $ownerId;
+
+
+    public function __construct(string $ownerId)
+    {
+        $this->$ownerId = $ownerId;
+    }
+
 
     // TODO: These parameters are not final
     public function canMoveDistance($move_distance) : bool
@@ -28,7 +36,10 @@ class Piece
     // General hit method
     public function canHit(Piece $piece)
     {
-        // TODO: Make sure that the other piece belongs to the other player!!
+        // Players cannot hit their own pieces.
+        if ($this->ownerId === $piece->getOwnerId()) {
+            return false;
+        }
         // But we first need Player classes and then assign them to the pieces.
         if (is_numeric($this->value)) {
             if (is_numeric($piece->getValue())) {
@@ -73,7 +84,24 @@ class Piece
     }
 
 
-    // GETTERS
+    // GETTERS and SETTERS
+
+    /**
+     * @return string
+     */
+    public function getOwnerId() : string
+    {
+        return $this->ownerId;
+    }
+
+    /**
+     * Set the id of the owner of the piece.
+     * @param string $ownerId
+     */
+    public function setOwnerId(string $ownerId)
+    {
+        $this->ownerId = $ownerId;
+    }
 
     public function getValue(): string
     {
