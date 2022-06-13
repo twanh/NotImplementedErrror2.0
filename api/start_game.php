@@ -4,6 +4,7 @@ if (isset($_POST['name']) && isset($_POST['color'])) {
     $boards = json_decode($json_file, true);
     $gameid = uniqid();
     $userid = uniqid();
+    echo json_encode(["test" => 0]);
     if ($_POST['color'] === "red") {
         array_push($boards, [
             "id" => $gameid,
@@ -23,6 +24,7 @@ if (isset($_POST['name']) && isset($_POST['color'])) {
             "player2ID" => $userid
         ]);
     }
+    echo json_encode(["test" => 1]);
     $json_file = fopen('../data/board.json', 'w');
     fwrite($json_file, json_encode($boards));
     fclose($json_file);

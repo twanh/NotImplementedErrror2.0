@@ -1,6 +1,5 @@
 function validateName(name) {
     let textElement = name.val()
-    console.log(textElement)
     name.toggleClass("is-valid", textElement.length !== 0);
     name.toggleClass("is-invalid", textElement.length === 0);
     /* name.toggleClass("is-valid", !(/^((?!(<script>|<\?php)).)*$/g.test(textElement)));
@@ -15,10 +14,11 @@ function validateName(name) {
 
 function initGame(input) {
     if (validateName($("#name")) === true && $('input[name="color"]:checked').val() !== undefined) {
+        console.log(input)
         let request = $.ajax({
             type: 'post',
             url: 'api/start_game.php',
-            data: $("#usernameForm").serialize(),
+            data: input,
             dataType: "json"
         });
         request.done(function (data) {
@@ -31,6 +31,6 @@ function initGame(input) {
 $(function(){
     $("#usernameForm").submit(function(e) {
         e.preventDefault();
-        initGame($(this).serializeArray());
+        initGame($(this).serialize());
     })
 })
