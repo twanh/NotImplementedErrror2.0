@@ -21,8 +21,6 @@ class Board
 
     /**
      * Creates the 10x10 grid that is used as board;
-     * TODO: Add a special value to the water area's! So that it is clear that
-     *       there is water there and no one can move there. (e.g: add 0)
      * @return void
      */
     private function createBoard()
@@ -32,6 +30,12 @@ class Board
             $row = array();
             for ($x = 0; $x < 10; $x++) {
                 $row[$x] = NULL;
+                // Add water tiles
+                if ($y === 4 or $y === 5) {
+                   if ($x === 2 or $x === 3 or $x === 6 or $x === 7) {
+                       $row[$x] = 'WATER';
+                   }
+                }
             }
             $board[$y] = $row;
         }
@@ -53,7 +57,8 @@ class Board
      * movement constraints) this is so that this function also can be used to do the initial placing
      * of pieces.
      *
-     * TODO: Make sure that the pieces cannot move in the water regions!!
+     * TODO: Add a force parameter (or something like it) to make sure that the hit logic
+     *       does not get in the way when doing the pieces setup.
      *
      * @param Piece $piece The piece that should be assigned to the place.
      * @param int $x The x coordinate of the board.
@@ -72,6 +77,11 @@ class Board
             return true;
         }
 
+        // Make sure that players cannot place pieces on water
+        if ($this->board[$y][$x] === 'WATER') {
+            return false;
+        }
+
         // TODO: When players are implemented this should also check if the currentPiece
         //       and piece belong to the same player, because then they can always move during setup.
         $currentPiece = $this->board[$y][$x];
@@ -83,11 +93,16 @@ class Board
         return false;
     }
 
+
     /**
-     * @param int $cur_y
-     * @param int $cur_x
-     * @param int $distance
-     * @return bool
+     * Move the piece that is located at (cur_x, cur_x) up with the given distance (default: 1).
+     *
+     * Note: for blue, the board is shown upside down, so this would actually move it down for them (?).
+     *
+     * @param int $cur_y The current y position of the piece that wants to move.
+     * @param int $cur_x The current x position of the piece that wants to move.
+     * @param int $distance The distance the piece wants to move with (default 1 -- only the scout moves more).
+     * @return bool If the piece can move up with the given distance.
      */
     public function moveUp(int $cur_y, int $cur_x, int $distance = 1) : bool
     {
@@ -102,12 +117,12 @@ class Board
         }
 
         // Test if moving up will move out of bounds.
-        if ($cur_y - $distance <= 0) {
+        if ($cur_y - $distance < 0) {
             // TOP is index 0.
             return false;
         }
 
-        // Check if the current piece can move 1 step.
+        // Check if the current piece can move the given distance (1 by default).
         if(!$currentPiece->canMoveDistance($distance)) {
            return false;
         }
@@ -115,6 +130,97 @@ class Board
         return $this->setPieceOnPosition($currentPiece, $cur_y-$distance, $cur_x);
 
     }
+
+    /**
+     * Move the piece that is located at (cur_x, cur_x) down with the given distance (default: 1).
+     *
+     * Note: for blue, the board is shown upside down, so this would actually move it up for them (?).
+     *
+     * @param int $cur_y The current y position of the piece that wants to move.
+     * @param int $cur_x The current x position of the piece that wants to move.
+     * @param int $distance The distance the piece wants to move with (default 1 -- only the scout moves more).
+     * @return bool If the piece can move down with the given distance.
+     */
+    public function moveDown(int $cur_y, int $cur_x, int $distance = 1) : bool
+    {
+        $currentPiece = $this->board[$cur_y][$cur_x];
+
+        if (is_null($currentPiece)) {
+            return false;
+        }
+
+        // Check if there is room at the bottom to move to (not out of bounds)
+        if ($cur_y + $distance >= 10) {
+            return false;
+        }
+
+        if (!$currentPiece->canMoveDistance($distance)) {
+            return false;
+        }
+
+        return $this->setPieceOnPosition($currentPiece, $cur_y+$distance, $cur_x);
+    }
+
+    /**
+     * Move the piece that is located at (cur_x, cur_x) right with the given distance (default: 1).
+     *
+     * @param int $cur_y The current y position of the piece that wants to move.
+     * @param int $cur_x The current x position of the piece that wants to move.
+     * @param int $distance The distance the piece wants to move with (default 1 -- only the scout moves more).
+     * @return bool If the piece can move right with the given distance.
+     */
+    public function moveRight(int $cur_y, int $cur_x, int $distance = 1) : bool
+    {
+
+        $currentPiece = $this->board[$cur_y][$cur_x];
+
+         if (is_null($currentPiece)) {
+            return false;
+         }
+
+         // Check if there is room to move to the right
+        if ($cur_x + $distance >= 10) {
+            return false;
+        }
+
+        if (!$currentPiece->canMoveDistance($distance)) {
+            return false;
+        }
+
+
+         return $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x + $distance);
+    }
+
+    /**
+     * Move the piece that is located at (cur_x, cur_x) left with the given distance (default: 1).
+     *
+     * @param int $cur_y The current y position of the piece that wants to move.
+     * @param int $cur_x The current x position of the piece that wants to move.
+     * @param int $distance The distance the piece wants to move with (default 1 -- only the scout moves more).
+     * @return bool If the piece can move left with the given distance.
+     */
+    public function moveLeft(int $cur_y, int $cur_x, int $distance = 1) : bool
+    {
+
+        $currentPiece = $this->board[$cur_y][$cur_x];
+
+        if (is_null($currentPiece)) {
+            return false;
+        }
+
+        // Check if there is room to move to the right
+        if ($cur_x - $distance < 0) {
+            return false;
+        }
+
+        if (!$currentPiece->canMoveDistance($distance)) {
+            return false;
+        }
+
+        return $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x + $distance);
+    }
+
+
 
 
 }
