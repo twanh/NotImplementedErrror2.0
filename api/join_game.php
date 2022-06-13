@@ -5,18 +5,23 @@ require __DIR__ . '/../db/Database.php';
 
 if (isset($_POST['name']) && isset($_GET['gameid'])) {
 
+    echo "WELCOME";
     $gameid = $_GET['gameid'];
     $userid = uniqid();
 
-    $board = getBoardById($gameid);
-    $db = load();
-    if ($board["player1Id"] !== null) {
+    $db = new Database('../data/database.json');
+    $game = $db->getGameById($gameid);
+    if (is_null($game)) {
+        echo "ERROR: Could not find a game with id" . $gameid . "!";
+    }
+
+    if(!is_null($game['player1Id'])) {
         $player2Name = $_POST['name'];
         $player2Id = $userid;
         // TODO: Find a better way to add to gameIds
         $u_ret = $db->addUser($userid, $player2Name, [$gameid]);
         $ret = $db->updateGame($gameid, null, $userid, null);
-    } else if ($board["player2Id"] !== null) {
+    } else if (!is_null($game['player2Id'])) {
         $player1Name = $_POST['name'];
         $player1Id = $userid;
         $u_ret = $db->addUser($userid, $player1Name, [$gameid]);

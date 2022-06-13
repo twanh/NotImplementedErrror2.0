@@ -39,6 +39,7 @@ class Database
     public function addUser($id, $userName, $gameIds)
     {
         $db_content = $this->load();
+        echo "ADDING USER!!!";
 
         $newUser = [
             "id" => $id,
@@ -101,7 +102,7 @@ class Database
         }
 
         if(!is_null($player1Id)) {
-            $gameToUpdate['player1Id'] = $player2Id;
+            $gameToUpdate['player1Id'] = $player1Id;
         }
 
         if(!is_null($player2Id)) {
@@ -114,7 +115,7 @@ class Database
 
         foreach ($db_content['games'] as &$game) {
             if ($game['id'] == $id) {
-                $game[$id] = $gameToUpdate;
+                $game = $gameToUpdate;
             }
         }
         unset($game);
