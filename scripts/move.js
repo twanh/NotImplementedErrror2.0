@@ -15,6 +15,7 @@ function checkMove() {
             from: move_from,
             to: move_to,
         },
+        dataType: "json"
     });
 
     request.done((data) => {

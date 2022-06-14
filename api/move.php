@@ -62,8 +62,6 @@ if (isset($_POST['gameid']) && isset($_POST['player1Id']) && isset($_POST['playe
         die();
     }
 
-    //check if combat and who wins
-
     //return data
     
 } else {
