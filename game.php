@@ -37,11 +37,7 @@ if ($game['player1Id'] !== $userId and $game['player2Id'] !== $userId) {
         </div>
     </div>
     <script src="scripts/genlink.js"></script>
-    <?php
-        if (!is_null($game['player1Id']) and !is_null($game['player2Id'])) {
-            echo "Moi";
-        }
-    ?>
+    <script src="scripts/check_joined.js"></script>
 <?php
 
 //testing for php and json

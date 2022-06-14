@@ -3,43 +3,56 @@
 require __DIR__ . '/../classes/Board.php';
 require __DIR__ . '/../db/Database.php';
 
-if (isset($_POST['name']) && isset($_GET['gameid'])) {
+if (isset($_GET['gameid'])) {
 
-    echo "WELCOME";
     $gameid = $_GET['gameid'];
-    $userid = uniqid();
+
+    $player1Joined = false;
+    $player2Joined = false;
 
     $db = new Database('../data/database.json');
     $game = $db->getGameById($gameid);
     if (is_null($game)) {
-        echo "ERROR: Could not find a game with id" . $gameid . "!";
+        $data = [
+            "message" => "Game with " . $gameid . "does not exist",
+            "success" => false,
+        ];
+        echo json_encode($data);
+        die();
     }
 
     if(!is_null($game['player1Id'])) {
-        $player2Name = $_POST['name'];
-        $player2Id = $userid;
-        // TODO: Find a better way to add to gameIds
-        $u_ret = $db->addUser($userid, $player2Name, [$gameid]);
-        $ret = $db->updateGame($gameid, null, $userid, null);
-    } else if (!is_null($game['player2Id'])) {
-        $player1Name = $_POST['name'];
-        $player1Id = $userid;
-        $u_ret = $db->addUser($userid, $player1Name, [$gameid]);
-        $ret = $db->updateGame($gameid, $userid, null, null);
-    } else {
-        echo "ERROR: Game full!";
+        $player1Joined = true;
     }
 
-    if (!$u_ret) {
-        echo "ERROR: Could not create new user!";
+    if(!is_null($game['player2Id'])) {
+        $player2Joined = true;
     }
 
-    if (!$ret) {
-        echo "Could not update game!";
+
+    $data = [
+        "success" => false,
+        "message" => "Not all players have joined!",
+    ];
+    if ($player1Joined && $player2Joined) {
+        $data = [
+            "success" => true,
+            "message" => "All players have joined!",
+        ];
     }
 
-    header("Location: ../game.php?gameid=" . $gameid . "&userid=" . $userid);
+    header('Content-Type: application/json');
+    echo json_encode($data);
     die();
+
 } else {
-    return false;
+
+    $data = [
+        "success" => false,
+        "message" => "Please provide a gameid",
+    ];
+
+    header('Content-Type: application/json');
+    echo json_encode($data);
+    die();
 }
