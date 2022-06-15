@@ -80,7 +80,7 @@ class Board
      * @return bool If the piece could be set there.
      *              This might not be the case if there is a higher piece over there.
      */
-    public function setPieceOnPosition(Piece $piece, int $y, int $x): bool
+    public function setPieceOnPosition(Piece $piece, int $y, int $x, bool $force = false): bool
     {
         // Note: Not sure if this is the final/best implementation
         // but it covers setting the pieces in the start and also covers later movement
@@ -99,7 +99,12 @@ class Board
         // TODO: When players are implemented this should also check if the currentPiece
         //       and piece belong to the same player, because then they can always move during setup.
         $currentPiece = $this->board[$y][$x];
-        if ($piece->canHit($currentPiece)) {
+        if (!$force){
+            if ($piece->canHit($currentPiece)) {
+                $this->board[$y][$y] = $piece;
+                return true;
+            }
+        } else {
             $this->board[$y][$y] = $piece;
             return true;
         }
@@ -234,6 +239,23 @@ class Board
         return $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x + $distance);
     }
 
+
+    public static function fromJson($json) : Board
+    {
+        $board = new static();
+
+        for ($y =0; $y < 10; $y++) {
+            for ($x = 0; $x < 10; $x++) {
+                if (!is_null($json[$y][$x]) && $json[$y][$x] !== 'WATER') {
+                    $piece = Piece::fromJson($json[$y][$x]);
+                    $board->setPieceOnPosition($piece, $y, $x, true);
+                }
+            }
+        }
+
+        return $board;
+
+    }
 
 
 
