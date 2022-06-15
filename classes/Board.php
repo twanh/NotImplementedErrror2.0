@@ -20,8 +20,9 @@ class Board
         for ($y = 9; $y >= 0; $y--)
         {
             $row = array();
-            for ($x = 9; $x >= 0; $x--)
+            for ($x = 9; $x >= 0; $x--) {
                 $row[] = $current[$y][$x];
+            }
             $reverse[] = $row;
         }
         return $reverse;
