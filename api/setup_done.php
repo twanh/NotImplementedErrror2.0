@@ -3,7 +3,12 @@
 require __DIR__ . '/../classes/Board.php';
 require __DIR__ . '/../db/Database.php';
 
-if($_POST["red-ready"] === 'true' && $_POST["blue-ready"] === 'true' && isset($_POST["gameid"])) {
+$data = [
+    "success" => null,
+    "message" => null,
+];
+
+if(($_POST["red-ready"] === 'true' || $_POST["blue-ready"] === 'true') && isset($_POST["gameid"])) {
     $database = new Database('../data/database.json');
     $board = $database->getBoard($_POST["gameid"]);
     $correct = true;
@@ -23,7 +28,7 @@ if($_POST["red-ready"] === 'true' && $_POST["blue-ready"] === 'true' && isset($_
     if ($correct) {
         $data = [
             "success" => true,
-            "message" => "Pieces OK: Ready to play",
+            "message" => "Pieces OK",
         ];
     } else {
         $data = [
@@ -31,6 +36,13 @@ if($_POST["red-ready"] === 'true' && $_POST["blue-ready"] === 'true' && isset($_
             "message" => "Invalid amount of pieces!",
         ];
     }
+}
+
+if ($_POST["red-ready"] === 'true' && $_POST["blue-ready"] === 'true' && $data["success"] === true) {
+    $data = [
+        "success" => true,
+        "message" => "All players OK: Ready to play",
+    ];
 } else {
     $data = [
         "success" => false,
