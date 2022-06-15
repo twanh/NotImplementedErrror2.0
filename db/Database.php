@@ -140,5 +140,44 @@ class Database
 
     }
 
+    /**
+     * Returns which players turn it is for the game with the given $gameid.
+     *
+     * If the turn has not been set yet in the database 1 (means red) is returned
+     * since red always starts.
+     *
+     * @param $gameid string The game id for the game to get the current turn for.
+     * @return int The player which turn it is (either 1 or 2).
+     */
+    public function getTurnForGame($gameid) : int
+    {
+        $currentGame = $this->getGameById($gameid);
+        if (array_key_exists('turn', $currentGame)) {
+            return $currentGame['turn'];
+        }
+        // Red start by default
+        return 1;
+    }
+
+    /**
+     * Updates the game with the given $gameid with the given turn.
+     * @param $gameid string The game id of the game to update.
+     * @param $turn int The player (1 or 2) that has the next turn.
+     * @return bool If the update was successful.
+     */
+    public function updateTurnForGame($gameid, $turn)
+    {
+
+        $db_content = $this->load();
+
+        foreach ($db_content['games'] as &$game) {
+            if ($game['id'] == $gameid) {
+                $game['turn'] = $turn;
+            }
+        }
+        unset($game);
+
+        return $this->save($db_content);
+    }
 
 }
