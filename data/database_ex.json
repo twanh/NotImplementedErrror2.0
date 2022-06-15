@@ -4,6 +4,7 @@
       "id": "123123",
       "player1Id": "1234234",
       "player2Id": "1234233",
+      "turn": 1,
       "board": [
         [{"player": 1, "pawn": 0}, {"player": 1, "pawn": 0}],
         [{"player": 1, "pawn": 0}, {"player": 1, "pawn": 0}],

@@ -13,6 +13,20 @@ class Board
         return $this->board;
     }
 
+    public function getBoardForBlue()
+    {
+        $current = $this->board;
+        $reverse = array();
+        for ($y = 9; $y >= 0; $y--)
+        {
+            $row = array();
+            for ($x = 9; $x >= 0; $x--)
+                $row[] = $current[$y][$x];
+            $reverse[] = $row;
+        }
+        return $reverse;
+    }
+
     public function getPositionOnBoard(int $y, int $x)
     {
        return $this->board[$y][$x] ;
