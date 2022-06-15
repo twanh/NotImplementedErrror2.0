@@ -9,7 +9,7 @@ if (isset($_POST['gameid']) && isset($_POST['player1Id']) && isset($_POST['playe
 
     $db = new Database('../data/database.json');
     $game = $db->getGameById($gameid);
-    $board = 
+    $board = "";// Get the Board.php class
 
     $player1Id = $_POST['player1Id'];
     $player2Id = $_POST['player2Id'];
@@ -61,7 +61,7 @@ if (isset($_POST['gameid']) && isset($_POST['player1Id']) && isset($_POST['playe
 
     //Make move up
     
-    $board->moveUp($cur_x, $cur_y);
+    $board;//->moveUp($cur_x, $cur_y);
     $data = [
         "message" => "Nice move!",
         "success" => True,
