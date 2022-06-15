@@ -147,11 +147,15 @@ class Database
      * since red always starts.
      *
      * @param $gameid string The game id for the game to get the current turn for.
-     * @return int The player which turn it is (either 1 or 2).
+     * @return int The player which turn it is (either 1 or 2)
+     *             If the game with the given gameid is not found NULL is returned.
      */
-    public function getTurnForGame($gameid) : int
+    public function getTurnForGame($gameid)
     {
         $currentGame = $this->getGameById($gameid);
+        if (is_null($currentGame)) {
+            return NULL;
+        }
         if (array_key_exists('turn', $currentGame)) {
             return $currentGame['turn'];
         }
