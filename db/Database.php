@@ -73,6 +73,8 @@ class Database
 
     public function getGameById($id)
     {
+        // TODO: Make sure the the board and pieces are replaced
+        //       by their actual class instances.
         $db_content = $this->load();
         foreach ($db_content['games'] as $game) {
             if ($game['id'] == $id) {
@@ -88,8 +90,7 @@ class Database
     {
         $game = $this->getGameById($gameId);
         $board = $game['board'];
-        return Board::fromJsonArr($board);
-
+        return \board\Board::fromJson($board);
     }
 
     public function addGame($id, $player1Id, $player2Id, $board)

@@ -128,21 +128,19 @@ class Piece
 
         $subclasses = array();
         foreach (get_declared_classes() as $class) {
-            if (is_subclass_of($class, Piece))
+            if (is_subclass_of($class, 'Piece'))
                 $subclasses[] = $class;
         }
 
         $jsonName = $json['name'];
 
-        $piece = new static();
+        $piece = NULL;
         foreach ($subclasses as $subclass) {
             $t = new $subclass();
             if ($t->getName() === $jsonName) {
-                $t->setName($jsonName);
-
+                $piece = $t;
             }
         }
-
 
         return $piece;
     }
