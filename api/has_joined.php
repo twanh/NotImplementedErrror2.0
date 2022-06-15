@@ -17,6 +17,7 @@ if (isset($_GET['gameid'])) {
             "message" => "Game with " . $gameid . "does not exist",
             "success" => false,
         ];
+        header('Content-Type: application/json');
         echo json_encode($data);
         die();
     }
