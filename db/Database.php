@@ -165,7 +165,7 @@ class Database
      * @param $turn int The player (1 or 2) that has the next turn.
      * @return bool If the update was successful.
      */
-    public function updateTurnForGame($gameid, $turn)
+    public function setTurnForGame($gameid, $turn)
     {
 
         $db_content = $this->load();
