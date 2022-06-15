@@ -4,9 +4,17 @@ include __DIR__ . '../classes/Board.php';
 
 class Database
 {
+    /**
+     * @var string The path of where the file used as database is stored.
+     */
     public $file;
 
-    // Load for file, or perhaps id
+
+    /**
+     * Create database for loading and saving of information.
+     *
+     * @param $file The path of where the file used as database is stored.
+     */
     public function __construct($file)
     {
         $this->file = $file;
@@ -55,6 +63,13 @@ class Database
         return $db_content;
     }
 
+    /**
+     * Add a (new) user to the database.
+     * @param $id string The (unique) user id.
+     * @param $userName string The username of the user.
+     * @param $gameIds string[] The games the user belongs to.
+     * @return bool If the user was added to the database successfully.
+     */
     public function addUser($id, $userName, $gameIds)
     {
         $db_content = $this->load();
@@ -71,6 +86,15 @@ class Database
         return $ret;
     }
 
+    /**
+     * Returns the game with the given id from the database.
+     *
+     * Note: the game here is just the game array as it is stored in the database
+     * the board and pieces are also just arrays, not their corresponding classes.
+     *
+     * @param $id string The id of the game.
+     * @return mixed|null The game data.
+     */
     public function getGameById($id)
     {
         // TODO: Make sure the the board and pieces are replaced
@@ -86,6 +110,16 @@ class Database
 
     }
 
+    /**
+     * Returns the board that belongs to the given game(id).
+     *
+     * Note: here the board is an instance of the board class and also
+     * all pieces are instances of their correct Piece (sub)class.
+     * So all methods and instance variables can be used.
+     *
+     * @param $gameId string The id of the game to get the board from.
+     * @return \board\Board The board (instance) that belongs to the given game.
+     */
     public function getBoard($gameId)
     {
         $game = $this->getGameById($gameId);
@@ -93,6 +127,14 @@ class Database
         return \board\Board::fromJson($board);
     }
 
+    /**
+     * Adds a game with the given data to the database.
+     * @param $id string The (unique) id for the game.
+     * @param $player1Id string The player id for the red player.
+     * @param $player2Id string The player id for the blue player.
+     * @param $board \board\Board The board for the game.
+     * @return bool If the game was saved successfully to the database.
+     */
     public function addGame($id, $player1Id, $player2Id, $board)
     {
 
@@ -111,7 +153,21 @@ class Database
 
     }
 
-    public function updateGame($id, $player1Id, $player2Id, $board)
+    /**
+     * Updates the game with the given id.
+     *
+     * Only the parameters that are given are updated, so if
+     * a field does not have to be update make it NULL.
+     * E.g.: `updateGame('id', NULL, 'p2id', NULL)` would only update the
+     * id for the second (blue) player.
+     *
+     * @param $id string The id of the game to update.
+     * @param $player1Id string|null The id of the first (red) player.
+     * @param $player2Id string|null The if the of the second (blue) player.
+     * @param $board \board\Board|null The board that is used for the game.
+     * @return bool If the game was updated successfully in the database.
+     */
+    public function updateGame($id, $player1Id = NULL, $player2Id = NULL, $board = NULL)
     {
 
         $db_content = $this->load();
