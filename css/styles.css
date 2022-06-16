@@ -48,6 +48,11 @@ body {
     height: var(--board_size);
 }
 
+td[class*="img-"] {
+    width: calc(var(--board_size)/10);
+    height: calc(var(--board_size)/10);
+}
+
 .img-1 {
     background-size: cover;
     width: 100%;
@@ -200,3 +205,23 @@ body {
   }
   
 
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+/* Track */
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0); 
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
