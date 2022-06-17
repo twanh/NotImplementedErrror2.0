@@ -1,13 +1,15 @@
-const draggableElement = document.querySelector(".draggableElement");
 
-if (draggableElement) {
-// When a drag event starts
-draggableElement.addEventListener("dragstart", event=> {
-    event.dataTransfer.setData("text/plain", draggableElement.id);
-});
+
+for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
+    draggableElement.addEventListener("dragstart", event=> {
+        event.dataTransfer.setData("text/plain", event.target.className);
+        console.log(event.target.className);
+    });
 }
 
 for (const dropZone of document.querySelectorAll(".drop-zone")) {
+    
+
     // When draggable element is over a dropzone
     dropZone.addEventListener("dragover", event => {
         event.preventDefault();
@@ -17,9 +19,10 @@ for (const dropZone of document.querySelectorAll(".drop-zone")) {
     dropZone.addEventListener("drop", event => {
         event.preventDefault();
 
-        const droppedElementId = event.dataTransfer.getData("text/plain");
-        const droppedElement = document.getElementById(droppedElementId);
-
-        dropZone.classList.add("img-1");
+        const className  = event.dataTransfer.getData('text/plain');
+        const droppedElementId = event.target.className;
+        console.log(droppedElementId);
+        
+        dropZone.classList.add(className);
     });
 }
