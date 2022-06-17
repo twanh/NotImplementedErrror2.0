@@ -4,6 +4,7 @@ function checkJoined(intv) {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const gameid = urlParams.get('gameid');
+    const userid = urlParams.get('userid');
 
     let request = $.ajax({
         url: "api/has_joined.php?gameid="+gameid,
@@ -15,8 +16,8 @@ function checkJoined(intv) {
         if (data['success']) {
             console.log(data['message']);
             clearInterval(intv);
-            // TODO: Redirect to the actual game playing page.
-            window.location.replace('test_board.php');
+            console.log("redirecting to setup now")
+            window.location.replace('setup.php?gameid=' + gameid + '&userid=' + userid);
         } else {
             console.log(data['message']);
         }
