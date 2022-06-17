@@ -120,7 +120,7 @@ class Database
      * @param $gameId string The id of the game to get the board from.
      * @return \board\Board The board (instance) that belongs to the given game.
      */
-    public function getBoard($gameId)
+    public function getBoard($gameId) : \board\Board
     {
         $game = $this->getGameById($gameId);
         $board = $game['board'];
