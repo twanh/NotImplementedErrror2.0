@@ -36,11 +36,17 @@ function board_player_red() {
     for (const blue_id of document.querySelectorAll("td[id^='blue-'][id$='-img']")) {
         blue_id.draggable = false;
     }
+    for(const dropzone of document.querySelectorAll("tr:nth-child(-n+6) .drop-zone")) {
+        dropzone.classList.remove("drop-zone");
+    }
 }
 
 function board_player_blue() {
     for (const red_id of document.querySelectorAll("td[id^='red-'][id$='-img']")) {
         red_id.draggable = false;
+    }
+    for(const dropzone of document.querySelectorAll("tr:nth-child(n+4) .drop-zone")) {
+        dropzone.classList.remove("drop-zone");
     }
 }
 
