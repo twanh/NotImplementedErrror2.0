@@ -2,7 +2,7 @@
 
 namespace board;
 
-use pieces\Piece;
+include __DIR__ . '/Pieces.php';
 
 class Board
 {
@@ -241,14 +241,15 @@ class Board
     }
 
 
-    public static function fromJson($json) : Board
+    public static function fromJson($json)
     {
+        $arr_board = json_decode($json);
         $board = new static();
 
         for ($y =0; $y < 10; $y++) {
             for ($x = 0; $x < 10; $x++) {
-                if (!is_null($json[$y][$x]) && $json[$y][$x] !== 'WATER') {
-                    $piece = Piece::fromJson($json[$y][$x]);
+                if (!is_null($arr_board[$y][$x]) && $arr_board[$y][$x] !== 'WATER') {
+                    $piece = \pieces\Piece::fromJson($arr_board[$y][$x]);
                     $board->setPieceOnPosition($piece, $y, $x, true);
                 }
             }
