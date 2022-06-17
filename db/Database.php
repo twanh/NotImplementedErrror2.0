@@ -1,6 +1,6 @@
 <?php
 
-include __DIR__ . '../classes/Board.php';
+include_once __DIR__ . '/../classes/Board.php';
 
 class Database
 {
@@ -13,7 +13,7 @@ class Database
     /**
      * Create database for loading and saving of information.
      *
-     * @param $file The path of where the file used as database is stored.
+     * @param $file string The path of where the file used as database is stored.
      */
     public function __construct($file)
     {
