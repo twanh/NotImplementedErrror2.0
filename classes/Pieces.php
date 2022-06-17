@@ -136,8 +136,9 @@ class Piece
 
         $piece = NULL;
         foreach ($subclasses as $subclass) {
-            $t = new $subclass();
+            $t = new $subclass($json['ownerId']);
             if ($t->getName() === $jsonName) {
+                echo "CReated new piece";
                 $piece = $t;
             }
         }
