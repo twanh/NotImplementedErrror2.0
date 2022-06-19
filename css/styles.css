@@ -22,21 +22,26 @@ body {
 }
 
 #board tr td {
-    width: 1fr;
-    height: 1fr;
+    width: calc(var(--board_size)/10);
+    height: calc(var(--board_size)/10);
     background-color: rgba(0,0,0,0.2);
 }
 
+td[class*="r-"] {
+    width: 10%;
+    height: 10%;
+}
+
 #red-pawns tr td {
-    width: calc(var(--board_size)/11);
-    height: calc(var(--board_size)/11);
+    width: calc(var(--board_size)/12);
+    height: calc(var(--board_size)/12);
     background-color: rgba(255,0,0,0.2);
     text-align: center;
 }
 
 #blue-pawns tr td {
-    width: calc(var(--board_size)/11);
-    height: calc(var(--board_size)/11);
+    width: calc(var(--board_size)/12);
+    height: calc(var(--board_size)/12);
     background-color: rgba(0,0,255,0.2);
     text-align: center;
 }
@@ -44,8 +49,8 @@ body {
 #board {
     background-image: url(../images/board.svg);
     background-size: var(--board_size);
-    width: var(--board_size);
-    height: var(--board_size);
+    width: var(--board_size) !important;
+    height: var(--board_size) !important;
 }
 
 td[class*="img-"] {
