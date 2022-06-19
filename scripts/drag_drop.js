@@ -59,6 +59,7 @@ if (player_red_or_blue === "red") {
     board_player_blue()
 }
 
+
 function check_has_piece(event, className){
     let element_classes = event.target.classList;
     let piece = undefined;
