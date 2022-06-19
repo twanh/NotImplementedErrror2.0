@@ -107,25 +107,25 @@ td[class*="img-"] {
     background-image: url(../images/pieces/9.colors-black-blue-red.svg)
 }
 
-.img-B {
+.img-bomb {
     background-size: cover;
     width: 100%;
     background-image: url(../images/pieces/B.colors-black-blue-red.svg)
 }
 
-.img-F {
+.img-flag {
     background-size: cover;
     width: 100%;
     background-image: url(../images/pieces/F.colors-black-blue-red.svg)
 }
 
-.img-S {
+.img-spy {
     background-size: cover;
     width: 100%;
     background-image: url(../images/pieces/S.colors-black-blue-red.svg)
 }
 
-.img-U {
+.img-uknown {
     background-size: cover;
     width: 100%;
     background-image: url(../images/pieces/U.colors-black-blue-red.svg)

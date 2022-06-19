@@ -40,11 +40,11 @@
                 </tr>
                 <tr id="red-spy">
                     <td id="red-spy-count">1/1</td>
-                    <td id="red-spy-img" class="img-S" draggable="true"></td>
+                    <td id="red-spy-img" class="img-spy" draggable="true"></td>
                 </tr>
                 <tr id="red-bomb">
                     <td id="red-bomb-count">6/6</td>
-                    <td id="red-bomb-img" class="img-B" draggable="true"></td>
+                    <td id="red-bomb-img" class="img-bomb" draggable="true"></td>
                 </tr>
             </table>
         </div>
@@ -211,11 +211,11 @@
                     <td id="blue-9-count">8/8</td>
                 </tr>
                 <tr id="blue-spy">
-                    <td id="blue-spy-img" class="img-S" draggable="true"></td>
+                    <td id="blue-spy-img" class="img-spy" draggable="true"></td>
                     <td id="blue-spy-count">1/1</td>
                 </tr>
                 <tr id="blue-bomb">
-                    <td id="blue-bomb-img" class="img-B" draggable="true"></td>
+                    <td id="blue-bomb-img" class="img-bomb" draggable="true"></td>
                     <td id="blue-bomb-count">6/6</td>
                 </tr>
             </table>

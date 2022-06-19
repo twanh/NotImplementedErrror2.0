@@ -1,3 +1,6 @@
+// TODO: piec count also removes when drop isnt possible
+
+
 
 let pieceCountRed = {
     "1": 1,
@@ -45,7 +48,7 @@ function board_player_blue() {
     for (const red_id of document.querySelectorAll("td[id^='red-'][id$='-img']")) {
         red_id.draggable = false;
     }
-    for(const dropzone of document.querySelectorAll("tr:nth-child(n+4) .drop-zone")) {
+    for(const dropzone of document.querySelectorAll("tr:nth-child(n+5) .drop-zone")) {
         dropzone.classList.remove("drop-zone");
     }
 }
@@ -56,7 +59,20 @@ if (player_red_or_blue === "red") {
     board_player_blue()
 }
 
-
+function check_has_piece(event, className){
+    let element_classes = event.target.classList;
+    let piece = undefined;
+    if (element_classes.length == 2) {
+        piece = element_classes.item(1).split('-')[1];
+        element_classes.remove(element_classes.item(1));
+        pieceCount[piece] += 1;
+    } else {
+        piece = className.split('-')[1];
+        event.target.className = "";
+    }
+    let last_char = document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML.slice(-1);
+    document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
+}
 
 
 
@@ -108,8 +124,8 @@ for (const dropZone of document.querySelectorAll(".drop-zone")) {
     dropZone.addEventListener("drop", event => {
         event.preventDefault();
 
-        const className  = event.dataTransfer.getData('text/plain');
-        
-        dropZone.classList.add(className);
+        const className = event.dataTransfer.getData('text/plain');
+        check_has_piece(event, className)
+        dropZone.classList.add("drop-zone", className);
     });
 }
