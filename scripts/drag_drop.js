@@ -108,8 +108,7 @@ function removeDraggableAttribute(element) {
 
 for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
     draggableElement.addEventListener("dragstart", event=> {
-        removeDraggableAttribute(event.target);
-        event.dataTransfer.setData("text/plain", event.target.className);
+        event.dataTransfer.setData("text/plain", event.target.id);
     });
 }
 
@@ -125,8 +124,10 @@ for (const dropZone of document.querySelectorAll(".drop-zone")) {
     dropZone.addEventListener("drop", event => {
         event.preventDefault();
 
-        const className = event.dataTransfer.getData('text/plain');
-        check_has_piece(event, className)
+        const classId = event.dataTransfer.getData('text/plain');
+        const className = document.getElementById(classId).className;
+        removeDraggableAttribute(document.getElementById(classId));
+        check_has_piece(event, className);
         dropZone.classList.add("drop-zone", className);
     });
 }
