@@ -115,10 +115,11 @@ function check_ready(pieceCount) {
     }
 }
 
-async function setup_game(){
+async function setup_play_game(){
     let player_info =  await getCurrentUserInfo();
     let player_red_or_blue = player_info.color;
     let player_pieces = await getPlayerPieces();
+    console.log(player_pieces)
 
     let pieceCountRed = {
         "1": 1,
@@ -159,4 +160,4 @@ async function setup_game(){
     check_ready(pieceCount);
     console.log(player_red_or_blue);
 }
-setup_game();
+setup_play_game();

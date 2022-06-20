@@ -1,4 +1,4 @@
-<div class="row mt-4 px-10 bg-dark rounded" id="game_container">
+<div class="row mt-2 px-10 bg-dark rounded" id="game_container">
     <div class="col-md-12 d-flex justify-content-between">
         <table id="red-pawns" border="1">
             <tr id="red-1">

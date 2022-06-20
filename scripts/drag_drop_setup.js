@@ -68,7 +68,6 @@ function removeDraggableAttribute(element, player_red_or_blue, pieceCount) {
             element.draggable = true;
         }
     }
-    console.log(player_red_or_blue)
     let last_char = document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML.slice(-1);
     document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
 }
@@ -101,26 +100,89 @@ function drag_drop(player_red_or_blue, pieceCount){
     }
 }
 
+
+
+function class_to_piece(element) {
+    classPiece = element.classList[1];
+    pieces = {
+                "img-1": "Marshal",
+                "img-2": "General",
+                "img-3": "Colonel",
+                "img-4": "Major",
+                "img-5": "Captain",
+                "img-6": "Lieutenant",
+                "img-7": "Sergeant",
+                "img-8": "Miner",
+                "img-9": "Scout",
+                "img-spy": "Spy",
+                "img-bomb": "Bomb",
+                "img-flag": "Flag",
+                "": ""
+            };
+    return pieces[classPiece]
+}
+
+function pieces_to_board() {
+    board = [
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        [],
+        []
+    ];
+    row_counter = 0
+    const table = document.getElementById("board"); 
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    for (const row of table.rows) {  
+        for (const cell of row.cells) {
+            piece = class_to_piece(cell);
+            if (piece === undefined) {
+                continue;
+            } else {
+                board[row_counter].push({"piece": piece, "player": urlParams.get('userid')});
+            }
+        }  
+        row_counter += 1
+    }
+    console.log(board)
+    return board
+}
+
+
+
 function check_ready(pieceCount) {
     list_bool = [];
-    for (const [key, entries] of  Object.entries(pieceCount)) {
+    for (const entries in pieceCount) {
         if (entries===0) {
             list_bool.push(true);
         } else {
             list_bool.push(false);
         }
     }
+    console.log((list_bool.every(element => element === true)))
     if (list_bool.every(element => element === true)) {
         console.log("Ready!");
+        return pieces_to_board();
     } else {
         console.log("Not Ready!");
     }
 }
 
+function eventReady(pieceCount){
+    board = check_ready(pieceCount);
+    console.log(board);
+}
+
 async function setup_game(){
     let player_info =  await getCurrentUserInfo();
     let player_red_or_blue = player_info.color;
-    console.log(player_red_or_blue)
+    const playerID = player_info.id;
     let pieceCountRed = {
         "1": 1,
         "2": 1,
@@ -133,7 +195,7 @@ async function setup_game(){
         "9": 8,
         "spy": 1,
         "bomb": 6,
-        "flag": 1,
+        "flag": 1
     }
     
     let pieceCountBlue = {
@@ -148,15 +210,19 @@ async function setup_game(){
         "9": 8,
         "spy": 1,
         "bomb": 6,
-        "flag": 1,
+        "flag": 1
     }
+
+    let board = undefined;
+
     const pieceCount = player_red_or_blue === "red" ? pieceCountRed : pieceCountBlue;
     change_board_for_player(player_red_or_blue);
 
     dragstart();
     drag_drop(player_red_or_blue, pieceCount);
     
-    check_ready(pieceCount);
-    console.log(player_red_or_blue);
+    $("#ready_button").click(function() {
+        eventReady(pieceCount, playerID);
+    })
 }
 setup_game();
