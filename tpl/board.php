@@ -224,4 +224,3 @@
         </table>
     </div>
 </div>
-<script src="scripts/drag_drop.js"></script>

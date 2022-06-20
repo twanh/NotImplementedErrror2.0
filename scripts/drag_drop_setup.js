@@ -1,7 +1,3 @@
-// TODO: piec count also removes when drop isnt possible
-
-
-
 let pieceCountRed = {
     "1": 1,
     "2": 1,
