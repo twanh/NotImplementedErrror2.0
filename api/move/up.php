@@ -55,6 +55,8 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
         $data = [
             'success' => true,
         ];
+        // Update the board (in the db) for this game.
+        $db->updateGame($gameid, NULL, NULL, $board->getBoard());
     } else {
         $data = [
             'success' => false,
@@ -65,6 +67,7 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
     // TODO: Check it's the players turn (at the start)
     // and swap the turn if the move was successfull!
     /* $db->setTurnForGame() */
+
 
     header('Content-Type: application/json');
     echo json_encode($data);
