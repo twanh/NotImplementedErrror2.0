@@ -137,6 +137,11 @@ class Board
         //       and piece belong to the same player, because then they can always move during setup.
         $currentPiece = $this->board[$y][$x];
         if (!$force){
+            // Cannot put your piece on your own piece unless forced.
+            if ($currentPiece->getOwnerId() === $piece->getOwnerId()) {
+                return false;
+            }
+
             if ($piece->canHit($currentPiece)) {
                 $this->board[$y][$y] = $piece;
                 return true;
@@ -151,7 +156,7 @@ class Board
 
 
     /**
-     * Move the piece that is located at (cur_x, cur_x) up with the given distance (default: 1).
+     * Move the piece that is located at (cur_y, cur_x) up with the given distance (default: 1).
      *
      * Note: for blue, the board is shown upside down, so this would actually move it down for them (?).
      *
