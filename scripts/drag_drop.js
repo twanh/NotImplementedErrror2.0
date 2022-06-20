@@ -131,3 +131,20 @@ for (const dropZone of document.querySelectorAll(".drop-zone")) {
         dropZone.classList.add("drop-zone", className);
     });
 }
+
+function check_ready() {
+    list_bool = [];
+    for (const [key, entries] of  Object.entries(pieceCount)) {
+        if (entries===0) {
+            list_bool.push(true);
+        } else {
+            list_bool.push(false);
+        }
+    }
+    if (list_bool.every(element => element === true)) {
+        console.log("Ready!");
+    } else {
+        console.log("Not Ready!");
+    }
+}
+setInterval(check_ready, 5000);
