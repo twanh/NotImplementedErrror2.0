@@ -130,7 +130,7 @@ td[class*="img-"] {
     background-image: url(../images/pieces/S.colors-black-blue-red.svg)
 }
 
-.img-uknown {
+.img-unknown {
     background-size: cover;
     width: 100%;
     background-image: url(../images/pieces/U.colors-black-blue-red.svg)
