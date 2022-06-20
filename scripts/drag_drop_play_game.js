@@ -1,6 +1,4 @@
 
-
-
 let pieceCountRed = {
     "1": 1,
     "2": 1,
@@ -34,29 +32,19 @@ let pieceCountBlue = {
 let player_red_or_blue = "blue";//get player color
 const pieceCount = player_red_or_blue === "red" ? pieceCountRed : pieceCountBlue;
 
-function board_player_red() {
-    for (const blue_id of document.querySelectorAll("td[id^='blue-'][id$='-img']")) {
-        blue_id.draggable = false;
-    }
-    for(const dropzone of document.querySelectorAll("tr:nth-child(-n+6) .drop-zone")) {
+function remove_draggable_and_dropzones() {
+    for (const dropzone of document.querySelectorAll(".drop-zone")) {
         dropzone.classList.remove("drop-zone");
+    }
+    for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
+        draggableElement.draggable = false;
     }
 }
 
-function board_player_blue() {
-    for (const red_id of document.querySelectorAll("td[id^='red-'][id$='-img']")) {
-        red_id.draggable = false;
-    }
-    for(const dropzone of document.querySelectorAll("tr:nth-child(n+5) .drop-zone")) {
-        dropzone.classList.remove("drop-zone");
-    }
-}
+remove_draggable_and_dropzones();
 
-if (player_red_or_blue === "red") {
-    board_player_red()
-} else if (player_red_or_blue === "blue") {
-    board_player_blue()
-}
+
+
 
 
 function check_has_piece(event, className){
@@ -131,19 +119,19 @@ for (const dropZone of document.querySelectorAll(".drop-zone")) {
     });
 }
 
-function check_ready() {
-    list_bool = [];
-    for (const [key, entries] of  Object.entries(pieceCount)) {
-        if (entries===0) {
-            list_bool.push(true);
-        } else {
-            list_bool.push(false);
-        }
+function updatePiece(key, entries, color) {
+    let last_char = document.getElementById(color+"-"+key+"-count").innerHTML.slice(-1);
+    document.getElementById(color+"-"+key+"-count").innerHTML = entries+"/"+last_char;
+
+}
+
+function updatePieces() {
+    for (const [key, entries] of  Object.entries(pieceCountRed)) {
+        updatePiece(key, entries, "red");
     }
-    if (list_bool.every(element => element === true)) {
-        console.log("Ready!");
-    } else {
-        console.log("Not Ready!");
+    for (const [key, entries] of  Object.entries(pieceCountBlue)) {
+        updatePiece(key, entries, "blue");
     }
 }
-setInterval(check_ready, 5000);
+
+setInterval(updatePieces, 3000)
