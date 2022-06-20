@@ -1,84 +1,30 @@
-
-let pieceCountRed = {
-    "1": 1,
-    "2": 1,
-    "3": 2,
-    "4": 3,
-    "5": 4,
-    "6": 4,
-    "7": 4,
-    "8": 5,
-    "9": 8,
-    "spy": 1,
-    "bomb": 6,
-    "flag": 1,
-}
-
-let pieceCountBlue = {
-    "1": 1,
-    "2": 1,
-    "3": 2,
-    "4": 3,
-    "5": 4,
-    "6": 4,
-    "7": 4,
-    "8": 5,
-    "9": 8,
-    "spy": 1,
-    "bomb": 6,
-    "flag": 1,
-}
-
-let board = [
-    ["1","2","3","3","4","4","4","5","5","5"],
-    ["5","flag","spy","bomb","bomb","6","6","6","6","7"],
-    ["7","7","7","8","8","8","8","8","9","9"],
-    ["9","9","9","9","9","9","bomb","bomb","bomb","bomb"],
-    ["","","","","","","","","",""],
-    ["","","","","","","","","",""],
-    ["","","","","","","","","",""],
-    ["","","","","","","","","",""],
-    ["","","","","","","","","",""],
-    ["","","","","","","","","",""],
-]
-
-let player_red_or_blue = "blue";//get player color
-const pieceCount = player_red_or_blue === "red" ? pieceCountRed : pieceCountBlue;
-
-function remove_draggable_and_dropzones() {
-    for (const dropzone of document.querySelectorAll(".drop-zone")) {
+function board_player_red() {
+    for (const blue_id of document.querySelectorAll("td[id^='blue-'][id$='-img']")) {
+        blue_id.draggable = false;
+    }
+    for(const dropzone of document.querySelectorAll("tr:nth-child(-n+6) .drop-zone")) {
         dropzone.classList.remove("drop-zone");
     }
-    for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
-        draggableElement.draggable = false;
+}
+
+function board_player_blue() {
+    for (const red_id of document.querySelectorAll("td[id^='red-'][id$='-img']")) {
+        red_id.draggable = false;
+    }
+    for(const dropzone of document.querySelectorAll("tr:nth-child(n+5) .drop-zone")) {
+        dropzone.classList.remove("drop-zone");
     }
 }
 
-remove_draggable_and_dropzones();
-
-
-function setup_board() {
+function change_board_for_player(player_red_or_blue) {
     if (player_red_or_blue === "red") {
-        for (const unknowElement of document.querySelectorAll("#board tr:nth-child(-n+4) td")) {
-
-            unknowElement.classList.add("img-unknown");
-        }
-    } else {
-        for (const unknowElement of document.querySelectorAll("#board tr:nth-child(n+7) td")) {
-            unknowElement.classList.add("img-unknown");
-        }
+        board_player_red()
+    } else if (player_red_or_blue === "blue") {
+        board_player_blue()
     }
 }
 
-setup_board()
-
-function update_board() {
-    for 
-
-}
-
-
-function check_has_piece(event, className){
+function check_has_piece(event, className, player_red_or_blue, pieceCount){
     let element_classes = event.target.classList;
     let piece = undefined;
     if (element_classes.length == 2) {
@@ -95,7 +41,7 @@ function check_has_piece(event, className){
 
 
 
-function removeDraggableAttribute(element) {
+function removeDraggableAttribute(element, player_red_or_blue, pieceCount) {
     let piece = "";
     number = player_red_or_blue === "red" ? 4 : 5;
     
@@ -120,49 +66,97 @@ function removeDraggableAttribute(element) {
             element.draggable = true;
         }
     }
+    console.log(player_red_or_blue)
     let last_char = document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML.slice(-1);
     document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
 }
 
-for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
-    draggableElement.addEventListener("dragstart", event=> {
-        event.dataTransfer.setData("text/plain", event.target.id);
-    });
+function dragstart(){
+    for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
+        draggableElement.addEventListener("dragstart", event=> {
+            event.dataTransfer.setData("text/plain", event.target.id);
+        });
+    }
 }
 
-for (const dropZone of document.querySelectorAll(".drop-zone")) {
+function drag_drop(player_red_or_blue, pieceCount){
+    for (const dropZone of document.querySelectorAll(".drop-zone")) {
+        // When draggable element is over a dropzone
+        dropZone.addEventListener("dragover", event => {
+            event.preventDefault();
+        });
+
+        // When a draggable element is dropped onto a drop zone
+        dropZone.addEventListener("drop", event => {
+            event.preventDefault();
+
+            const classId = event.dataTransfer.getData('text/plain');
+            const className = document.getElementById(classId).className;
+            removeDraggableAttribute(document.getElementById(classId), player_red_or_blue, pieceCount);
+            check_has_piece(event, className, player_red_or_blue, pieceCount);
+            dropZone.classList.add("drop-zone", className);
+        });
+    }
+}
+
+function check_ready(pieceCount) {
+    list_bool = [];
+    for (const [key, entries] of  Object.entries(pieceCount)) {
+        if (entries===0) {
+            list_bool.push(true);
+        } else {
+            list_bool.push(false);
+        }
+    }
+    if (list_bool.every(element => element === true)) {
+        console.log("Ready!");
+    } else {
+        console.log("Not Ready!");
+    }
+}
+
+async function setup_game(){
+    let player_info =  await getCurrentUserInfo();
+    let player_red_or_blue = player_info.color;
+    let player_pieces = await getPlayerPieces();
+
+    let pieceCountRed = {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "6": 4,
+        "7": 4,
+        "8": 5,
+        "9": 8,
+        "spy": 1,
+        "bomb": 6,
+        "flag": 1,
+    }
     
-
-    // When draggable element is over a dropzone
-    dropZone.addEventListener("dragover", event => {
-        event.preventDefault();
-    });
-
-    // When a draggable element is dropped onto a drop zone
-    dropZone.addEventListener("drop", event => {
-        event.preventDefault();
-
-        const classId = event.dataTransfer.getData('text/plain');
-        const className = document.getElementById(classId).className;
-        removeDraggableAttribute(document.getElementById(classId));
-        check_has_piece(event, className);
-        dropZone.classList.add("drop-zone", className);
-    });
-}
-
-function updatePiece(key, entries, color) {
-    let last_char = document.getElementById(color+"-"+key+"-count").innerHTML.slice(-1);
-    document.getElementById(color+"-"+key+"-count").innerHTML = entries+"/"+last_char;
-
-}
-
-function updatePieces() {
-    for (const [key, entries] of  Object.entries(pieceCountRed)) {
-        updatePiece(key, entries, "red");
+    let pieceCountBlue = {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "6": 4,
+        "7": 4,
+        "8": 5,
+        "9": 8,
+        "spy": 1,
+        "bomb": 6,
+        "flag": 1,
     }
-    for (const [key, entries] of  Object.entries(pieceCountBlue)) {
-        updatePiece(key, entries, "blue");
-    }
-}
 
-setInterval(updatePieces, 3000)
+    const pieceCount = player_red_or_blue === "red" ? pieceCountRed : pieceCountBlue;
+    change_board_for_player(player_red_or_blue);
+
+    dragstart();
+    drag_drop(player_red_or_blue, pieceCount);
+    
+    check_ready(pieceCount);
+    console.log(player_red_or_blue);
+}
+setup_game();
