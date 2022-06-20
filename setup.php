@@ -30,6 +30,8 @@ if ($game['player1Id'] !== $userId and $game['player2Id'] !== $userId) {
 <?php
 include __DIR__ . '/tpl/board.php';
 ?>
+<script src="scripts/game.js" ></script>
+<script>getPlayerPieces()</script>
 <script src="scripts/drag_drop_setup.js"></script>
 <?php
 

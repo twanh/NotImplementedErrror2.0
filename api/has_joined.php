@@ -12,6 +12,7 @@ if (isset($_GET['gameid'])) {
 
     $db = new Database('../data/database.json');
     $game = $db->getGameById($gameid);
+    $board = $db->getBoard($gameid);
     if (is_null($game)) {
         $data = [
             "message" => "Game with " . $gameid . "does not exist",

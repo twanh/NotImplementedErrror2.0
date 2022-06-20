@@ -2,6 +2,8 @@
 
 namespace board;
 
+use pieces\Piece;
+
 include __DIR__ . '/Pieces.php';
 
 class Board
@@ -11,6 +13,40 @@ class Board
     public function getBoard()
     {
         return $this->board;
+    }
+
+
+    /**
+     * Returns the board with all pieces from the opponent
+     * hidden
+     * @param $playerid string The current players' id.
+     * @return Piece[][]|NULL[][] The board with the other players pieces hidden.
+     */
+    public function getBoardForPlayer($playerid)
+    {
+        $orig_board = $this->getBoard();
+        $board = array();
+        for ($y = 0; $y < 10; $y++) {
+            $row = array();
+            for ($x = 0; $x < 10; $x++) {
+                if (is_null($orig_board[$y][$x])) {
+                    $row[$x] = NULL;
+                } elseif ($orig_board[$y][$x] === "WATER") {
+                    $row[$x] = "WATER";
+                } else {
+                    // It is a Piece
+                    $curPiece = $orig_board[$y][$x];
+                    if ($curPiece->getOwnerId() === $playerid) {
+                        $row[$x] = $curPiece;
+                    } else {
+                        $row[$x] = "UNKNOWN";
+                    }
+                }
+            }
+            $board[$y] = $row;
+        }
+
+        return $board;
     }
 
     public function getBoardForBlue()
@@ -243,7 +279,13 @@ class Board
 
     public static function fromJson($json)
     {
-        $arr_board = json_decode($json);
+        $arr_board = NULL;
+        if (is_array($json)) {
+            $arr_board = $json;
+        } else {
+            $arr_board = json_decode($json);
+        }
+
         $board = new static();
 
         for ($y =0; $y < 10; $y++) {
