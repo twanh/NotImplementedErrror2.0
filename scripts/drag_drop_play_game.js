@@ -29,6 +29,19 @@ let pieceCountBlue = {
     "flag": 1,
 }
 
+let board = [
+    ["1","2","3","3","4","4","4","5","5","5"],
+    ["5","flag","spy","bomb","bomb","6","6","6","6","7"],
+    ["7","7","7","8","8","8","8","8","9","9"],
+    ["9","9","9","9","9","9","bomb","bomb","bomb","bomb"],
+    ["","","","","","","","","",""],
+    ["","","","","","","","","",""],
+    ["","","","","","","","","",""],
+    ["","","","","","","","","",""],
+    ["","","","","","","","","",""],
+    ["","","","","","","","","",""],
+]
+
 let player_red_or_blue = "blue";//get player color
 const pieceCount = player_red_or_blue === "red" ? pieceCountRed : pieceCountBlue;
 
@@ -44,7 +57,25 @@ function remove_draggable_and_dropzones() {
 remove_draggable_and_dropzones();
 
 
+function setup_board() {
+    if (player_red_or_blue === "red") {
+        for (const unknowElement of document.querySelectorAll("#board tr:nth-child(-n+4) td")) {
 
+            unknowElement.classList.add("img-unknown");
+        }
+    } else {
+        for (const unknowElement of document.querySelectorAll("#board tr:nth-child(n+7) td")) {
+            unknowElement.classList.add("img-unknown");
+        }
+    }
+}
+
+setup_board()
+
+function update_board() {
+    for 
+
+}
 
 
 function check_has_piece(event, className){
