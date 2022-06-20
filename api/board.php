@@ -12,9 +12,7 @@ if (isset($_POST['gameid']) && isset($_POST['userid'])) {
     $db = new Database('../data/database.json');
     // TODO: Make sure that the player only gets back it's own
     //       pieces that are located on the board.
-    //$board = $db->getGameById($gameid)['board'];
     $board = $db->getBoard($gameid)->getBoardForPlayer($userid);
-
 
     $data = [
         "message" => "Everything is fine",
