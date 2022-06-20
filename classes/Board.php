@@ -279,7 +279,13 @@ class Board
 
     public static function fromJson($json)
     {
-        $arr_board = json_decode($json);
+        $arr_board = NULL;
+        if (is_array($json)) {
+            $arr_board = $json;
+        } else {
+            $arr_board = json_decode($json);
+        }
+
         $board = new static();
 
         for ($y =0; $y < 10; $y++) {

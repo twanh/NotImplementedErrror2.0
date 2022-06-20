@@ -164,7 +164,7 @@ class Database
      * @param $id string The id of the game to update.
      * @param $player1Id string|null The id of the first (red) player.
      * @param $player2Id string|null The if the of the second (blue) player.
-     * @param $board \board\Board|null The board that is used for the game.
+     * @param $board string|\board\Board|null The board that is used for the game.
      * @return bool If the game was updated successfully in the database.
      */
     public function updateGame($id, $player1Id = NULL, $player2Id = NULL, $board = NULL)
@@ -193,7 +193,11 @@ class Database
         }
 
         if(!is_null($board)) {
-            $gameToUpdate['board'] = $board;
+            if (is_subclass_of($board, 'Board')) {
+                $gameToUpdate['board'] = $board->getBoard();
+            } else {
+                $gameToUpdate['board'] = $board;
+            }
         }
 
         foreach ($db_content['games'] as &$game) {

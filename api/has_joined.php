@@ -31,15 +31,6 @@ if (isset($_GET['gameid'])) {
         $player2Joined = true;
     }
 
-    // TESTING
-    // TODO: REmOVE
-
-    $p1 = new \pieces\Major($game['player1Id']);
-    $board->setPieceOnPosition($p1, 0, 0);
-    $p2 = new \pieces\Major($game['player2Id']);
-    $board->setPieceOnPosition($p2, 0, 0);
-
-    $db->updateGame($gameid, NULL, NULL, $board);
 
     $data = [
         "success" => false,
