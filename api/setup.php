@@ -6,7 +6,7 @@ require __DIR__ . '/../classes/Board.php';
 require __DIR__ . '/../classes/Pieces.php';
 require __DIR__ . '/../db/Database.php';
 
-if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cur_x'])) {
+if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['board'])) {
 
     $gameid = $_POST['gameid'];
     $userid = $_POST['userid'];
