@@ -52,3 +52,4 @@ if ($_POST["red-ready"] === 'true' && $_POST["blue-ready"] === 'true' && $data["
 header('Content-Type: application/json');
 echo json_encode($data);
 die();
+?>
