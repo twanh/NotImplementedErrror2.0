@@ -137,6 +137,11 @@ class Board
         //       and piece belong to the same player, because then they can always move during setup.
         $currentPiece = $this->board[$y][$x];
         if (!$force){
+            // Cannot put your piece on your own piece unless forced.
+            if ($currentPiece->getOwnerId() === $piece->getOwnerId()) {
+                return false;
+            }
+
             if ($piece->canHit($currentPiece)) {
                 $this->board[$y][$y] = $piece;
                 return true;
