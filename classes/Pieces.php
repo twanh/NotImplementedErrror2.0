@@ -123,11 +123,9 @@ class Piece
         $this->name = $name;
     }
 
-    public static function fromJson($json)
+    public static function fromPieceName($name, $ownerId) : Piece
     {
-
-        $ownerId = $json['ownerId'];
-
+        
         $subclasses = [
             new Flag($ownerId),
             new Bomb($ownerId),
@@ -144,11 +142,18 @@ class Piece
 
         $piece = NULL;
         foreach ($subclasses as $subclass) {
-            if ($subclass->getName() === $json['name']) {
+            if ($subclass->getName() === $name) {
                 $piece = $subclass;
             }
         }
 
+        return $piece;
+
+    }
+
+    public static function fromJson($json)
+    {
+        $piece = Piece::fromPieceName($json['name'], $json['ownerId']);
         return $piece;
     }
 
