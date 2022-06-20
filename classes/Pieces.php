@@ -13,7 +13,7 @@ class Piece
 
     public function __construct(string $ownerId)
     {
-        $this->$ownerId = $ownerId;
+        $this->ownerId = $ownerId;
     }
 
 
@@ -126,19 +126,26 @@ class Piece
     public static function fromJson($json)
     {
 
-        $subclasses = array();
-        foreach (get_declared_classes() as $class) {
-            if (is_subclass_of($class, 'Piece'))
-                $subclasses[] = $class;
-        }
+        $ownerId = $json['ownerId'];
 
-        $jsonName = $json['name'];
+        $subclasses = [
+            new Flag($ownerId),
+            new Bomb($ownerId),
+            new Spy($ownerId),
+            new Scout($ownerId),
+            new Miner($ownerId),
+            new Sergeant($ownerId),
+            new Lieutenant($ownerId),
+            new Captain($ownerId),
+            new Major($ownerId),
+            new Colonel($ownerId),
+            new Marshal($ownerId),
+        ];
 
         $piece = NULL;
         foreach ($subclasses as $subclass) {
-            $t = new $subclass();
-            if ($t->getName() === $jsonName) {
-                $piece = $t;
+            if ($subclass->getName() === $json['name']) {
+                $piece = $subclass;
             }
         }
 
