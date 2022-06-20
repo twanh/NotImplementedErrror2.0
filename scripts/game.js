@@ -15,7 +15,8 @@ function getPlayerPieces() {
         data: {
             gameid,
             userid,
-        }
+        },
+        dataType: 'json',
     })
 
     req.done((data) => {
