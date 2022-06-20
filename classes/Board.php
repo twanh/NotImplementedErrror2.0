@@ -156,7 +156,7 @@ class Board
 
 
     /**
-     * Move the piece that is located at (cur_x, cur_x) up with the given distance (default: 1).
+     * Move the piece that is located at (cur_y, cur_x) up with the given distance (default: 1).
      *
      * Note: for blue, the board is shown upside down, so this would actually move it down for them (?).
      *
