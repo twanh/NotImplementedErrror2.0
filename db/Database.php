@@ -86,6 +86,27 @@ class Database
         return $ret;
     }
 
+    /*
+     * Returns the user with the given id.
+
+     * @param id string The user id.
+     * @returns array|null The user array or NULL when not found.
+     *
+     */
+    public function getUserById($id) 
+    {
+        $db_content = $this->load();
+        $users = $db_content['users'];
+
+        foreach ($users as $user) {
+            if ($user['id'] == $id ) {
+                return $user;
+            }
+        }
+
+        return NULL;
+    }
+
     /**
      * Returns the game with the given id from the database.
      *
