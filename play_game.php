@@ -29,15 +29,9 @@ if ($game['player1Id'] !== $userId and $game['player2Id'] !== $userId) {
 ?>
 <?php
 include __DIR__ . '/tpl/board.php';
+// TODO: get setup of players
 ?>
-<script src="scripts/game.js" ></script>
-<script>getPlayerPieces()</script>
-<script src="scripts/drag_drop_setup.js"></script>
+<script src="scripts/drag_drop_play_game.js"></script>
 <?php
-
-//testing for php and json
-//include __DIR__ . '/scripts/save_to_board.php';
-//include __DIR__ . '/tpl/board.php';
 include __DIR__ . '/tpl/body-end.php';
-/* Footer */
 ?>

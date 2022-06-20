@@ -1,0 +1,137 @@
+
+let pieceCountRed = {
+    "1": 1,
+    "2": 1,
+    "3": 2,
+    "4": 3,
+    "5": 4,
+    "6": 4,
+    "7": 4,
+    "8": 5,
+    "9": 8,
+    "spy": 1,
+    "bomb": 6,
+    "flag": 1,
+}
+
+let pieceCountBlue = {
+    "1": 1,
+    "2": 1,
+    "3": 2,
+    "4": 3,
+    "5": 4,
+    "6": 4,
+    "7": 4,
+    "8": 5,
+    "9": 8,
+    "spy": 1,
+    "bomb": 6,
+    "flag": 1,
+}
+
+let player_red_or_blue = "blue";//get player color
+const pieceCount = player_red_or_blue === "red" ? pieceCountRed : pieceCountBlue;
+
+function remove_draggable_and_dropzones() {
+    for (const dropzone of document.querySelectorAll(".drop-zone")) {
+        dropzone.classList.remove("drop-zone");
+    }
+    for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
+        draggableElement.draggable = false;
+    }
+}
+
+remove_draggable_and_dropzones();
+
+
+
+
+
+function check_has_piece(event, className){
+    let element_classes = event.target.classList;
+    let piece = undefined;
+    if (element_classes.length == 2) {
+        piece = element_classes.item(1).split('-')[1];
+        element_classes.remove(element_classes.item(1));
+        pieceCount[piece] += 1;
+    } else {
+        piece = className.split('-')[1];
+        event.target.className = "";
+    }
+    let last_char = document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML.slice(-1);
+    document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
+}
+
+
+
+function removeDraggableAttribute(element) {
+    let piece = "";
+    number = player_red_or_blue === "red" ? 4 : 5;
+    
+    if (!isNaN(element.id.charAt(number))) {
+        piece = element.id.charAt(number);
+    } else {
+        if (element.id.slice(number,number+3) === "spy") {
+            piece = "spy";
+        } else if (element.id.slice(number,number+4) === "bomb") {
+            piece = "bomb";
+        } else {
+            piece = "flag";
+        }
+    }
+    if (pieceCount[piece] <= 0) {
+        element.draggable = false;
+    } else {
+        pieceCount[piece] = pieceCount[piece]-1;
+        if (pieceCount[piece] <= 0) {
+            element.draggable = false;
+        } else {
+            element.draggable = true;
+        }
+    }
+    let last_char = document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML.slice(-1);
+    document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
+}
+
+for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
+    draggableElement.addEventListener("dragstart", event=> {
+        event.dataTransfer.setData("text/plain", event.target.id);
+    });
+}
+
+for (const dropZone of document.querySelectorAll(".drop-zone")) {
+    
+
+    // When draggable element is over a dropzone
+    dropZone.addEventListener("dragover", event => {
+        event.preventDefault();
+    });
+
+    // When a draggable element is dropped onto a drop zone
+    dropZone.addEventListener("drop", event => {
+        event.preventDefault();
+
+        const classId = event.dataTransfer.getData('text/plain');
+        const className = document.getElementById(classId).className;
+        removeDraggableAttribute(document.getElementById(classId));
+        check_has_piece(event, className);
+        dropZone.classList.add("drop-zone", className);
+    });
+}
+
+function updatePiece(key, entries, color) {
+    let last_char = document.getElementById(color+"-"+key+"-count").innerHTML.slice(-1);
+    document.getElementById(color+"-"+key+"-count").innerHTML = entries+"/"+last_char;
+
+}
+
+function updatePieces() {
+    for (const [key, entries] of  Object.entries(pieceCountRed)) {
+        updatePiece(key, entries, "red");
+    }
+    for (const [key, entries] of  Object.entries(pieceCountBlue)) {
+        updatePiece(key, entries, "blue");
+    }
+}
+
+setInterval(updatePieces, 3000)
