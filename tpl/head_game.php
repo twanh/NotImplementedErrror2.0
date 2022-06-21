@@ -25,10 +25,9 @@
             <nav>
                 <div id="mySidebar" class="sidebar">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                    <a href="#">About</a>
-                    <a href="#">Services</a>
-                    <a href="#">Clients</a>
-                    <a href="#">Contact</a>
+                    <a href="rules.php" target=”_blank”>Rules</a>
+                    <a href="about.php" target=”_blank”>About</a>
+                    <a href="contact.php" target=”_blank”>Contact</a>
                 </div>
                 <div id="main">
                     <button class="openbtn rounded" onclick="openNav()">&#9776;</button>
