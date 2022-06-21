@@ -9,12 +9,13 @@ function moveUp() {
     let cur_y = ""; // How do we get this data?
 
     let request = $.ajax({
-        url: "api/move/up.php",
+        url: "api/move.php",
         method: "POST",
         data: {
             gameid: gameid,
             cur_x: cur_x,
             cur_y: cur_y,
+            direction: "up"
         },
         dataType: "json"
     });
@@ -34,12 +35,13 @@ function moveDown() {
     let cur_y = ""; // How do we get this data?
 
     let request = $.ajax({
-        url: "api/move/down.php",
+        url: "api/move.php",
         method: "POST",
         data: {
             gameid: gameid,
             cur_x: cur_x,
             cur_y: cur_y,
+            direction: "down"
         },
         dataType: "json"
     });
@@ -59,12 +61,13 @@ function moveLeft() {
     let cur_y = ""; // How do we get this data?
 
     let request = $.ajax({
-        url: "api/move/left.php",
+        url: "api/move.php",
         method: "POST",
         data: {
             gameid: gameid,
             cur_x: cur_x,
             cur_y: cur_y,
+            direction: "left"
         },
         dataType: "json"
     });
@@ -84,12 +87,13 @@ function moveRight() {
     let cur_y = ""; // How do we get this data?
 
     let request = $.ajax({
-        url: "api/move/right.php",
+        url: "api/move.php",
         method: "POST",
         data: {
             gameid: gameid,
             cur_x: cur_x,
             cur_y: cur_y,
+            direction: "right"
         },
         dataType: "json"
     });

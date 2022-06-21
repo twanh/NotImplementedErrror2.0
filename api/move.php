@@ -3,7 +3,7 @@
 require __DIR__ . '/../classes/Board.php';
 require __DIR__ . '/../db/Database.php';
 
-if (isset($_POST['gameid']) && isset($_POST['player1Id']) && isset($_POST['player2Id'])) {
+if (isset($_POST['gameid']) && isset($_POST['player1Id']) && isset($_POST['player2Id']) && isset($_POST['direction'])) {
 
     $gameid = $_POST['gameid'];
 
@@ -60,8 +60,16 @@ if (isset($_POST['gameid']) && isset($_POST['player1Id']) && isset($_POST['playe
     }
 
     //Make move up
-
-    $board->moveUp($cur_x, $cur_y);
+    $direction = $_POST["direction"];
+    if ($direction == "up") {
+        $board->moveUp($cur_x, $cur_y);
+    } else if ($direction == "down") {
+        $board->moveDown($cur_x, $cur_y);
+    } else if ($direction == "left") {
+        $board->moveLeft($cur_x, $cur_y);
+    } else if ($direction == "right") {
+        $board->moveRight($cur_x, $cur_y);
+    }
     $data = [
         "message" => "Nice move!",
         "success" => True,
