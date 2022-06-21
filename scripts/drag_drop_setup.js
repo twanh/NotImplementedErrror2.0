@@ -26,17 +26,23 @@ function change_board_for_player(player_red_or_blue) {
     }
 }
 
-function check_has_piece(event, className, player_red_or_blue, pieceCount){
-    let element_classes = event.target.classList;
-    let piece = undefined;
-    if (element_classes.length == 2) {
-        piece = element_classes.item(1).split('-')[1];
-        element_classes.remove(element_classes.item(1));
-        pieceCount[piece] += 1;
-    } else {
-        piece = className.split('-')[1];
-        event.target.className = "";
+function check_has_piece(event, classString, player_red_or_blue, pieceCount){
+    let elementClasses = event.target.classList;
+    let deleteClass = event.target.className.split(" ").slice(-1);
+    let elementId = classString.split("-").slice(-1);
+    
+    if (elementClasses.length === 2) {
+        piece = elementId;
+        event.target.classList.remove(deleteClass)
+        let deleteClassPiece = deleteClass[0].split("-").slice(-1);
+        console.log(pieceCount[deleteClassPiece]);
+        pieceCount[deleteClassPiece] += 1
+        let last_char = document.getElementById(player_red_or_blue+"-"+deleteClassPiece+"-count").innerHTML.slice(-1);
+        document.getElementById(player_red_or_blue+"-"+deleteClassPiece+"-count").innerHTML = pieceCount[deleteClassPiece]+"/"+last_char;
+    } else if (elementClasses.length === 1){
+        piece = elementId;
     }
+    console.log(piece);
     let last_char = document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML.slice(-1);
     document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
 }
@@ -99,6 +105,7 @@ function removeDraggableAttributeByClass(element, classString, player_red_or_blu
             element.draggable = true;
         }
     }
+    element.classList.remove(classString)
     let last_char = document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML.slice(-1);
     document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
 }
@@ -106,7 +113,6 @@ function removeDraggableAttributeByClass(element, classString, player_red_or_blu
 function dragstart(){
     for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
         draggableElement.addEventListener("dragstart", event=> {
-            console.log(event.target)
             event.dataTransfer.setData("text/plain", event.target.id);
         });
     }
@@ -125,7 +131,6 @@ function drag_drop(player_red_or_blue, pieceCount){
 
             const classId = event.dataTransfer.getData('text/plain');
             const element = document.getElementById(classId);
-            console.log(element)
             let classString = element.className;
             
             if (classId.startsWith("r-")) {
@@ -134,8 +139,8 @@ function drag_drop(player_red_or_blue, pieceCount){
                 removeDraggableAttributeById(element, player_red_or_blue, pieceCount);
             }
             check_has_piece(event, classString, player_red_or_blue, pieceCount);
-            console.log(dropZone)
-            dropZone.classList.add("drop-zone", classString);
+            console.log(classString)
+            dropZone.classList.add("drop-zone", classString.split(" ").slice(-1));
             dropZone.draggable = true;
         });
     }
