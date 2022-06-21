@@ -3,15 +3,118 @@
 use board\Board;
 
 require __DIR__ . '/../classes/Board.php';
-require __DIR__ . '/../classes/Pieces.php';
+require_once __DIR__ . '/../classes/Pieces.php';
 require __DIR__ . '/../db/Database.php';
+
+// Player: 1 -> red & 2 -> blue
+function validateBoard($userBoard, $player, $userid) {
+
+    // Validate board
+    // - Make sure that if player is red, they only have pieces on the bottom
+    //   half & vise versa
+    // - All pieces are used
+    // - No extra pieces (so only 1 flag, 6 bombs etc...)
+
+    $errors = [];
+
+    $validationBoard = new Board();
+
+    $piecesCount = [
+        "Flag" => 1,
+        "Spy" => 1,
+        "Bomb" => 6,
+        "Scout" => 8,
+        "Miner" => 5,
+        "Sergeant" => 4,
+        "Lieutenant" => 4,
+        "Captain" => 4,
+        "Major" => 3,
+        "Colonel" => 2,
+        "General" => 1,
+        "Marshal" => 1,
+    ];
+
+
+    $piecesAmount = [];
+
+
+    for ($y = 0; $y < 10; $y++) {
+        for ($x = 0; $x < 10; $x++) {
+
+            $curPiece = $userBoard[$y][$x];
+
+            // Skip empty spots and water -- these do not
+            // contribute to the piece count.
+            if (is_null($curPiece) or $curPiece === "WATER") {
+                continue;
+            }
+
+            // Check if the current piece is on the right side of
+            // the board (for red and blue)
+
+            if ($player === 'blue') {
+                if ($y > 3) {
+                    $errors[] = 'Pieces should be played on own half';
+                }
+            } else {
+                if ($y <= 5) {
+                    $errors[] = 'Pieces should be played on own half';
+                }
+            }
+
+
+            if ($curPiece['player'] !== $userid) {
+                $errors[] = 'Piece on position (' . $y . ',' .
+                    $x . ') does not have the correct user id';
+                continue;
+            }
+
+            $newPiece = \pieces\Piece::fromPieceName($curPiece['piece'], $userid);
+            $canMove = $validationBoard->setPieceOnPosition($newPiece, $y, $x, true);
+            if (!$canMove) {
+                $errors[] = 'Piece on position (' . $y . ',' .
+                    $x . ') cannot be placed there!';
+                continue;
+            }
+
+
+            // Keep track of the used pieces.
+            if (array_key_exists($newPiece->getName(), $piecesAmount)) {
+                $piecesAmount[$newPiece->getName()] = $piecesAmount[$newPiece->getName()] + 1;
+            } else {
+                $piecesAmount[$newPiece->getName()] = 1;
+            }
+
+        }
+    }
+
+
+    foreach ($piecesCount as $piece => $count) {
+        if (!array_key_exists($piece, $piecesAmount)) {
+            $errors[] = 'Player did not use piece ' . $piece . '.';
+            continue;
+        }
+
+        if ($piecesAmount[$piece] !== $count) {
+            $errors[] = 'Player did not use correct amount of piece ' . $piece . '.';
+        }
+    }
+
+    if (count($errors) === 0) {
+        return array(true, $errors);
+    }
+
+    return array(false, $errors);
+
+
+}
 
 if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['board'])) {
 
     $gameid = $_POST['gameid'];
     $userid = $_POST['userid'];
-    $userBoard = json_decode($_POST['board']);
-    
+    // TODO: Find a way around the double decode!
+    $userBoard = json_decode(json_decode($_POST['board'], true), true);
 
 
     $db = new Database('../data/database.json');
@@ -31,154 +134,58 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['board'])
     }
 
 
-    // First use a new board to test if we can move somewhere before
-    // actually moving there!
-    $validationBoard = new Board();
+    $data = [];
 
-    $piecesCount = [
-        "Flag" => 1,
-        "Spy" => 1,
-        "Bomb" => 6,
-        "Scout" => 8,
-        "Miner" => 5,
-        "Sergeant" => 4,
-        "Lieutenant" => 4,
-        "Captain" => 4,
-        "Major" => 3,
-        "Colonel" => 2,
-        "General" => 1,
-        "Marshal" => 1,
-    ];
-
-
-    // Validate board
-    // - Make sure that if player is red, they only have pieces on the bottom
-    //   half & vise versa
-    // - All pieces are used
-    // - No extra pieces (so only 1 flag, 6 bombs etc...)
 
     // Save board to the database with all correct pieces
     if ($userid === $game['player1Id']) {
         // User is red
-        $piecesAmount = [];
 
-        // Only loop over the bottom rows where the red player can place
-        // its pieces
-        for ($y = 4; $y < 10; $y++) {
-            for($x = 0; $y < 10; $x++) {
-                $curPiece = $userBoard[$y][$x];
-                if ($curPiece['player'] !== $userid) {
-                    // TODO: Return error -- cannot setup for other player.
-                    echo "DEBUG: Not same userid";
-                    die();
+        list($valid, $errors) = validateBoard($userBoard, 'red', $userid);
+
+        if ($valid) {
+            // If everything is valid, actually update the board.
+            for ($y = 4; $y < 10; $y++) {
+                for($x = 0; $y < 10; $x++) {
+                    $newPiece = \pieces\Piece::fromPieceName($curPiece['name'], $userid);
+                    $gameBoard->setPieceOnPosition($newPiece, $y, $x, true);
                 }
-                $newPiece = \pieces\Piece::fromPieceName($curPiece['name'], $userid);
-                $canMove = $validationBoard->setPieceOnPosition($newPiece, $y, $x, true);
-                if (!$canMove) {
-                    // TODO: Error
-                    echo "DEBUG: Cannot move!";
-                    die();
-                }
-                
-                // Count the amount of pieces
-                if (array_key_exists($newPiece->getName(), $piecesAmount)) {
-                    $piecesAmount[$newPiece->getName()] = $piecesAmount[$newPiece->getName()] + 1;
-                } else {
-                    $piecesAmount[$newPiece->getName()] = 1;
-                }
-
             }
-        }
+            // Save the updated board in the DB.
+            $db->updateGame($gameid, NULL, NULL, $gameBoard->getBoard());
 
-        foreach ($piecesCount as $piece => $count) {
-            if (!array_key_exists($piece, $piecesAmount)) {
-                // TODO: Handle error
-                echo "DEBUG: Player has not used Piece: " . $piece;
-                die();
-            }
+        } 
 
-            if ($piecesAmount[$piece] !== $count) {
-                // TODO: Handle error
-                echo "DEBUG: Player did not use correct amount of pieces for Piece: " . $piece;
-                die();
-            }
+        $data = [
+            'success' => $valid,
+            'errors' => $errors,
+        ];
 
-        }
 
-        // If everything is valid, actually update the board.
-        for ($y = 4; $y < 10; $y++) {
-            for($x = 0; $y < 10; $x++) {
-                $newPiece = \pieces\Piece::fromPieceName($curPiece['name'], $userid);
-                $gameBoard->setPieceOnPosition($newPiece, $y, $x, true);
-            }
-        }
-        // Save the updated board in the DB.
-        $db->updateGame($gameid, NULL, NULL, $gameBoard->getBoard());
     } else {
-        // TODO: DRY!!
         // User is blue
-        $piecesAmount = [];
+        list($valid, $errors) = validateBoard($userBoard, 'blue', $userid);
 
-        // Only loop over the bottom rows where the red player can place
-        // its pieces
-        for ($y = 0; $y < 5; $y++) {
-            for($x = 0; $y < 10; $x++) {
-                $curPiece = $userBoard[$y][$x];
-                if ($curPiece['player'] !== $userid) {
-                    // TODO: Return error -- cannot setup for other player.
-                    echo "DEBUG: Not same userid";
-                    die();
+        if ($valid) {
+            // If everything is valid, actually update the board.
+                for($x = 0; $y < 10; $x++) {
+                    $newPiece = \pieces\Piece::fromPieceName($curPiece['name'], $userid);
+                    $gameBoard->setPieceOnPosition($newPiece, $y, $x, true);
                 }
-                $newPiece = \pieces\Piece::fromPieceName($curPiece['name'], $userid);
-                $canMove = $validationBoard->setPieceOnPosition($newPiece, $y, $x, true);
-                if (!$canMove) {
-                    // TODO: Error
-                    echo "DEBUG: Cannot move!";
-                    die();
-                }
-                
-                // Count the amount of pieces
-                if (array_key_exists($newPiece->getName(), $piecesAmount)) {
-                    $piecesAmount[$newPiece->getName()] = $piecesAmount[$newPiece->getName()] + 1;
-                } else {
-                    $piecesAmount[$newPiece->getName()] = 1;
-                }
+            // Save the updated board in the DB.
+            $db->updateGame($gameid, NULL, NULL, $gameBoard->getBoard());
 
             }
-        }
 
-        foreach ($piecesCount as $piece => $count) {
-            if (!array_key_exists($piece, $piecesAmount)) {
-                // TODO: Handle error
-                echo "DEBUG: Player has not used Piece: " . $piece;
-                die();
-            }
-
-            if ($piecesAmount[$piece] !== $count) {
-                // TODO: Handle error
-                echo "DEBUG: Player did not use correct amount of pieces for Piece: " . $piece;
-                die();
-            }
-
-        }
-
-        // If everything is valid, actually update the board.
-        for ($y = 4; $y < 10; $y++) {
-            for($x = 0; $y < 10; $x++) {
-                $newPiece = \pieces\Piece::fromPieceName($curPiece['name'], $userid);
-                $gameBoard->setPieceOnPosition($newPiece, $y, $x, true);
-            }
-        }
-        // Save the updated board in the DB.
-        $db->updateGame($gameid, NULL, NULL, $gameBoard->getBoard());
+        $data = [
+            'success' => $valid,
+            'errors' => $errors,
+        ];
     }
 
-    // TODO: Set readyPlayer1/2 to true in DB.
+    $db->setReadyForGame($gameid, $userid);
 
-
-    $data = [
-        'success' => true,
-    ];
+    $data['ready'] = $db->getReadyForGame($gameid);
 
     header('Content-Type: application/json');
     echo json_encode($data);
