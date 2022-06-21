@@ -15,14 +15,12 @@ $game = $db->getGameById($gameid);
 
 // Make sure this game exists
 if (is_null($game)) {
-    // TODO: Display a nicer error message!
-    die("This game does not exist! So you cannot play it!");
+    die("The game you are trying to join does not exist. Make sure to use an invite link or make one!");
 }
 
 // Make sure that the current user is player1 or player2
 if ($game['player1Id'] !== $userId and $game['player2Id'] !== $userId) {
-    // TODO: Display a nicer error message!
-    die("It seems like you do not belong in this game");
+    die("It seems like you do not belong in this game, make sure the invite link is correct.");
 }
 
 ?>
