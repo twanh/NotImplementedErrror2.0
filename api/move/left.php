@@ -13,7 +13,7 @@ if (isset($_POST['gameid']) && isset($_POST['player1Id']) && isset($_POST['playe
 
     $player1Id = $_POST['player1Id'];
     $player2Id = $_POST['player2Id'];
-    $playersTurn = 0; // How do we get this data? change db.json? or API?
+    $playersTurn = $db->getTurnForGame($gameid);
     $cur_x = $_POST['cur_x'];
     $cur_y = $_POST['cur_y'];
 
