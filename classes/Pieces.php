@@ -127,17 +127,18 @@ class Piece
     {
         
         $subclasses = [
-            new Flag($ownerId),
             new Bomb($ownerId),
-            new Spy($ownerId),
-            new Scout($ownerId),
-            new Miner($ownerId),
-            new Sergeant($ownerId),
-            new Lieutenant($ownerId),
             new Captain($ownerId),
-            new Major($ownerId),
             new Colonel($ownerId),
+            new Flag($ownerId),
+            new General($ownerId),
+            new Lieutenant($ownerId),
+            new Major($ownerId),
             new Marshal($ownerId),
+            new Miner($ownerId),
+            new Scout($ownerId),
+            new Sergeant($ownerId),
+            new Spy($ownerId),
         ];
 
         $piece = NULL;
