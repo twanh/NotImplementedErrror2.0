@@ -48,23 +48,23 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
     $direction = $_POST["direction"];
     if (!is_null($distance)) {
         if ($direction == "up") {
-            $board->moveUp($cur_y, $cur_x, $distance);
+            $move = $board->moveUp($cur_y, $cur_x, $distance);
         } else if ($direction == "down") {
-            $board->moveDown($cur_y, $cur_x, $distance);
+            $move = $board->moveDown($cur_y, $cur_x, $distance);
         } else if ($direction == "left") {
-            $board->moveLeft($cur_y, $cur_x, $distance);
+            $move = $board->moveLeft($cur_y, $cur_x, $distance);
         } else if ($direction == "right") {
-            $board->moveRight($cur_y, $cur_x, $distance);
+            $move = $board->moveRight($cur_y, $cur_x, $distance);
         }
     } else {
         if ($direction == "up") {
-            $board->moveUp($cur_y, $cur_x);
+            $move = $board->moveUp($cur_y, $cur_x);
         } else if ($direction == "down") {
-            $board->moveDown($cur_y, $cur_x);
+            $move = $board->moveDown($cur_y, $cur_x);
         } else if ($direction == "left") {
-            $board->moveLeft($cur_y, $cur_x);
+            $move = $board->moveLeft($cur_y, $cur_x);
         } else if ($direction == "right") {
-            $board->moveRight($cur_y, $cur_x);
+            $move = $board->moveRight($cur_y, $cur_x);
         }
     }
 
