@@ -160,30 +160,75 @@ function pieces_to_board() {
 function check_ready(pieceCount) {
     list_bool = [];
     for (const entries in pieceCount) {
-        if (entries===0) {
+        if (pieceCount[entries] === 0) {
             list_bool.push(true);
         } else {
             list_bool.push(false);
         }
     }
+    console.log(list_bool)
     console.log((list_bool.every(element => element === true)))
     if (list_bool.every(element => element === true)) {
         console.log("Ready!");
-        return pieces_to_board();
+        return [true, pieces_to_board()];
     } else {
         console.log("Not Ready!");
+        return [false, []]
     }
 }
 
-function eventReady(pieceCount){
-    board = check_ready(pieceCount);
-    console.log(board);
+function apiSetup(board) {
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const gameid = urlParams.get('gameid');
+    const userid = urlParams.get('userid');
+
+    let req = $.ajax({
+        url: 'api/setup.php',
+        method: "POST",
+        data: {
+            gameid,
+            userid,
+            board: JSON.stringify(board),
+        },
+        dataType: 'json',
+    });
+
+    const data = req.done((data) => {
+        console.log(data);
+        return data;
+    });
+
+    return data;
+}
+
+async function eventReady(pieceCount){
+    const [ready, board] = check_ready(pieceCount);
+    if (ready) {
+        const data = await apiSetup(board);
+        if (data['success']) {
+            if (data['ready']) {
+                // TODO: Redirect to game
+                console.log("Both players are ready!");
+            }
+            // TODO: Start timeout and wait for ready
+            console.log("Waiting for other player to be done!")
+        } else {
+            if (data['errors'].length > 0) {
+                for (let i =0; i < data['errors'].length; i++){
+                    alert(data['errors'][i]);
+                }
+            }
+        }
+    } else {
+        alert("Please place all pieces on your part of the board!")
+    }
 }
 
 async function setup_game(){
     let player_info =  await getCurrentUserInfo();
     let player_red_or_blue = player_info.color;
-    const playerID = player_info.id;
     let pieceCountRed = {
         "1": 1,
         "2": 1,
@@ -223,7 +268,7 @@ async function setup_game(){
     drag_drop(player_red_or_blue, pieceCount);
     
     $("#ready_button").click(function() {
-        eventReady(pieceCount, playerID);
+        eventReady(pieceCount);
     })
 }
 setup_game();

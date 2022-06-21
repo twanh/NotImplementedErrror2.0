@@ -33,7 +33,7 @@ include __DIR__ . '/tpl/board.php';
 <script src="scripts/drag_drop_setup.js"></script>
 <div class="row bg-dark mt-2">
     <div class="col-md-12">
-        <button type="button" id="ready_button"class="btn btn-success btn-block" onclick="eventReady()">Ready!</button>
+        <button type="button" id="ready_button"class="btn btn-success btn-block" >Ready!</button>
     </div>
 </div>
 <?php
