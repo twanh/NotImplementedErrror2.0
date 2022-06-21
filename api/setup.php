@@ -39,6 +39,13 @@ function validateBoard($userBoard, $player, $userid) {
 
 
     for ($y = 0; $y < 10; $y++) {
+
+        // Sometimes the client does not pad the board
+        // with null, so skip empty rows.
+        if (count($userBoard[$y]) === 0) {
+            continue;
+        }
+
         for ($x = 0; $x < 10; $x++) {
 
             $curPiece = $userBoard[$y][$x];
@@ -66,6 +73,11 @@ function validateBoard($userBoard, $player, $userid) {
             if ($curPiece['player'] !== $userid) {
                 $errors[] = 'Piece on position (' . $y . ',' .
                     $x . ') does not have the correct user id';
+                continue;
+            }
+
+            if (is_null($curPiece['piece'])) {
+                $errors[] = 'Piece on position (' . $y . ',' . $x . ')' . ' cannot have piece name NULL';
                 continue;
             }
 
@@ -116,11 +128,21 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['board'])
     // TODO: Find a way around the double decode!
     $userBoard = json_decode(json_decode($_POST['board'], true), true);
 
-
     $db = new Database('../data/database.json');
     $game = $db->getGameById($gameid);
     $gameBoard = $db->getBoard($gameid);
 
+
+    if (is_null($game)) {
+
+        $data = [
+            'success'=> false,
+            'message'=> "Make sure the game exists",
+        ];
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        die();
+    }
 
     // Make sure that both players have joined
     if (is_null($game['player1Id']) or is_null($game['player2Id'])) {
@@ -145,9 +167,11 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['board'])
 
         if ($valid) {
             // If everything is valid, actually update the board.
-            for ($y = 4; $y < 10; $y++) {
-                for($x = 0; $y < 10; $x++) {
-                    $newPiece = \pieces\Piece::fromPieceName($curPiece['name'], $userid);
+            for ($y = 6; $y < 10; $y++) {
+                for($x = 0; $x < 10; $x++) {
+                    $curPiece = $userBoard[$y][$x];
+
+                    $newPiece = \pieces\Piece::fromPieceName($curPiece['piece'], $userid);
                     $gameBoard->setPieceOnPosition($newPiece, $y, $x, true);
                 }
             }
@@ -168,10 +192,13 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['board'])
 
         if ($valid) {
             // If everything is valid, actually update the board.
-                for($x = 0; $y < 10; $x++) {
-                    $newPiece = \pieces\Piece::fromPieceName($curPiece['name'], $userid);
+            for($y = 0; $y < 4; $y++) {
+                for($x = 0; $x < 10; $x++) {
+                    $curPiece = $userBoard[$y][$x];
+                    $newPiece = \pieces\Piece::fromPieceName($curPiece['piece'], $userid);
                     $gameBoard->setPieceOnPosition($newPiece, $y, $x, true);
                 }
+            }
             // Save the updated board in the DB.
             $db->updateGame($gameid, NULL, NULL, $gameBoard->getBoard());
 
