@@ -3,7 +3,7 @@
 require __DIR__ . '/../classes/Board.php';
 require __DIR__ . '/../db/Database.php';
 
-if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y']) && isset($_POST['cur_x'])) {
+if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y']) && isset($_POST['cur_x']) && isset($_POST['direction'])) {
 
     $gameid = $_POST['gameid'];
     $userid = $_POST['userid'];
@@ -45,10 +45,27 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
 
     }
 
+    $direction = $_POST["direction"];
     if (!is_null($distance)) {
-        $move = $board->moveUp($cur_y, $cur_x, $distance);
+        if ($direction == "up") {
+            $move = $board->moveUp($cur_y, $cur_x, $distance);
+        } else if ($direction == "down") {
+            $move = $board->moveDown($cur_y, $cur_x, $distance);
+        } else if ($direction == "left") {
+            $move = $board->moveLeft($cur_y, $cur_x, $distance);
+        } else if ($direction == "right") {
+            $move = $board->moveRight($cur_y, $cur_x, $distance);
+        }
     } else {
-        $move = $board->moveUp($cur_y, $cur_x);
+        if ($direction == "up") {
+            $move = $board->moveUp($cur_y, $cur_x);
+        } else if ($direction == "down") {
+            $move = $board->moveDown($cur_y, $cur_x);
+        } else if ($direction == "left") {
+            $move = $board->moveLeft($cur_y, $cur_x);
+        } else if ($direction == "right") {
+            $move = $board->moveRight($cur_y, $cur_x);
+        }
     }
 
     if ($move) {
