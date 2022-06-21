@@ -255,6 +255,7 @@ class Database
         return 1;
     }
 
+
     /**
      * Updates the game with the given $gameid with the given turn.
      * @param $gameid string The game id of the game to update.
@@ -276,5 +277,45 @@ class Database
         return $this->save($db_content);
     }
 
+    public function setReadyForGame($gameid, $playerid) 
+    {
+
+        $db_content = $this->load();
+
+        foreach ($db_content['games'] as &$game) {
+            if ($game['id'] == $gameid) {
+                if ($playerid === $game['player1Id']) {
+                    $game['player1Ready'] = true;
+                } else {
+                    $game['player2Ready'] = true;
+                }
+            }
+        }
+        unset($game);
+
+        return $this->save($db_content);
+    }
+
+
+    public function getReadyForGame($gameid) 
+    {
+
+        $currentGame = $this->getGameById($gameid);
+        if (is_null($currentGame)) {
+            return NULL;
+        }
+
+        $p1Ready = false;
+        $p2Ready = false;
+        if (array_key_exists('player1Ready', $currentGame)) {
+            $p1Ready = $currentGame['player1Ready'];
+        }
+
+        if (array_key_exists('player2Ready', $currentGame)) {
+            $p2Ready = $currentGame['player2Ready'];
+        }
+
+        return $p1Ready && $p2Ready;
+    }
 
 }

@@ -93,6 +93,7 @@ function drag_drop(player_red_or_blue, pieceCount){
 
             const classId = event.dataTransfer.getData('text/plain');
             const className = document.getElementById(classId).className;
+            dropZone.draggable="true";
             removeDraggableAttribute(document.getElementById(classId), player_red_or_blue, pieceCount);
             check_has_piece(event, className, player_red_or_blue, pieceCount);
             dropZone.classList.add("drop-zone", className);
