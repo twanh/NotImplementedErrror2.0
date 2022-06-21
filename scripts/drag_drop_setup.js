@@ -106,8 +106,8 @@ function removeDraggableAttributeByClass(element, classString, player_red_or_blu
 function dragstart(){
     for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
         draggableElement.addEventListener("dragstart", event=> {
-            event.dataTransfer.setData("text/plain", event.target.id);
             console.log(event.target)
+            event.dataTransfer.setData("text/plain", event.target.id);
         });
     }
 }
@@ -261,7 +261,8 @@ async function setup_game(){
     if (change_board===false) {
         change_board_for_player(player_red_or_blue);
     }
-    document.addEventListener("dragstart", event=> {
+    document.addEventListener("dragstart", event => {
+        event.dataTransfer.setData("text/plain", event.target.id);
         dragstart()
     })
     drag_drop(player_red_or_blue, pieceCount);
