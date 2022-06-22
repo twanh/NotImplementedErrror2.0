@@ -31,6 +31,7 @@ include __DIR__ . '/tpl/board.php';
 <script src="scripts/game.js" ></script>
 <script>getPlayerPieces();getCurrentUserInfo()</script>
 <script src="scripts/drag_drop_setup.js"></script>
+<script src="scripts/board_guide.js"></script>
 <div class="row bg-dark mt-2">
     <div class="col-md-12">
         <button type="button" id="ready_button"class="btn btn-success btn-block" >Ready!</button>
