@@ -37,7 +37,7 @@ if (isset($_POST['name']) && isset($_POST['color'])) {
         echo "Could not create game!";
     }
 
-   header("Location: ../game.php?gameid=" . $gameid . "&userid=" . $userid);
+   header("Location: ../lobby.php?gameid=" . $gameid . "&userid=" . $userid);
    die();
 } else {
     return false;
