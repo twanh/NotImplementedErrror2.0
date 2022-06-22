@@ -274,6 +274,12 @@ function checkBothReady(intv) {
 }
 
 async function eventReady(pieceCount){
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const gameid = urlParams.get('gameid');
+    const userid = urlParams.get('userid');
+
     const [ready, board] = check_ready(pieceCount);
     if (ready) {
         const data = await apiSetup(board);
