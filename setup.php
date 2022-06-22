@@ -1,7 +1,7 @@
 <?php
 
 /* Header */
-$page_title = 'Stratego WP22';
+$page_title = 'Stratego WP22 - Board Setup';
 include __DIR__ . '/tpl/head_game.php';
 /* Body */
 include __DIR__ . '/tpl/body-start.php';
