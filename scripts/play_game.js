@@ -24,16 +24,26 @@ function fillBoard(board) {
     for (let y = 0; y < 10; y++) {
         for (let x = 0; x < 10; x++) {
             let cur = board[y][x];
+
             let tableRowColID = '#r-' + (y+1) + '-c-' + (x+1);
+
+            // SKIP WATER
+            if (cur === 'WATER') {
+                continue;
+            }
             // No need to place anything on empty squares
-            if (cur === null || cur === "WATER") {
+            if (cur === null) {
+                console.log("ADding dz to: ", tableRowColID)
+                $(tableRowColID).addClass('drop-zone');
                 continue;
             }
 
             if (cur === "UNKNOWN") {
                 $(tableRowColID).addClass('img-unknown');
+                $(tableRowColID).addClass('drop-zone');
             } else {
                 $(tableRowColID).addClass(pieceToClass(cur.name));
+                $(tableRowColID).attr('draggable', true);
             }
         }
     }
