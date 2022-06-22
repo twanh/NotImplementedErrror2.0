@@ -25,9 +25,9 @@
             <nav>
                 <div id="mySidebar" class="sidebar">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                    <a href="rules.php" target=”_blank”>Rules</a>
-                    <a href="about.php" target=”_blank”>About</a>
-                    <a href="contact.php" target=”_blank”>Contact</a>
+                    <a href="rules.php" target=”_blank” title="Read the rules of the game.">Rules</a>
+                    <a href="#" id="save" title="Save your current setup.">Save</a>
+                    <a href="#" id="load" title="Load a saved setup.">Load</a>
                 </div>
                 <div id="main">
                     <button class="openbtn rounded" onclick="openNav()">&#9776;</button>
