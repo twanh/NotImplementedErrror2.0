@@ -66,7 +66,6 @@ function getPlayerPieces() {
     const gameid = urlParams.get('gameid');
     const userid = urlParams.get('userid');
 
-
     let req = $.ajax({
         url: 'api/board.php',
         method: "POST",
