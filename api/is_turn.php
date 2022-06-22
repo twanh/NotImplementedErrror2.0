@@ -10,7 +10,7 @@ if (isset($_GET['gameid']) && isset($_GET['playerid'])) {
     $db = new Database('../data/database.json');
     $game = $db->getGameById($gameid);
     $turn = $db->getTurnForGame($gameid);
-    $curPlayerId = $_GET('playerid');
+    $curPlayerId = $_GET['playerid'];
 
     $player1Id = $game['player1Id'];
     $player2Id = $game['player2Id'];

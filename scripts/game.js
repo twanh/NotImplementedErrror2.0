@@ -33,6 +33,32 @@ function getCurrentUserInfo() {
 
 }
 
+async function checkIsTurn() {
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const gameid = urlParams.get('gameid');
+    const userid = urlParams.get('userid');
+
+    let req = $.ajax({
+        url: 'api/is_turn.php?gameid=' + gameid + '&playerid=' + userid,
+        method: "GET",
+    })
+
+    const reqData = await req.done((data) => {
+        return data;
+    });
+
+    let turn = false;
+    if (reqData['success'])  {
+        turn = reqData['turn'];
+    }
+
+    return turn;
+
+
+}
+
 function getPlayerPieces() {
 
     const queryString = window.location.search;
@@ -50,10 +76,11 @@ function getPlayerPieces() {
         },
         dataType: 'json',
     })
-
-    req.done((data) => {
-        console.log(data['board']);
+    const board = req.done((data) => {
+        return data;
     });
+
+    return board;
 
 
 }
