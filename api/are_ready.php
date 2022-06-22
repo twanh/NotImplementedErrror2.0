@@ -27,6 +27,7 @@ if (isset($_GET['gameid'])) {
     $data = [
         "success" => true,
         "ready" => $bothReady,
+        "message" => $bothReady,
     ];
 
     header('Content-Type: application/json');
