@@ -19,8 +19,10 @@ async function tailorToPlayer() {
     const color = info["color"];
     if (color === "red") {
         highlightSide(7, "rgba(255, 153, 153, 0.2)");
+        $("#blue-pawns").css("visibility", "hidden");
     } else if (color === "blue") {
         highlightSide(1, "rgba(153, 153, 255, 0.2)");
+        $("#red-pawns").css("visibility", "hidden");
     }
 }
 
