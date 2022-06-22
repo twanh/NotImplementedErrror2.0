@@ -246,17 +246,46 @@ function apiSetup(board) {
     return data;
 }
 
+function checkBothReady(intv) {
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const gameid = urlParams.get('gameid');
+    const userid = urlParams.get('userid');
+
+    let request = $.ajax({
+        url: "api/are_ready.php?gameid="+gameid,
+        method: "GET",
+    });
+
+    request.done((data) => {
+        console.log(data);
+        if (data['success']) {
+            console.log(data['message']);
+            if (data['ready']) {
+                clearInterval(intv);
+                console.log("redirecting to setup now")
+                window.location.replace('play_game.php?gameid=' + gameid + '&userid=' + userid);
+            }
+        } else {
+            console.log(data['message']);
+        }
+    });
+}
+
 async function eventReady(pieceCount){
     const [ready, board] = check_ready(pieceCount);
     if (ready) {
         const data = await apiSetup(board);
         if (data['success']) {
             if (data['ready']) {
-                // TODO: Redirect to game
                 console.log("Both players are ready!");
+                window.location.replace('play_game.php?gameid=' + gameid + '&userid=' + userid);
             }
-            // TODO: Start timeout and wait for ready
             console.log("Waiting for other player to be done!")
+            const readyInterval = setInterval(() => {
+                checkBothReady(readyInterval);
+            },2000)
         } else {
             if (data['errors'].length > 0) {
                 for (let i =0; i < data['errors'].length; i++){
