@@ -16,7 +16,6 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
 
 
     // Make sure that both players are ready
-    // TODO: Add `ready` to db when both players are ready (see: setup_done.php)
     if (is_null($game['player1Id']) or is_null($game['player2Id'])) {
         $data = [
             'success' => false,
@@ -26,6 +25,28 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
         echo json_encode($data);
         die();
     }
+
+    $isReady = $db->getReadyForGame($gameid);
+    if (is_null($isReady)) {
+        $data = [
+            'success' => false,
+            'message' => "This game does not exist!",
+        ];
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        die();
+    }
+
+    if (!$isReady) {
+        $data = [
+            'success' => false,
+            'message' => "You cannot make a move before both players are ready!",
+        ];
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        die();
+    }
+
 
     $turn = $db->getTurnForGame($gameid);
 
