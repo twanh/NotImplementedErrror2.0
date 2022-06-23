@@ -89,7 +89,7 @@ function updateDropZones() {
 
 }
 
-function playerMadeMove(start, end, board) {
+async function playerMadeMove(start, end, board) {
 
     const start_y = parseInt(start.split('-')[1])-1;
     const start_x = parseInt(start.split('-')[3])-1;
@@ -97,10 +97,10 @@ function playerMadeMove(start, end, board) {
     const end_y = parseInt(end.split('-')[1])-1;
     const end_x = parseInt(end.split('-')[3])-1;
 
-    if (board[end_y][end_x] === "WATER") {
-        // TODO: Auto place the piece back
-        alert("You cannot move in the water.")
-    }
+    // if (board[end_y][end_x] === "WATER") {
+    //     // TODO: Auto place the piece back
+    //     alert("You cannot move in the water.")
+    // }
 
     // Determine if the player moved up/down/left/right
     // Up end_y < start_y    (start_x=end_x)
@@ -110,34 +110,58 @@ function playerMadeMove(start, end, board) {
     
     // TODO: Check and calc distance!
 
+    let ret;
     if (end_y < start_y) {
         if (start_x !== end_x) {
             alert("You cannot move vertical and horizontal at the same time!");
         }
+
         console.log("Moved UP!");
-        move(start_y, start_x, 'up')
+        ret = await move(start_y, start_x, 'up')
+
     } else if (end_y > start_y) {
         if (start_x !== end_x) {
             alert("You cannot move vertical and horizontal at the same time!");
         }
+
         console.log("Moved down");
-        move(start_y, start_x, 'down')
+        ret = await move(start_y, start_x, 'down')
+
     } else if (end_x < start_x) {
         if (start_y !== end_y) {
             alert("You cannot move vertical and horizontal at the same time!");
         }
+
         console.log("Moved left");
-        move(start_y, start_x, 'left')
+        ret = await move(start_y, start_x, 'left')
+
     } else if (end_x > start_x) {
         if (start_y !== end_y) {
             alert("You cannot move vertical and horizontal at the same time!");
         }
-        move(start_y, start_x, 'right')
+
         console.log("Moved right");
+        ret = await move(start_y, start_x, 'right')
+
     } else {
         alert("You performed an illigal move.")
-        // TODO: Undo the drag and drop!
+        fillBoard(board);
     }
+
+    if (ret.success) {
+        // Update the pieces locations
+        fillBoard(ret.board);
+    } else {
+        // Undo the move!
+        console.log(ret);
+        alert(ret.message);
+        if ('board' in ret) {
+            fillBoard(ret.board);
+        } else {
+            fillBoard(board);
+        }
+    }
+
 
 
 
@@ -150,6 +174,8 @@ function fillBoard(board) {
             let cur = board[y][x];
 
             let tableRowColID = '#r-' + (y+1) + '-c-' + (x+1);
+
+            $(tableRowColID).attr('class', '')
 
             // SKIP WATER
             if (cur === 'WATER') {

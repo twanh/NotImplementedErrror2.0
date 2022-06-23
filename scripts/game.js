@@ -107,7 +107,6 @@ function move(cur_y, cur_x, direction){
     })
 
     const ret = req.done((data) => {
-        console.log(data);
         return data;
     });
 

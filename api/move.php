@@ -129,18 +129,21 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cur_y'])
         // Update the board (in the db) for this game.
         $db->updateGame($gameid, NULL, NULL, $board->getBoard());
         $data['board'] = $db->getBoard($gameid)->getBoardForPlayer($userid);
+
+        if ($turn === 1) {
+            $updated = $db->setTurnForGame($gameid, 2);
+        } else {
+            $updated = $db->setTurnForGame($gameid, 1);
+        }
+
     } else {
         $data = [
             'success' => false,
-            'message' => "You cannot move this piece there!"
+            'message' => "You cannot move this piece there!",
+            'board' => $db->getBoard($gameid)->getBoardForPlayer($userid),
         ];
     }
 
-    if ($turn === 1) {
-        $updated = $db->setTurnForGame($gameid, 2);
-    } else {
-        $updated = $db->setTurnForGame($gameid, 1);
-    }
 
 
     header('Content-Type: application/json');
