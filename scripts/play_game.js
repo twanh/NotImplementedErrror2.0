@@ -19,6 +19,116 @@ function pieceToClass(pieceName) {
     return pieces[pieceName];
 }
 
+function setupMoving(board) {
+
+    // For every draggable element make sure that when a drag
+    // occurs the id of the current element is passed through.
+    for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
+        console.log({draggableElement})
+        draggableElement.addEventListener("dragstart", event=> {
+            event.dataTransfer.setData("text/plain", event.target.id);
+        });
+    }
+
+    // For everyplace where a piece can be dropped make sure
+    // to place the piece there and handle the move.
+    const dropzones = document.querySelectorAll('.drop-zone');
+    for (const dz of dropzones) {
+        dz.addEventListener('dragover', (e) => {
+            e.preventDefault();
+        })
+
+        dz.addEventListener('drop', event => {
+            event.preventDefault();
+
+            // Get the id of the place where the piece came from.
+            const loc = event.dataTransfer.getData('text/plain');
+            // Get the element to move.
+            const element = document.getElementById(loc);
+            const classString = element.className;
+            // Remove the img from the current place
+            // and make it a place where pieces can move to.
+            element.className = 'drop-zone';
+            element.draggable = false;
+
+            // Make the new position show the piece and make it draggable.
+            dz.classList.add("drop-zone", classString.split(" ").slice(-1));
+            dz.draggable = true;
+
+            playerMadeMove(loc, dz.id, board);
+
+        })
+    }
+}
+
+function updateDropZones() {
+    
+    const board = document.getElementById('board')
+    const gridPos = board.getElementsByTagName('td')
+
+    for (gd of gridPos) {
+        console.log({gd})
+        if (gd.className.includes('img-unkown')) {
+            console.log('found unkown')
+        }
+    }
+    
+
+}
+
+function playerMadeMove(start, end, board) {
+
+    const start_y = start.split('-')[1]
+    const start_x = start.split('-')[3]
+
+    const end_y = end.split('-')[1]
+    const end_x = end.split('-')[3]
+
+
+    console.log({board});
+    if (board[Number(end_y)][Number(end_x)] === "WATER") {
+        alert("You cannot move in the water.")
+    }
+
+    // Determine if the player moved up/down/left/right
+    // Up end_y < start_y    (start_x=end_x)
+    // Down end_y > start_y  (start_x=end_x)
+    // Left end_x < start_x  (start_y=end_y)
+    // Right end_x > start_x (start_y=end_y)
+
+    if (end_y < start_y) {
+        if (start_x !== end_x) {
+            alert("You cannot move vertical and horizontal at the same time!");
+        }
+        // TODO: API CALL: Move up
+        console.log("Moved UP!");
+    } else if (end_y > start_y) {
+        if (start_x !== end_x) {
+            alert("You cannot move vertical and horizontal at the same time!");
+        }
+        // TODO:API CALL: Move down
+        console.log("Moved down");
+    } else if (end_x < start_x) {
+        if (start_y !== end_y) {
+            alert("You cannot move vertical and horizontal at the same time!");
+        }
+        // TODO:API CALL: Move left 
+        console.log("Moved left");
+    } else if (end_x > start_x) {
+        if (start_y !== end_y) {
+            alert("You cannot move vertical and horizontal at the same time!");
+        }
+        // TODO:API CALL: Move right 
+        console.log("Moved right");
+    } else {
+        alert("You performed an illigal move.")
+        // TODO: Undo the drag and drop!
+    }
+
+
+
+}
+
 function fillBoard(board) {
 
     for (let y = 0; y < 10; y++) {
@@ -77,5 +187,8 @@ function play(){
             }
         })
     }, 2000)
+
     // Let the player make a move
+    setupMoving(board);
+
 }
