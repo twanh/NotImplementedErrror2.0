@@ -91,15 +91,14 @@ function updateDropZones() {
 
 function playerMadeMove(start, end, board) {
 
-    const start_y = start.split('-')[1]
-    const start_x = start.split('-')[3]
+    const start_y = parseInt(start.split('-')[1])-1;
+    const start_x = parseInt(start.split('-')[3])-1;
 
-    const end_y = end.split('-')[1]
-    const end_x = end.split('-')[3]
+    const end_y = parseInt(end.split('-')[1])-1;
+    const end_x = parseInt(end.split('-')[3])-1;
 
-
-    console.log({board});
-    if (board[Number(end_y)][Number(end_x)] === "WATER") {
+    if (board[end_y][end_x] === "WATER") {
+        // TODO: Auto place the piece back
         alert("You cannot move in the water.")
     }
 
@@ -187,6 +186,7 @@ function play(){
     board.then(board => {
         fillBoard(board);
         make_table_draggable();
+        setupMoving(board);
     })
 
     
@@ -205,6 +205,5 @@ function play(){
     }, 2000)
 
     // Let the player make a move
-    setupMoving(board);
 
 }
