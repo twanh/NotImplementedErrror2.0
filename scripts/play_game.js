@@ -21,7 +21,14 @@ function pieceToClass(pieceName) {
 
 function make_table_draggable(){
     for (const cell of document.querySelectorAll("#board tr td")) {
-        cell.draggable = true
+        if (cell.className.split(" ").includes("img-unknown")) {
+            cell.draggable = false;
+        } else {
+            cell.draggable = true;
+        }
+    }
+    for (const cell of document.querySelectorAll("table[id$=-pawns] tr td")) {
+        cell.draggable = false;
     }
 }
 
@@ -178,10 +185,11 @@ function play(){
 
     board.then(board => {
         fillBoard(board);
+        make_table_draggable();
         setupMoving(board);
     })
+
     
-    make_table_draggable();
 
     // Check if it's the current players turn (every 2s)
     const turnTimeout = setTimeout(() => {
