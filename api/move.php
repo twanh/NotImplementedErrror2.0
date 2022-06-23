@@ -3,7 +3,7 @@
 require __DIR__ . '/../classes/Board.php';
 require __DIR__ . '/../db/Database.php';
 
-if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y']) && isset($_POST['cur_x']) && isset($_POST['direction'])) {
+if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cur_y']) && isset($_POST['cur_x']) && isset($_POST['direction'])) {
 
     $gameid = $_POST['gameid'];
     $userid = $_POST['userid'];
@@ -74,7 +74,16 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
 
     // Make sure that the player is moving a piece of their own.
     $curPiece = $board->getPositionOnBoard($cur_y, $cur_x);
-    if ($curPiece->getGameById($userid) !== $userid) {
+    if (is_null($curPiece)) {
+        $data = [
+            'success' => false,
+            'message' => "There is no piece to move on (" . $cur_y . ',' . $cur_x . ').',
+        ];
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        die();
+    }
+    if ($curPiece->getOwnerId() !== $userid) {
         $data = [
             'success' => false,
             'message' => "You can only move your own pieces!",

@@ -107,30 +107,32 @@ function playerMadeMove(start, end, board) {
     // Down end_y > start_y  (start_x=end_x)
     // Left end_x < start_x  (start_y=end_y)
     // Right end_x > start_x (start_y=end_y)
+    
+    // TODO: Check and calc distance!
 
     if (end_y < start_y) {
         if (start_x !== end_x) {
             alert("You cannot move vertical and horizontal at the same time!");
         }
-        // TODO: API CALL: Move up
         console.log("Moved UP!");
+        move(start_y, start_x, 'up')
     } else if (end_y > start_y) {
         if (start_x !== end_x) {
             alert("You cannot move vertical and horizontal at the same time!");
         }
-        // TODO:API CALL: Move down
         console.log("Moved down");
+        move(start_y, start_x, 'down')
     } else if (end_x < start_x) {
         if (start_y !== end_y) {
             alert("You cannot move vertical and horizontal at the same time!");
         }
-        // TODO:API CALL: Move left 
         console.log("Moved left");
+        move(start_y, start_x, 'left')
     } else if (end_x > start_x) {
         if (start_y !== end_y) {
             alert("You cannot move vertical and horizontal at the same time!");
         }
-        // TODO:API CALL: Move right 
+        move(start_y, start_x, 'right')
         console.log("Moved right");
     } else {
         alert("You performed an illigal move.")
