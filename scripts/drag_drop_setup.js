@@ -42,7 +42,6 @@ function check_has_piece(event, classString, player_red_or_blue, pieceCount){
     } else if (elementClasses.length === 1){
         piece = elementId;
     }
-    console.log(piece);
     let last_char = document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML.slice(-1);
     document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
 }
@@ -104,7 +103,6 @@ function removeDraggableAttributeByClass(element, classString, player_red_or_blu
         }
     }
     element.classList.remove(classString)
-    console.log(player_red_or_blue, piece)
     let last_char = document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML.slice(-1);
     document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
 }
