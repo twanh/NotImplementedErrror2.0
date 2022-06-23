@@ -45,7 +45,7 @@ function fullReverse(arrayIn) {
     return arrayOut
 }
 
-async function saveGame() {
+async function saveSetup() {
     const board = pieces_to_board();
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -73,7 +73,15 @@ async function saveGame() {
     }
 }
 
-async function loadGame() {
+function loadPrep() {
+    let loadButton = $('#load');
+    loadButton.after('</form>');
+    loadButton.after('<div class="btn btn-success btn-block" id="setup-submit" onclick="loadSetup()">Load</div>');
+    loadButton.after('<input class="form-control" type="file" id="file" name="file">');
+    loadButton.after('<form id="setup-load">');
+}
+
+async function loadSetup() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const gameid = urlParams.get('gameid');

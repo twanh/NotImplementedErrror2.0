@@ -27,8 +27,8 @@
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                     <a href="rules.php" target=”_blank” title="Read the rules of the game.">Rules</a>
                     <?php if (isset($saveload)) { ?>
-                    <a href="javascript:void(0)" id="save" onclick="saveGame()" title="Save your current setup.">Save Setup</a>
-                    <a href="javascript:void(0)" id="load" onclick="loadGame()" title="Load a saved setup.">Load Setup</a>
+                    <a href="javascript:void(0)" id="save" onclick="saveSetup()" title="Save your current setup.">Save Setup</a>
+                    <a href="javascript:void(0)" id="load" onclick="loadPrep()" title="Load a saved setup.">Load Setup</a>
                     <?php } ?>
                 </div>
                 <div id="main">

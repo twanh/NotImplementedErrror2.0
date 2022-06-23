@@ -230,3 +230,7 @@ td[class*="img-"] {
 ::-webkit-scrollbar-thumb:hover {
     background: #555; 
 }
+
+#file {
+    background-color: #303030;
+}
