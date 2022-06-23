@@ -37,6 +37,14 @@ function getSide(rowstart, board) {
     return rows;
 }
 
+function fullReverse(arrayIn) {
+    let arrayOut = []
+    for (const i of arrayIn) {
+        arrayOut.unshift(i.reverse());
+    }
+    return arrayOut
+}
+
 async function saveGame() {
     const board = pieces_to_board();
     const queryString = window.location.search;
@@ -49,7 +57,7 @@ async function saveGame() {
     if (color === "red") {
         setup = getSide(7, board);
     } else if (color === "blue") {
-        setup = getSide(1, board);
+        setup = fullReverse(getSide(1, board));
     }
     console.log(setup);
     if(setup === false) {
