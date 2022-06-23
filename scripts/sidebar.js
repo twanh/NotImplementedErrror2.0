@@ -1,3 +1,5 @@
+let loadLoaded = false;
+
 function openNav() {
     document.getElementById("mySidebar").style.width = "250px";
    $("#main").hide();
@@ -74,20 +76,33 @@ async function saveSetup() {
 }
 
 function loadPrep() {
-    let loadButton = $('#load');
-    loadButton.after('</form>');
-    loadButton.after('<div class="btn btn-success btn-block" id="setup-submit" onclick="loadSetup()">Load</div>');
-    loadButton.after('<input class="form-control" type="file" id="file" name="file">');
-    loadButton.after('<form id="setup-load">');
+    if (!loadLoaded) {
+        let loadButton = $('#load');
+        loadButton.after('</form>');
+        loadButton.after('<div class="btn btn-success btn-block" id="setup-submit" onclick="loadSetup()">Load</div>');
+        loadButton.after('<textarea class="form-control" id="setupStr"></textarea>');
+        loadButton.after('<label for="setupStr" class="form-label">Paste your setup here:</label>');
+        loadButton.after('<form id="setup-load">');
+        loadLoaded = true;
+    }
 }
 
 async function loadSetup() {
+    /* const setupIn = $("#setupStr").val();
+    const setupJSON = JSON.parse(setupIn);
+    loadLoaded = false;
+    $("form #setup-load").remove();
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const gameid = urlParams.get('gameid');
     const userid = urlParams.get('userid');
     const info = await getUserInfo(gameid, userid);
     const color = info["color"];
+    console.log(setupJSON);
+    console.log(color); */
+    //TODO: fix loadSetup because i can't be bothered to right now
+    //      using CLIENT-SIDE color detection, not server-side
+    //      since that seems to reset the board every time
     console.log("Load OK");
     closeNav();
 }
