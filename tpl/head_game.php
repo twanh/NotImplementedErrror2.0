@@ -26,8 +26,10 @@
                 <div id="mySidebar" class="sidebar">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
                     <a href="rules.php" target=”_blank” title="Read the rules of the game.">Rules</a>
-                    <a href="#" id="save" title="Save your current setup.">Save</a>
-                    <a href="#" id="load" title="Load a saved setup.">Load</a>
+                    <?php if (isset($saveload)) { ?>
+                    <a href="javascript:void(0)" id="save" onclick="saveGame()" title="Save your current setup.">Save Setup</a>
+                    <a href="javascript:void(0)" id="load" onclick="loadGame()" title="Load a saved setup.">Load Setup</a>
+                    <?php } ?>
                 </div>
                 <div id="main">
                     <button class="openbtn rounded" onclick="openNav()">&#9776;</button>
