@@ -35,7 +35,6 @@ include __DIR__ . '/tpl/board.php';
 </div>
 
 <script src="scripts/game.js"></script>
-<script src="scripts/drag_drop_play_game.js"></script>
 <script src="scripts/play_game.js"></script>
 <script>
     play();
