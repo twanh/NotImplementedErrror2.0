@@ -19,6 +19,12 @@ function pieceToClass(pieceName) {
     return pieces[pieceName];
 }
 
+function make_table_draggable(){
+    for (const cell of document.querySelectorAll("#board tr td")) {
+        cell.draggable = true
+    }
+}
+
 function setupMoving(board) {
 
     // For every draggable element make sure that when a drag
@@ -174,6 +180,8 @@ function play(){
         fillBoard(board);
         setupMoving(board);
     })
+    
+    make_table_draggable();
 
     // Check if it's the current players turn (every 2s)
     const turnTimeout = setTimeout(() => {
