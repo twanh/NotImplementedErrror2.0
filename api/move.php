@@ -27,6 +27,30 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
         die();
     }
 
+    $turn = $db->getTurnForGame($gameid);
+
+    if ($turn === 1) {
+        if ($userid !== $game['player1Id']) {
+            $data = [
+                'success' => false,
+                'message' => "It is not your turn!",
+            ];
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            die();
+        }
+    } else {
+        if ($userid !== $game['player2Id']) {
+            $data = [
+                'success' => false,
+                'message' => "It is not your turn!",
+            ];
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            die();
+        }
+    }
+
     // Make sure that the player is moving a piece of their own.
     $curPiece = $board->getPositionOnBoard($cur_y, $cur_x);
     if ($curPiece->getGameById($userid) !== $userid) {
@@ -74,6 +98,7 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
         ];
         // Update the board (in the db) for this game.
         $db->updateGame($gameid, NULL, NULL, $board->getBoard());
+        $data['board'] = $db->getBoard($gameid)->getBoardForPlayer($userid);
     } else {
         $data = [
             'success' => false,
@@ -81,9 +106,11 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
         ];
     }
 
-    // TODO: Check it's the players turn (at the start)
-    // and swap the turn if the move was successfull!
-    /* $db->setTurnForGame() */
+    if ($turn === 1) {
+        $updated = $db->setTurnForGame($gameid, 2);
+    } else {
+        $updated = $db->setTurnForGame($gameid, 1);
+    }
 
 
     header('Content-Type: application/json');
