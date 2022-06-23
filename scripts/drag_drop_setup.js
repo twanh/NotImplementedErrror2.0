@@ -81,15 +81,13 @@ function removeDraggableAttributeById(element, player_red_or_blue, pieceCount) {
 
 function removeDraggableAttributeByClass(element, classString, player_red_or_blue, pieceCount) {
     let piece = "";
-    number = player_red_or_blue === "red" ? 4 : 5;
     classString = classString.split(" ")[1];
-    
-    if (!isNaN(classString.charAt(number))) {
-        piece = classString.charAt(number);
+    if (!isNaN(classString.charAt(4))) {
+        piece = classString.charAt(4);
     } else {
-        if (element.id.slice(number,number+3) === "spy") {
+        if (element.id.slice(4,4+3) === "spy") {
             piece = "spy";
-        } else if (element.id.slice(number,number+4) === "bomb") {
+        } else if (element.id.slice(4,4+4) === "bomb") {
             piece = "bomb";
         } else {
             piece = "flag";
@@ -106,6 +104,7 @@ function removeDraggableAttributeByClass(element, classString, player_red_or_blu
         }
     }
     element.classList.remove(classString)
+    console.log(player_red_or_blue, piece)
     let last_char = document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML.slice(-1);
     document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
 }
