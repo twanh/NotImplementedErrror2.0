@@ -83,3 +83,34 @@ function getPlayerPieces() {
 
 
 }
+
+
+// TODO: Add distance!
+function move(cur_y, cur_x, direction){
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const gameid = urlParams.get('gameid');
+    const userid = urlParams.get('userid');
+
+    let req = $.ajax({
+        url: 'api/move.php',
+        method: "POST",
+        data: {
+            gameid,
+            userid,
+            direction,
+            cur_x,
+            cur_y,
+        },
+        dataType: 'json',
+    })
+
+    const ret = req.done((data) => {
+        console.log(data);
+        return data;
+    });
+
+    return ret;
+
+}
