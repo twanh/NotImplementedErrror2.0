@@ -97,10 +97,10 @@ async function playerMadeMove(start, end, board) {
     const end_y = parseInt(end.split('-')[1])-1;
     const end_x = parseInt(end.split('-')[3])-1;
 
-    // if (board[end_y][end_x] === "WATER") {
-    //     // TODO: Auto place the piece back
-    //     alert("You cannot move in the water.")
-    // }
+    if (board[end_y][end_x] === "WATER") {
+        alert("You cannot move in the water.")
+        fillBoard(board);
+    }
 
     // Determine if the player moved up/down/left/right
     // Up end_y < start_y    (start_x=end_x)
@@ -204,7 +204,6 @@ function fillBoard(board) {
 
 function play(){
 
-    // TODO: Load the board
     const board = getPlayerPieces().then(data => {
         if (data['success']) {
             return data['board'];
@@ -219,18 +218,19 @@ function play(){
 
     
 
-    // Check if it's the current players turn (every 2s)
-    const turnTimeout = setTimeout(() => {
+    // Check if it's the current players turn (every 1s)
+    const turnTimeout = setInterval(() => {
         const data = checkIsTurn().then((isTurn) => {
+            $('#turn-container').show();
             if (isTurn){
-                console.log("It is your turn!")
-                $('#move_btn').show();
+                $('#your-turn').show();
+                $('#their-turn').hide();
             } else {
-                console.log("It is not your turn!");
-                $("#move_btn").hide();
+                $("#your-turn").hide();
+                $("#their-turn").show();
             }
         })
-    }, 2000)
+    }, 1000)
 
     // Let the player make a move
 
