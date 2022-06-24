@@ -58,18 +58,18 @@ function fullReverse(arrayIn) {
 
 function piece_to_class(element) {
     const pieces = {
-        "Marshal": "img-1",
-        "General": "img-2",
-        "Colonel": "img-3",
-        "Major": "img-4",
-        "Captain": "img-5",
-        "Lieutenant": "img-6",
-        "Sergeant": "img-7",
-        "Miner": "img-8",
-        "Scout": "img-9",
-        "Spy": "img-spy",
-        "Bomb": "img-bomb",
-        "Flag": "img-flag",
+        "Marshal": "1",
+        "General": "2",
+        "Colonel": "3",
+        "Major": "4",
+        "Captain": "5",
+        "Lieutenant": "6",
+        "Sergeant": "7",
+        "Miner": "8",
+        "Scout": "9",
+        "Spy": "spy",
+        "Bomb": "bomb",
+        "Flag": "flag",
         "": ""
     };
     return pieces[element]
@@ -77,22 +77,63 @@ function piece_to_class(element) {
 
 function appendToBoard(jsonInst, rowstart) {
     let rowCounter = 0;
+    let pieceCount = {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "6": 4,
+        "7": 4,
+        "8": 5,
+        "9": 8,
+        "spy": 1,
+        "bomb": 6,
+        "flag": 1
+    }
+    let pieceInit = {
+        "1": 1,
+        "2": 1,
+        "3": 2,
+        "4": 3,
+        "5": 4,
+        "6": 4,
+        "7": 4,
+        "8": 5,
+        "9": 8,
+        "spy": 1,
+        "bomb": 6,
+        "flag": 1
+    }
     for (let i = rowstart; i < 4 + rowstart; i++) {
         let boardRow = $("#row-"+i.toString()).children();
         let setupRow = jsonInst[rowCounter];
         let cellCounter = 0;
         console.log(boardRow);
+        let colour = ""
+        if (rowstart === 1) {
+            colour = "blue";
+        } else if (rowstart === 7) {
+            colour = "red";
+        }
         for (let j = 0; j < 10; j++) {
             let piece = piece_to_class(setupRow[cellCounter]);
-            if (piece !== "") {
-                boardRow[cellCounter].className = "dropzone " + piece;
+            if (piece !== "" && pieceCount[piece] !== 0) {
+                pieceCount[piece] = pieceCount[piece] - 1;
+                boardRow[cellCounter].className = "dropzone img-" + piece;
             } else {
                 boardRow[cellCounter].className = "dropzone";
             }
             cellCounter += 1;
+            if (pieceCount[piece] === 0) {
+                console.log($(colour+"-"+piece+"-img"));
+                $("#"+colour+"-"+piece+"-img").attr("draggable", "false");
+            }
+            $("#"+colour+"-"+piece+"-count").text(pieceCount[piece]+"/"+pieceInit[piece]);
         }
         rowCounter += 1;
     }
+    console.log(pieceCount);
 }
 
 function saveSetup() {
