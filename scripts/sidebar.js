@@ -59,6 +59,8 @@ function fullReverse(arrayIn) {
 function saveSetup() {
     const board = pieces_to_board();
     const color = getColor();
+    const urlParams = new URLSearchParams(window.location.search);
+    const userid = urlParams.get('userid');
     let setup = [];
     if (color === "red") {
         setup = getSide(7, board);
