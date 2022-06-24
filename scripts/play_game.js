@@ -201,8 +201,7 @@ function fillBoard(board) {
 }
 
 
-
-function play(){
+function updateBoard() {
 
     const board = getPlayerPieces().then(data => {
         if (data['success']) {
@@ -214,15 +213,20 @@ function play(){
         fillBoard(board);
         make_table_draggable();
         setupMoving(board);
-    })
+    });
 
-    
+}
+
+function play(){
+
+    updateBoard();
 
     // Check if it's the current players turn (every 1s)
     const turnTimeout = setInterval(() => {
         const data = checkIsTurn().then((isTurn) => {
             $('#turn-container').show();
             if (isTurn){
+                updateBoard();
                 $('#your-turn').show();
                 $('#their-turn').hide();
             } else {
