@@ -56,86 +56,6 @@ function fullReverse(arrayIn) {
     return arrayOut
 }
 
-function piece_to_class(element) {
-    const pieces = {
-        "Marshal": "1",
-        "General": "2",
-        "Colonel": "3",
-        "Major": "4",
-        "Captain": "5",
-        "Lieutenant": "6",
-        "Sergeant": "7",
-        "Miner": "8",
-        "Scout": "9",
-        "Spy": "spy",
-        "Bomb": "bomb",
-        "Flag": "flag",
-        "": ""
-    };
-    return pieces[element]
-}
-
-function appendToBoard(jsonInst, rowstart) {
-    let rowCounter = 0;
-    let pieceCount = {
-        "1": 1,
-        "2": 1,
-        "3": 2,
-        "4": 3,
-        "5": 4,
-        "6": 4,
-        "7": 4,
-        "8": 5,
-        "9": 8,
-        "spy": 1,
-        "bomb": 6,
-        "flag": 1
-    }
-    let pieceInit = {
-        "1": 1,
-        "2": 1,
-        "3": 2,
-        "4": 3,
-        "5": 4,
-        "6": 4,
-        "7": 4,
-        "8": 5,
-        "9": 8,
-        "spy": 1,
-        "bomb": 6,
-        "flag": 1
-    }
-    for (let i = rowstart; i < 4 + rowstart; i++) {
-        let boardRow = $("#row-"+i.toString()).children();
-        let setupRow = jsonInst[rowCounter];
-        let cellCounter = 0;
-        console.log(boardRow);
-        let colour = ""
-        if (rowstart === 1) {
-            colour = "blue";
-        } else if (rowstart === 7) {
-            colour = "red";
-        }
-        for (let j = 0; j < 10; j++) {
-            let piece = piece_to_class(setupRow[cellCounter]);
-            if (piece !== "" && pieceCount[piece] !== 0) {
-                pieceCount[piece] = pieceCount[piece] - 1;
-                boardRow[cellCounter].className = "dropzone img-" + piece;
-            } else {
-                boardRow[cellCounter].className = "dropzone";
-            }
-            cellCounter += 1;
-            if (pieceCount[piece] === 0) {
-                console.log($(colour+"-"+piece+"-img"));
-                $("#"+colour+"-"+piece+"-img").attr("draggable", "false");
-            }
-            $("#"+colour+"-"+piece+"-count").text(pieceCount[piece]+"/"+pieceInit[piece]);
-        }
-        rowCounter += 1;
-    }
-    console.log(pieceCount);
-}
-
 function saveSetup() {
     const board = pieces_to_board();
     const color = getColor();
@@ -147,7 +67,7 @@ function saveSetup() {
     }
     console.log(setup);
     if(setup === false) {
-        console.log("Not all cells are filled in!") //TODO: make nicer error messages
+        alert("Not all cells are filled in!");
     } else {
         const a = document.createElement("a");
         const file = new Blob([JSON.stringify(setup)], {type: "application/json"});
@@ -166,17 +86,4 @@ function loadPrep() {
     } else {
         loadElement.css("display", "none");
     }
-}
-
-function loadSetup() {
-    const setupIn = JSON.parse($("#setupStr").val());
-    $("#setup-load").css("display", "none");
-    const color = getColor();
-    if (color === "red") {
-        appendToBoard(setupIn, 7);
-    } else if (color === "blue") {
-        appendToBoard(fullReverse(setupIn), 1);
-    }
-    console.log("Load OK");
-    closeNav();
 }
