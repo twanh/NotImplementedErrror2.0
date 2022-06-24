@@ -10,6 +10,17 @@ function closeNav() {
     $("#main").show();
 }
 
+function getColor() {
+    let color = "";
+    if ($('#red-pawns').css('visibility') === 'hidden') {
+        color = "blue";
+    } else if ($('#blue-pawns').css('visibility') === 'hidden') {
+        color = "red";
+    }
+    // TODO: create more thorough check for colour
+    return color;
+}
+
 function getSide(rowstart, board) {
     const rows = [
         [],
@@ -47,14 +58,9 @@ function fullReverse(arrayIn) {
     return arrayOut
 }
 
-async function saveSetup() {
+function saveSetup() {
     const board = pieces_to_board();
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const gameid = urlParams.get('gameid');
-    const userid = urlParams.get('userid');
-    const info = await getUserInfo(gameid, userid);
-    const color = info["color"];
+    const color = getColor();
     let setup = [];
     if (color === "red") {
         setup = getSide(7, board);
@@ -87,22 +93,14 @@ function loadPrep() {
     }
 }
 
-async function loadSetup() {
-    /* const setupIn = $("#setupStr").val();
+function loadSetup() {
+    const setupIn = $("#setupStr").val();
     const setupJSON = JSON.parse(setupIn);
     loadLoaded = false;
     $("form #setup-load").remove();
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const gameid = urlParams.get('gameid');
-    const userid = urlParams.get('userid');
-    const info = await getUserInfo(gameid, userid);
-    const color = info["color"];
+    const color = getColor();
     console.log(setupJSON);
-    console.log(color); */
-    //TODO: fix loadSetup because i can't be bothered to right now
-    //      using CLIENT-SIDE color detection, not server-side
-    //      since that seems to reset the board every time
+    console.log(color);
     console.log("Load OK");
     closeNav();
 }
