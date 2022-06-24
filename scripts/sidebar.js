@@ -1,5 +1,3 @@
-let loadLoaded = false;
-
 function openNav() {
     document.getElementById("mySidebar").style.width = "250px";
    $("#main").hide();
@@ -58,6 +56,45 @@ function fullReverse(arrayIn) {
     return arrayOut
 }
 
+function piece_to_class(element) {
+    const pieces = {
+        "Marshal": "img-1",
+        "General": "img-2",
+        "Colonel": "img-3",
+        "Major": "img-4",
+        "Captain": "img-5",
+        "Lieutenant": "img-6",
+        "Sergeant": "img-7",
+        "Miner": "img-8",
+        "Scout": "img-9",
+        "Spy": "img-spy",
+        "Bomb": "img-bomb",
+        "Flag": "img-flag",
+        "": ""
+    };
+    return pieces[element]
+}
+
+function appendToBoard(jsonInst, rowstart) {
+    let rowCounter = 0;
+    for (let i = rowstart; i < 4 + rowstart; i++) {
+        let boardRow = $("#row-"+i.toString()).children();
+        let setupRow = jsonInst[rowCounter];
+        let cellCounter = 0;
+        console.log(boardRow);
+        for (let j = 0; j < 10; j++) {
+            let piece = piece_to_class(setupRow[cellCounter]);
+            if (piece !== "") {
+                boardRow[cellCounter].className = "dropzone " + piece;
+            } else {
+                boardRow[cellCounter].className = "dropzone";
+            }
+            cellCounter += 1;
+        }
+        rowCounter += 1;
+    }
+}
+
 function saveSetup() {
     const board = pieces_to_board();
     const color = getColor();
@@ -82,25 +119,23 @@ function saveSetup() {
 }
 
 function loadPrep() {
-    if (!loadLoaded) {
-        let loadButton = $('#load');
-        loadButton.after('</form>');
-        loadButton.after('<div class="btn btn-success btn-block" id="setup-submit" onclick="loadSetup()">Load</div>');
-        loadButton.after('<textarea class="form-control" id="setupStr"></textarea>');
-        loadButton.after('<label for="setupStr" class="form-label">Paste your setup here:</label>');
-        loadButton.after('<form id="setup-load">');
-        loadLoaded = true;
+    let loadElement = $("#setup-load");
+    if (loadElement.css("display") === "none") {
+        loadElement.css("display", "block");
+    } else {
+        loadElement.css("display", "none");
     }
 }
 
 function loadSetup() {
-    const setupIn = $("#setupStr").val();
-    const setupJSON = JSON.parse(setupIn);
-    loadLoaded = false;
-    $("form #setup-load").remove();
+    const setupIn = JSON.parse($("#setupStr").val());
+    $("#setup-load").css("display", "none");
     const color = getColor();
-    console.log(setupJSON);
-    console.log(color);
+    if (color === "red") {
+        appendToBoard(setupIn, 7);
+    } else if (color === "blue") {
+        appendToBoard(fullReverse(setupIn), 1);
+    }
     console.log("Load OK");
     closeNav();
 }

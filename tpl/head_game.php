@@ -29,6 +29,11 @@
                     <?php if (isset($saveload)) { ?>
                     <a href="javascript:void(0)" id="save" onclick="saveSetup()" title="Save your current setup.">Save Setup</a>
                     <a href="javascript:void(0)" id="load" onclick="loadPrep()" title="Load a saved setup.">Load Setup</a>
+                    <form id="setup-load" style="display: none;">
+                        <label for="setupStr" class="form-label">Paste your setup here:</label>
+                        <textarea class="form-control" id="setupStr"></textarea>
+                        <div class="btn btn-success btn-block" id="setup-submit" onclick="loadSetup()">Load</div>
+                    </form>
                     <?php } ?>
                 </div>
                 <div id="main">
