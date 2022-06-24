@@ -259,7 +259,6 @@ function appendToBoard(jsonInst, rowstart) {
         let boardRow = $("#row-"+i.toString()).children();
         let setupRow = jsonInst[rowCounter];
         let cellCounter = 0;
-        console.log(boardRow);
         for (let j = 0; j < 10; j++) {
             let piece = piece_to_class(setupRow[cellCounter]);
             if (piece !== "" && pieceCount[piece] !== 0) {
@@ -270,7 +269,6 @@ function appendToBoard(jsonInst, rowstart) {
             }
             cellCounter += 1;
             if (pieceCount[piece] === 0) {
-                console.log($(colour+"-"+piece+"-img"));
                 $("#"+colour+"-"+piece+"-img").attr("draggable", "false");
             }
             $("#"+colour+"-"+piece+"-count").text(pieceCount[piece]+"/"+pieceInit[piece]);

@@ -67,7 +67,6 @@ function saveSetup() {
     } else if (color === "blue") {
         setup = fullReverse(getSide(1, board));
     }
-    console.log(setup);
     if(setup === false) {
         alert("Not all cells are filled in!");
     } else {
