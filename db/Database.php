@@ -19,6 +19,9 @@ class Database
     {
         $this->file = $file;
 
+        // FIXME: There is a bug where the file gets reset sometimes.
+        //        See GH#13
+
         $content  = $this->load();
 
         if (!is_array($content)) {
