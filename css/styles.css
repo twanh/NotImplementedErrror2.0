@@ -230,3 +230,28 @@ td[class*="img-"] {
 ::-webkit-scrollbar-thumb:hover {
     background: #555; 
 }
+
+#file {
+    background-color: #303030;
+}
+
+path {
+    fill: transparent;
+}
+  
+text {
+    font-size: 52px;
+}
+
+textPath {
+    text-align: center;
+
+}
+
+#victory {
+    fill: #ffdf00;
+}
+
+#defeat {
+    fill: #bb0a1e;
+}
