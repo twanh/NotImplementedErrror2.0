@@ -111,13 +111,16 @@ class Board
      * TODO: Add a force parameter (or something like it) to make sure that the hit logic
      *       does not get in the way when doing the pieces setup.
      *
+     * ['action', 'info']
+     * ['hit', 'die']
+     * ['hit', 'win']
      * @param Piece $piece The piece that should be assigned to the place.
      * @param int $x The x coordinate of the board.
      * @param int $y The y coordinate of the board.
      * @return bool If the piece could be set there.
      *              This might not be the case if there is a higher piece over there.
      */
-    public function setPieceOnPosition(Piece $piece, int $y, int $x, bool $force = false): bool
+    public function setPieceOnPosition(Piece $piece, int $y, int $x, bool $force = false, $p_y = NULL, $p_x = NULL): bool
     {
         // Note: Not sure if this is the final/best implementation
         // but it covers setting the pieces in the start and also covers later movement
@@ -133,8 +136,6 @@ class Board
             return false;
         }
 
-        // TODO: When players are implemented this should also check if the currentPiece
-        //       and piece belong to the same player, because then they can always move during setup.
         $currentPiece = $this->board[$y][$x];
         if (!$force){
             // Cannot put your piece on your own piece unless forced.
@@ -142,12 +143,21 @@ class Board
                 return false;
             }
 
+            // TODO:
+            // If can hit -> move to that position, remove the other piece
+            // If not, remove the hitting piece!
             if ($piece->canHit($currentPiece)) {
-                $this->board[$y][$y] = $piece;
+                $this->board[$y][$x] = $piece;
+                return true;
+            } else {
+                if (is_null($p_y) or is_null($p_x)) {
+                    return false;
+                }
+                $this->board[$p_y][$p_x] = NULL;
                 return true;
             }
         } else {
-            $this->board[$y][$y] = $piece;
+            $this->board[$y][$x] = $piece;
             return true;
         }
 
@@ -188,7 +198,7 @@ class Board
            return false;
         }
 
-        $canMove = $this->setPieceOnPosition($currentPiece, $cur_y-$distance, $cur_x);
+        $canMove = $this->setPieceOnPosition($currentPiece, $cur_y-$distance, $cur_y, $cur_x);
         // If the piece is moved make it's previous position available.
         if ($canMove) {
             $this->board[$cur_y][$cur_x] = NULL;
@@ -224,7 +234,7 @@ class Board
             return false;
         }
 
-        $canMove = $this->setPieceOnPosition($currentPiece, $cur_y+$distance, $cur_x);
+        $canMove = $this->setPieceOnPosition($currentPiece, $cur_y+$distance, $cur_x, $cur_y, $cur_x);
         // If the piece is moved make it's previous position available.
         if ($canMove) {
             $this->board[$cur_y][$cur_x] = NULL;
@@ -258,7 +268,7 @@ class Board
             return false;
         }
 
-        $canMove = $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x + $distance);
+        $canMove = $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x + $distance, $cur_y, $cur_x);
         // If the piece is moved make it's previous position available.
         if ($canMove) {
             $this->board[$cur_y][$cur_x] = NULL;
@@ -293,7 +303,7 @@ class Board
         }
 
 
-        $canMove = $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x - $distance);
+        $canMove = $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x - $distance, $cur_y, $cur_x);
         // If the piece is moved make it's previous position available.
         if ($canMove) {
             $this->board[$cur_y][$cur_x] = NULL;
