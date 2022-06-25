@@ -231,13 +231,17 @@ td[class*="img-"] {
     background: #555; 
 }
 
+#file {
+    background-color: #303030;
+}
+
 path {
     fill: transparent;
-  }
+}
   
-  text {
+text {
     font-size: 52px;
-  }
+}
 
 textPath {
     text-align: center;

@@ -25,9 +25,16 @@
             <nav>
                 <div id="mySidebar" class="sidebar">
                     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-                    <a href="rules.php" target=”_blank”>Rules</a>
-                    <a href="about.php" target=”_blank”>About</a>
-                    <a href="contact.php" target=”_blank”>Contact</a>
+                    <a href="rules.php" target=”_blank” title="Read the rules of the game.">Rules</a>
+                    <?php if (isset($saveload)) { ?>
+                    <a href="javascript:void(0)" id="save" onclick="saveSetup()" title="Save your current setup.">Save Setup</a>
+                    <a href="javascript:void(0)" id="load" onclick="loadPrep()" title="Load a saved setup.">Load Setup</a>
+                    <form id="setup-load" style="display: none;">
+                        <label for="setupStr" class="form-label">Paste your setup here:</label>
+                        <textarea class="form-control" id="setupStr"></textarea>
+                        <div class="btn btn-success btn-block" id="setup-submit">Load</div>
+                    </form>
+                    <?php } ?>
                 </div>
                 <div id="main">
                     <button class="openbtn rounded" onclick="openNav()">&#9776;</button>
