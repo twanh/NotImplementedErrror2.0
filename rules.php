@@ -160,8 +160,8 @@ body {
     <h2 class="text-center">Attack</h2>
     <div class="row my-4">
         <p class="text-justify">
-            If you are next to an enemy piece after making your move, you may
-            attack the other piece. You compare the ranks of the two pieces
+            If you move your piece onto a cell occupied by the other player,
+            you perform an attack. You compare the ranks of the two pieces
             to each other, and in general, the higher rank beats the lower
             rank. The losing piece is removed from the board: if the
             attacking piece wins, then it occupies the losing piece's space;
