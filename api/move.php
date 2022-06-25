@@ -3,7 +3,7 @@
 require __DIR__ . '/../classes/Board.php';
 require __DIR__ . '/../db/Database.php';
 
-if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y']) && isset($_POST['cur_x']) && isset($_POST['direction'])) {
+if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cur_y']) && isset($_POST['cur_x']) && isset($_POST['direction'])) {
 
     $gameid = $_POST['gameid'];
     $userid = $_POST['userid'];
@@ -16,7 +16,6 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
 
 
     // Make sure that both players are ready
-    // TODO: Add `ready` to db when both players are ready (see: setup_done.php)
     if (is_null($game['player1Id']) or is_null($game['player2Id'])) {
         $data = [
             'success' => false,
@@ -27,9 +26,64 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
         die();
     }
 
+    $isReady = $db->getReadyForGame($gameid);
+    if (is_null($isReady)) {
+        $data = [
+            'success' => false,
+            'message' => "This game does not exist!",
+        ];
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        die();
+    }
+
+    if (!$isReady) {
+        $data = [
+            'success' => false,
+            'message' => "You cannot make a move before both players are ready!",
+        ];
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        die();
+    }
+
+
+    $turn = $db->getTurnForGame($gameid);
+
+    if ($turn === 1) {
+        if ($userid !== $game['player1Id']) {
+            $data = [
+                'success' => false,
+                'message' => "It is not your turn!",
+            ];
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            die();
+        }
+    } else {
+        if ($userid !== $game['player2Id']) {
+            $data = [
+                'success' => false,
+                'message' => "It is not your turn!",
+            ];
+            header('Content-Type: application/json');
+            echo json_encode($data);
+            die();
+        }
+    }
+
     // Make sure that the player is moving a piece of their own.
     $curPiece = $board->getPositionOnBoard($cur_y, $cur_x);
-    if ($curPiece->getGameById($userid) !== $userid) {
+    if (is_null($curPiece)) {
+        $data = [
+            'success' => false,
+            'message' => "There is no piece to move on (" . $cur_y . ',' . $cur_x . ').',
+        ];
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        die();
+    }
+    if ($curPiece->getOwnerId() !== $userid) {
         $data = [
             'success' => false,
             'message' => "You can only move your own pieces!",
@@ -74,16 +128,22 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cux_y'])
         ];
         // Update the board (in the db) for this game.
         $db->updateGame($gameid, NULL, NULL, $board->getBoard());
+        $data['board'] = $db->getBoard($gameid)->getBoardForPlayer($userid);
+
+        if ($turn === 1) {
+            $updated = $db->setTurnForGame($gameid, 2);
+        } else {
+            $updated = $db->setTurnForGame($gameid, 1);
+        }
+
     } else {
         $data = [
             'success' => false,
-            'message' => "You cannot move this piece there!"
+            'message' => "You cannot move this piece there!",
+            'board' => $db->getBoard($gameid)->getBoardForPlayer($userid),
         ];
     }
 
-    // TODO: Check it's the players turn (at the start)
-    // and swap the turn if the move was successfull!
-    /* $db->setTurnForGame() */
 
 
     header('Content-Type: application/json');

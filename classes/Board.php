@@ -188,7 +188,12 @@ class Board
            return false;
         }
 
-        return $this->setPieceOnPosition($currentPiece, $cur_y-$distance, $cur_x);
+        $canMove = $this->setPieceOnPosition($currentPiece, $cur_y-$distance, $cur_x);
+        // If the piece is moved make it's previous position available.
+        if ($canMove) {
+            $this->board[$cur_y][$cur_x] = NULL;
+        }
+        return $canMove;
 
     }
 
@@ -219,7 +224,12 @@ class Board
             return false;
         }
 
-        return $this->setPieceOnPosition($currentPiece, $cur_y+$distance, $cur_x);
+        $canMove = $this->setPieceOnPosition($currentPiece, $cur_y+$distance, $cur_x);
+        // If the piece is moved make it's previous position available.
+        if ($canMove) {
+            $this->board[$cur_y][$cur_x] = NULL;
+        }
+        return $canMove;
     }
 
     /**
@@ -248,8 +258,12 @@ class Board
             return false;
         }
 
-
-         return $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x + $distance);
+        $canMove = $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x + $distance);
+        // If the piece is moved make it's previous position available.
+        if ($canMove) {
+            $this->board[$cur_y][$cur_x] = NULL;
+        }
+        return $canMove;
     }
 
     /**
@@ -278,7 +292,13 @@ class Board
             return false;
         }
 
-        return $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x + $distance);
+
+        $canMove = $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x - $distance);
+        // If the piece is moved make it's previous position available.
+        if ($canMove) {
+            $this->board[$cur_y][$cur_x] = NULL;
+        }
+        return $canMove;
     }
 
 
