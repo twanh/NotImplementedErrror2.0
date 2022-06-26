@@ -53,6 +53,7 @@ function setupMoving(board) {
 
         dz.addEventListener('drop', event => {
             event.preventDefault();
+            event.stopImmediatePropagation();
             console.log("IN DROP!!");
 
             // Get the id of the place where the piece came from.
@@ -231,7 +232,8 @@ function play(){
                 if (!wasTurn) {
                     updateBoard();
                     wasTurn = true;
-                }                 $('#your-turn').show();
+                }
+                $('#your-turn').show();
                 $('#their-turn').hide();
             } else {
                 $("#your-turn").hide();
