@@ -10,9 +10,17 @@ if (isset($_POST['gameid']) && isset($_POST['userid'])) {
     $userid = $_POST['userid'];
 
     $db = new Database('../data/database.json');
-    // TODO: Make sure that the player only gets back it's own
-    //       pieces that are located on the board.
     $board = $db->getBoard($gameid)->getBoardForPlayer($userid);
+
+
+    $lastHit = null;
+    list($hitByPlayer, $piece) = $db->getLastHitForGame($gameid);
+    if (!is_null($hitByPlayer) and !is_null($piece)) {
+        if ($hitByPlayer !== $userid) {
+            $lastHit = $piece;
+            $db->setLastHitForGame($gameid, NULL, NULL);
+        }
+    }
 
     $data = [
         "message" => "Everything is fine",
@@ -20,6 +28,7 @@ if (isset($_POST['gameid']) && isset($_POST['userid'])) {
         "gameid" => $gameid,
         "userid" => $userid,
         "board" => $board,
+        "lastHit" => $lastHit,
     ];
 
     header('Content-Type: application/json');

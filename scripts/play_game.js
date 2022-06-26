@@ -210,6 +210,11 @@ function updateBoard() {
 
     const board = getPlayerPieces().then(data => {
         if (data['success']) {
+            
+            if (data['lastHit'] !== null) {
+                alert("You got bit by " + data['lastHit']);
+            }
+
             return data['board'];
         }
     });
