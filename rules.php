@@ -174,8 +174,17 @@ body {
             However, should the marshal attack the spy, then the spy is
             defeated.
         </p>
+    </div>
+    <h2 class="text-center">Winning/Losing</h2>
+    <div class="row my-4">
         <p class="text-justify">
-            If you attack the flag, no matter with what piece, you win the game.
+            If you attack the flag, no matter with what piece,
+            you win the game.
+        </p>
+        <p class="text-justify">
+            Alternatively, once you cannot make a move, because your remaining
+            pieces are the flag (and some bombs, if you have them),
+            you lose the game.
         </p>
     </div>
 </div>
