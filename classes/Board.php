@@ -112,10 +112,12 @@ class Board
      * @param int $x The x coordinate of the board.
      * @param int $y The y coordinate of the board.
      * @param bool $force If true, the move is forced.
+     * @param int|NULL $cur_y  The current y position of the piece.
+     * @param int|NULL $cur_x  The current x position of the piece.
      * @return array[bool, string] If the piece could be set there and an error message if it could not be done.
      *
      */
-    public function setPieceOnPosition(Piece $piece, int $y, int $x, bool $force = false)
+    public function setPieceOnPosition(Piece $piece, int $y, int $x, bool $force = false, $cur_y = NULL, $cur_x = NULL)
     {
 
         if (is_null($this->board[$y][$x])) {
@@ -139,7 +141,9 @@ class Board
                 $this->board[$y][$y] = $piece;
                 return [true, 'You hit a ' . $currentPiece->getName()];
             } else {
-                return [false, 'You got hit by ' . $currentPiece->getName()];
+                // The piece lost so gets removed from the board.
+                $this->board[$cur_y][$cur_x] = NULL;
+                return [true, 'You got hit by ' . $currentPiece->getName()];
             }
         } else {
             $this->board[$y][$y] = $piece;
@@ -178,7 +182,7 @@ class Board
            return [false, "You cannot move this distance!"];
         }
 
-        list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y-$distance, $cur_x);
+        list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y-$distance, $cur_x, false, $cur_y, $cur_x);
         // If the piece is moved make it's previous position available.
         if ($canMove) {
             $this->board[$cur_y][$cur_x] = NULL;
@@ -212,7 +216,7 @@ class Board
             return [false, "You cannot move this distance."];
         }
 
-        list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y+$distance, $cur_x);
+        list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y+$distance, $cur_x, false, $cur_y, $cur_x);
         // If the piece is moved make it's previous position available.
         if ($canMove) {
             $this->board[$cur_y][$cur_x] = NULL;
@@ -246,7 +250,7 @@ class Board
             return [false, "You cannot move this distance."];
         }
 
-        list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x + $distance);
+        list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x + $distance, false, $cur_y, $cur_x);
         // If the piece is moved make it's previous position available.
         if ($canMove) {
             $this->board[$cur_y][$cur_x] = NULL;
@@ -281,7 +285,7 @@ class Board
         }
 
 
-        list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x - $distance);
+        list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x - $distance, false, $cur_y, $cur_x);
         // If the piece is moved make it's previous position available.
         if ($canMove) {
             $this->board[$cur_y][$cur_x] = NULL;
