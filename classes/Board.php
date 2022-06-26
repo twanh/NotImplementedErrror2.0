@@ -108,20 +108,15 @@ class Board
      * movement constraints) this is so that this function also can be used to do the initial placing
      * of pieces.
      *
-     * TODO: Add a force parameter (or something like it) to make sure that the hit logic
-     *       does not get in the way when doing the pieces setup.
-     *
      * @param Piece $piece The piece that should be assigned to the place.
      * @param int $x The x coordinate of the board.
      * @param int $y The y coordinate of the board.
-     * @return bool If the piece could be set there.
-     *              This might not be the case if there is a higher piece over there.
+     * @param bool $force If true, the move is forced.
+     * @return array[bool, string] If the piece could be set there and an error message if it could not be done.
+     *
      */
     public function setPieceOnPosition(Piece $piece, int $y, int $x, bool $force = false)
     {
-        // Note: Not sure if this is the final/best implementation
-        // but it covers setting the pieces in the start and also covers later movement
-        // in the game
 
         if (is_null($this->board[$y][$x])) {
             $this->board[$y][$x] = $piece;
@@ -133,8 +128,6 @@ class Board
             return [false, "You cannot move in the water."];
         }
 
-        // TODO: When players are implemented this should also check if the currentPiece
-        //       and piece belong to the same player, because then they can always move during setup.
         $currentPiece = $this->board[$y][$x];
         if (!$force){
             // Cannot put your piece on your own piece unless forced.
@@ -158,8 +151,6 @@ class Board
     /**
      * Move the piece that is located at (cur_y, cur_x) up with the given distance (default: 1).
      *
-     * Note: for blue, the board is shown upside down, so this would actually move it down for them (?).
-     *
      * @param int $cur_y The current y position of the piece that wants to move.
      * @param int $cur_x The current x position of the piece that wants to move.
      * @param int $distance The distance the piece wants to move with (default 1 -- only the scout moves more).
@@ -167,13 +158,10 @@ class Board
      */
     public function moveUp(int $cur_y, int $cur_x, int $distance = 1) : array
     {
-        // TODO: When players are added check if the current piece belongs to the
-        //       correct player.
 
         $currentPiece = $this->board[$cur_y][$cur_x];
         // If the current piece is null it means that is has not been set yet.
         if (is_null($currentPiece)) {
-            // TODO: Perhaps thrown an error?? Since NULL cannot move?
             return [false, "You cannot move when there is no piece!"];
         }
 
@@ -199,8 +187,6 @@ class Board
 
     /**
      * Move the piece that is located at (cur_x, cur_x) down with the given distance (default: 1).
-     *
-     * Note: for blue, the board is shown upside down, so this would actually move it up for them (?).
      *
      * @param int $cur_y The current y position of the piece that wants to move.
      * @param int $cur_x The current x position of the piece that wants to move.
@@ -274,7 +260,7 @@ class Board
      * @param int $distance The distance the piece wants to move with (default 1 -- only the scout moves more).
      * @return bool If the piece can move left with the given distance.
      */
-    public function moveLeft(int $cur_y, int $cur_x, int $distance = 1) : bool
+    public function moveLeft(int $cur_y, int $cur_x, int $distance = 1) : array
     {
 
         $currentPiece = $this->board[$cur_y][$cur_x];
