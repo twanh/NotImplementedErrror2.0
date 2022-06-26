@@ -125,6 +125,7 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cur_y'])
     if ($move) {
         $data = [
             'success' => true,
+            'message' => $msg,
         ];
         // Update the board (in the db) for this game.
         $db->updateGame($gameid, NULL, NULL, $board->getBoard());

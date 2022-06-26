@@ -153,6 +153,9 @@ async function playerMadeMove(start, end, board) {
     if (ret.success) {
         // Update the pieces locations
         fillBoard(ret.board);
+        if (ret.message.length > 1) {
+            alert(ret.message)
+        }
     } else {
         // Undo the move!
         console.log(ret);

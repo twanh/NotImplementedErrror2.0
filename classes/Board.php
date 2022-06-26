@@ -120,7 +120,7 @@ class Board
 
         if (is_null($this->board[$y][$x])) {
             $this->board[$y][$x] = $piece;
-            return [true, 'Successfull move!'];
+            return [true, ''];
         }
 
         // Make sure that players cannot place pieces on water
@@ -137,11 +137,13 @@ class Board
 
             if ($piece->canHit($currentPiece)) {
                 $this->board[$y][$y] = $piece;
-                return [true, 'Successfull move!'];
+                return [true, 'You hit a ' . $currentPiece->getName()];
+            } else {
+                return [false, 'You got hit by ' . $currentPiece->getName()];
             }
         } else {
             $this->board[$y][$y] = $piece;
-            return [true, 'Successfull move!'];
+            return [true, ''];
         }
 
         return [false, "Unkown error occured"];
