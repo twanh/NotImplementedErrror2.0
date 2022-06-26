@@ -53,6 +53,7 @@ function setupMoving(board) {
 
         dz.addEventListener('drop', event => {
             event.preventDefault();
+            console.log("IN DROP!!");
 
             // Get the id of the place where the piece came from.
             const loc = event.dataTransfer.getData('text/plain');
@@ -222,16 +223,20 @@ function play(){
     updateBoard();
 
     // Check if it's the current players turn (every 1s)
+    let wasTurn = false;
     const turnTimeout = setInterval(() => {
         const data = checkIsTurn().then((isTurn) => {
             $('#turn-container').show();
             if (isTurn){
-                updateBoard();
-                $('#your-turn').show();
+                if (!wasTurn) {
+                    updateBoard();
+                    wasTurn = true;
+                }                 $('#your-turn').show();
                 $('#their-turn').hide();
             } else {
                 $("#your-turn").hide();
                 $("#their-turn").show();
+                wasTurn = false;
             }
         })
     }, 1000)
