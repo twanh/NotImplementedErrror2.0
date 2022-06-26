@@ -21,27 +21,32 @@ class Database
 
         $content  = $this->load();
 
-        if (!is_array($content)) {
-            $content = Array(
-                "games" => [],
-                "users" => [],
-            );
-        }
+/*         if (!is_array($content)) { */
+/*             $content = Array( */
+/*                 "games" => [], */
+/*                 "users" => [], */
+/*             ); */
+/*         } */
 
-        if(!array_key_exists('games', $content)) {
-            $content['games'] = [];
-        }
+/*         if(!array_key_exists('games', $content)) { */
+/*             $content['games'] = []; */
+/*         } */
 
-        if(!array_key_exists('users', $content)) {
-           $content['users'] = [];
-        }
+/*         if(!array_key_exists('users', $content)) { */
+/*            $content['users'] = []; */
+/*         } */
 
-        $this->save($content);
+/*         $this->save($content); */
 
     }
 
     private function save($db_content): bool
     {
+
+        if (is_null($db_content['games'])){
+            echo "GOT THE NULL!!!";
+            return false;
+        }
 
         $db_out = json_encode($db_content);
         $ret = file_put_contents($this->file, $db_out);
