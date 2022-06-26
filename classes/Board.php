@@ -138,7 +138,7 @@ class Board
             }
 
             if ($piece->canHit($currentPiece)) {
-                $this->board[$y][$y] = $piece;
+                $this->board[$y][$x] = $piece;
                 return [true, 'You hit a ' . $currentPiece->getName()];
             } else {
                 // The piece lost so gets removed from the board.
@@ -146,7 +146,7 @@ class Board
                 return [true, 'You got hit by ' . $currentPiece->getName()];
             }
         } else {
-            $this->board[$y][$y] = $piece;
+            $this->board[$y][$x] = $piece;
             return [true, ''];
         }
 
