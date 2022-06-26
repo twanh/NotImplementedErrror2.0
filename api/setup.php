@@ -82,10 +82,10 @@ function validateBoard($userBoard, $player, $userid) {
             }
 
             $newPiece = \pieces\Piece::fromPieceName($curPiece['piece'], $userid);
-            $canMove = $validationBoard->setPieceOnPosition($newPiece, $y, $x, true);
+            list($canMove, $msg) = $validationBoard->setPieceOnPosition($newPiece, $y, $x, true);
             if (!$canMove) {
                 $errors[] = 'Piece on position (' . $y . ',' .
-                    $x . ') cannot be placed there!';
+                    $x . ') cannot be placed there!' . $msg;
                 continue;
             }
 

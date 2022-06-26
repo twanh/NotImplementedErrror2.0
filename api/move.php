@@ -102,23 +102,23 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cur_y'])
     $direction = $_POST["direction"];
     if (!is_null($distance)) {
         if ($direction == "up") {
-            $move = $board->moveUp($cur_y, $cur_x, $distance);
+            list($move, $msg) = $board->moveUp($cur_y, $cur_x, $distance);
         } else if ($direction == "down") {
-            $move = $board->moveDown($cur_y, $cur_x, $distance);
+            list($move, $msg) = $board->moveDown($cur_y, $cur_x, $distance);
         } else if ($direction == "left") {
-            $move = $board->moveLeft($cur_y, $cur_x, $distance);
+            list($move, $msg) = $board->moveLeft($cur_y, $cur_x, $distance);
         } else if ($direction == "right") {
-            $move = $board->moveRight($cur_y, $cur_x, $distance);
+            list($move, $msg) = $board->moveRight($cur_y, $cur_x, $distance);
         }
     } else {
         if ($direction == "up") {
-            $move = $board->moveUp($cur_y, $cur_x);
+            list($move, $msg) = $board->moveUp($cur_y, $cur_x);
         } else if ($direction == "down") {
-            $move = $board->moveDown($cur_y, $cur_x);
+            list($move, $msg) = $board->moveDown($cur_y, $cur_x);
         } else if ($direction == "left") {
-            $move = $board->moveLeft($cur_y, $cur_x);
+            list($move,$msg) = $board->moveLeft($cur_y, $cur_x);
         } else if ($direction == "right") {
-            $move = $board->moveRight($cur_y, $cur_x);
+            list($move, $msg) = $board->moveRight($cur_y, $cur_x);
         }
     }
 
@@ -139,7 +139,7 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cur_y'])
     } else {
         $data = [
             'success' => false,
-            'message' => "You cannot move this piece there!",
+            'message' => $msg,
             'board' => $db->getBoard($gameid)->getBoardForPlayer($userid),
         ];
     }
