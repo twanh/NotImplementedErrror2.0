@@ -1,5 +1,7 @@
+/**
+ * Setup board for player red
+ */
 function boardPlayerRed() {
-    // Setup board for player red
     for (const blue_id of document.querySelectorAll("td[id^='blue-'][id$='-img']")) {
         blue_id.draggable = false;
     }
@@ -7,9 +9,10 @@ function boardPlayerRed() {
         dropzone.classList.remove("drop-zone");
     }
 }
-
+/**
+ * Setup board for player blue
+ */
 function boardPlayerBlue() {
-    // Setup board for player blue
     for (const red_id of document.querySelectorAll("td[id^='red-'][id$='-img']")) {
         red_id.draggable = false;
     }
@@ -17,18 +20,25 @@ function boardPlayerBlue() {
         dropzone.classList.remove("drop-zone");
     }
 }
-
-function changeBoardForPlayer(player_red_or_blue) {
-    // changes the board setup for player color
+/**
+ * Changes the board setup for player color
+ * @param  {String} player_red_or_blue
+ */
+function changeBoardForPlayer() {
     if (player_red_or_blue === "red") {
         boardPlayerRed()
     } else if (player_red_or_blue === "blue") {
         boardPlayerBlue()
     }
 }
-
-function checkHasPiece(event, classString, player_red_or_blue, pieceCount){
-    // checks if td element already has a piece
+/**
+ * Checks if td element already has a piece
+ * @param  {Element} event
+ * @param  {String} classString
+ * @param  {String} player_red_or_blue
+ * @param  {Object} pieceCount
+ */
+function checkHasPiece(event, classString, player_red_or_blue, pieceCount) {
     let elementClasses = event.target.classList;
     let deleteClass = event.target.className.split(" ").slice(-1);
     let elementId = classString.split("-").slice(-1);
@@ -48,9 +58,13 @@ function checkHasPiece(event, classString, player_red_or_blue, pieceCount){
 }
 
 
-
+/**
+ * Remove the draggable attribute by ID
+ * @param  {Element} element
+ * @param  {String} player_red_or_blue
+ * @param  {Object} pieceCount
+ */
 function removeDraggableAttributeById(element, player_red_or_blue, pieceCount) {
-    // Remove the draggable attribute by ID
     let piece = "";
     number = player_red_or_blue === "red" ? 4 : 5;
     
@@ -79,9 +93,14 @@ function removeDraggableAttributeById(element, player_red_or_blue, pieceCount) {
     document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
 }
 
-
+/**
+ * Remove the draggable attribute by classname
+ * @param  {Element} element
+ * @param  {String} classString
+ * @param  {String} player_red_or_blue
+ * @param  {Object} pieceCount
+ */
 function removeDraggableAttributeByClass(element, classString, player_red_or_blue, pieceCount) {
-    // Remove the draggable attribute by classname
     let piece = "";
     classString = classString.split(" ")[1];
     if (!isNaN(classString.charAt(4))) {
@@ -109,18 +128,23 @@ function removeDraggableAttributeByClass(element, classString, player_red_or_blu
     let last_char = document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML.slice(-1);
     document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
 }
-
+/**
+ * Checks if a draggable items gets dragged
+ */
 function dragstart(){
-    // checks if a draggable items gets dragged
+    // 
     for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
         draggableElement.addEventListener("dragstart", event=> {
             event.dataTransfer.setData("text/plain", event.target.id);
         });
     }
 }
-
+/**
+ * Checks if the item gets droped on a dropzone
+ * @param  {String} player_red_or_blue
+ * @param  {Object} pieceCount
+ */
 function dragDrop(player_red_or_blue, pieceCount){
-    // Checks if the item gets droped on a dropzone
     for (const dropZone of document.querySelectorAll(".drop-zone")) {
         // When draggable element is over a dropzone
         dropZone.addEventListener("dragover", event => {
@@ -148,9 +172,12 @@ function dragDrop(player_red_or_blue, pieceCount){
 }
 
 
-
+/**
+ * Makes the html class name to the php class name of the piece
+ * @param  {Element} element
+ * @return {Object} pieces
+ */
 function classToPiece(element) {
-    // Makes the html class name to the php class name of the piece
     classPiece = element.classList[1];
     pieces = {
                 "img-1": "Marshal",
@@ -169,7 +196,10 @@ function classToPiece(element) {
             };
     return pieces[classPiece]
 }
-
+/**
+ * Returns pieces as a matrix
+ * @return {Matrix} board
+ */
 function piecesToBoard() {
     board = [
         [],
@@ -200,9 +230,12 @@ function piecesToBoard() {
     }
     return board
 }
-
+/**
+ * Makes the php class name to the html class name of the piece
+ * @param  {} element
+ * @return {Object} pieces
+ */
 function pieceToClass(element) {
-    // Makes the php class name to the html class name of the piece
     const pieces = {
         "Marshal": "1",
         "General": "2",
