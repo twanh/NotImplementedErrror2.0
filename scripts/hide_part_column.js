@@ -1,5 +1,7 @@
+/**
+ * Hides the count part of the side tables
+ */
 function hidePartColumn() {
-    //hides the count part of the side tables
     $("[id$='-count']").hide();
 }
 
