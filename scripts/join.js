@@ -6,7 +6,6 @@ function validateName(name) {
     name.toggleClass("is-invalid", /^((?!(<script>|<\?php)).)*$/g.test(textElement)); */
     /* iets gaat hierboven mis */
     let ret = textElement.length !== 0;
-    console.log(ret);
     return ret;
 }
 

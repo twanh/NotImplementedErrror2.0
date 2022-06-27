@@ -12,14 +12,9 @@ function checkJoined(intv) {
     });
 
     request.done((data) => {
-        console.log(data);
         if (data['success']) {
-            console.log(data['message']);
             clearInterval(intv);
-            console.log("redirecting to setup now")
             window.location.replace('setup.php?gameid=' + gameid + '&userid=' + userid);
-        } else {
-            console.log(data['message']);
         }
     });
 }
