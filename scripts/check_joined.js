@@ -1,4 +1,10 @@
-
+/**
+ * Checks wether both players have joined.
+ * If both players have joined the user is redirected to the setup page.
+ *
+ * @param {number} intv The number that references the interval used to call this function
+ *                      (this is used to clear the interval when both players have joined).
+ */
 function checkJoined(intv) {
 
     const queryString = window.location.search;

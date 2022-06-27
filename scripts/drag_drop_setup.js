@@ -301,7 +301,12 @@ function check_ready(pieceCount) {
         return [false, []]
     }
 }
-
+/**
+ * Calls the api to finish the setup.
+ *
+ * @param  {Array<Array<Object|String|null>>} board The board containg the setup the user has created.
+ * @returns {Promise<Object>} The data that is returned from the api.
+ */
 function apiSetup(board) {
 
     const queryString = window.location.search;
@@ -326,7 +331,12 @@ function apiSetup(board) {
 
     return data;
 }
-
+/**
+ * Hit's the api to check if both players are ready. 
+ *
+ * If both players are ready the user is redirected to the play game page to start playing the game.
+ * @param {Number} intv The interval number used to call this function repeatedly (so it can be cleared once done.) 
+ */
 function checkBothReady(intv) {
 
     const queryString = window.location.search;
@@ -349,6 +359,16 @@ function checkBothReady(intv) {
     });
 }
 
+/**
+ * Validates the setup and waits for both players to be ready.
+ *
+ * Checks if all pieces are used (using `pieceCount`), if this is the case it submits the setup to the
+ * api. If the setup is valid the a interval is started to check if both players are ready. If the other player
+ * is already ready the user gets redirected to the play game page.
+ *
+ * @param {Object} pieceCount The pieces and the count of how much they are used -- this is used to validate that all pieces
+ *                            are actually used.
+ */
 async function eventReady(pieceCount){
 
     const queryString = window.location.search;
