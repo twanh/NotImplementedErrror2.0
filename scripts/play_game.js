@@ -163,7 +163,7 @@ async function playerMadeMove(start, end, board) {
         if ('board' in ret) {
             fillBoard(ret.board);
         } else {
-            fillBoard(board);
+            updateBoard();
         }
     }
 
