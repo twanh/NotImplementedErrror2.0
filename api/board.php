@@ -10,8 +10,8 @@ if (isset($_POST['gameid']) && isset($_POST['userid'])) {
     $userid = $_POST['userid'];
 
     $db = new Database('../data/database.json');
+    $boardGeneral = $db->getBoard($gameid);
     $board = $db->getBoard($gameid)->getBoardForPlayer($userid);
-
 
     $lastHit = null;
     list($hitByPlayer, $piece) = $db->getLastHitForGame($gameid);
@@ -22,6 +22,68 @@ if (isset($_POST['gameid']) && isset($_POST['userid'])) {
         }
     }
 
+    /*
+     * WIN CONDITION
+     *
+    $ownPieces = [];
+    $otherPieces = [];
+    $otherId = null;
+    $win = ["status" => null, "winner" => null, "loser" => null,];
+    /**
+     * Get all the players' piece values for checking.
+     *
+    for ($y = 0; $y < 10; $y++) {
+        for ($x = 0; $x < 10; $x++) {
+            $curPiece = $boardGeneral[$y][$x];
+            if ($curPiece !== null || $curPiece !== "WATER") {
+                if ($curPiece->getOwnerId() === $userid) {
+                    $ownPieces[] = $curPiece->getValue();
+                } else {
+                    $otherPieces[] = $curPiece->getValue();
+                    if (!isset($otherId)) {
+                        $otherId = $curPiece->getOwnerId();
+                    }
+                }
+            }
+        }
+    }
+    /**
+     * For each player, check if:
+     * 1. Their army contains a flag;
+     * 2. Their army contains pieces that are something other than a bomb or a flag.
+     * If it satisfies both conditions, then the game is not lost.
+     *
+    function checkIfLost(array $arrayIn, string $idIn, array $winCond): array
+    {
+        $lost = true;
+        if (in_array("F", $arrayIn)) {
+            for ($i = 0; $i < count($arrayIn); $i++) {
+                $curPiece = $arrayIn[$i];
+                if (!in_array($curPiece, ["B", "F"])) {
+                    $lost = false;
+                    break;
+                }
+            }
+        }
+        if ($lost) {
+            $winCond["loser"] = $idIn;
+            $winCond["status"] = true;
+        }
+        return $winCond;
+    }
+    /**
+    * Perform checkIfLost on both players, and assign a winner if a loser is assigned.
+    *
+    $win = checkIfLost($ownPieces, $userid, $win);
+    if (isset($win["loser"])) {
+        $win["winner"] = $otherId;
+    } else {
+        $win = checkIfLost($otherPieces, $otherId, $win);
+        if (isset($win["loser"])) {
+            $win["winner"] = $userid;
+        }
+    }*/
+
     $data = [
         "message" => "Everything is fine",
         "success" => true,
@@ -29,7 +91,7 @@ if (isset($_POST['gameid']) && isset($_POST['userid'])) {
         "userid" => $userid,
         "board" => $board,
         "lastHit" => $lastHit,
-    ];
+    ];//"winner" => $win,
 
     header('Content-Type: application/json');
     echo json_encode($data);
