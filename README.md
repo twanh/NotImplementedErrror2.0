@@ -1,47 +1,11 @@
-# Stratego 
+# WP22 Stratego 
+### Groep 3: NotImplementedError 2.0
+###### Twan Huiskens, Wessel Heerema, Kylian de Rooij & Koen Snelten
 
-# GRID
+## Nederlands
+Dit is een webversie van het bordspel Stratego, waarin twee legers van elk 40
+stukken elkaar vechten. Deze applicatie maakt gebruik van PHP en JavaScript.
 
-10x10
-
-  0 1 2 3 4 5 6 7 8 9
-0
-1
-2
-3
-4
-5
-6
-7
-8
-9
-
-```json
-{
-  "id": "1231231",
-  "board": [
-    [{"player": 1, "pawn": "bomb"}, ...],
-    ...
-    [{"player": 2, "pawn": "flag"}, ...]
-  ],
-  "player1Name": "",
-  "player2Name": ""
-}
-```
-
-# API
-
-index.html -request->  ...
-
-- `start_game.php`
-  - makes id
-  - return id to user
-- `join_game.php`
-  - when user uses join link
-  - lets the players start their setup
-- `setup_done.php`
-  - validates setup
-  - lets the platers start the game
-- `move.php`
-  - validates move
-  - etc...
+## English
+This is a web version of the board game Stratego, where two armies of 40
+pieces each fight each other. This application uses PHP and JavaScript.
