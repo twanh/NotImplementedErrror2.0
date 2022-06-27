@@ -1,4 +1,8 @@
-
+/**
+ * Function that returns the piece image class
+ * @param pieceName Name of the piece
+ * @return {*} Image class used for that piece
+ */
 function pieceToClass(pieceName) {
 
     const pieces = {
@@ -19,7 +23,11 @@ function pieceToClass(pieceName) {
     return pieces[pieceName];
 }
 
+/**
+ * All pieces owned by the player are made draggable
+ */
 function makeTableDraggable(){
+
     for (const cell of document.querySelectorAll("#board tr td")) {
         if (cell.className.split(" ").includes("img-unknown")) {
             cell.draggable = false;
@@ -88,42 +96,50 @@ async function playerMadeMove(start, end, board) {
     }
 
     // Determine if the player moved up/down/left/right
-    // Up end_y < start_y    (start_x=end_x)
-    // Down end_y > start_y  (start_x=end_x)
-    // Left end_x < start_x  (start_y=end_y)
+    // Up    end_y < start_y (start_x=end_x)
+    // Down  end_y > start_y (start_x=end_x)
+    // Left  end_x < start_x (start_y=end_y)
     // Right end_x > start_x (start_y=end_y)
-    
-    // TODO: Check and calc distance!
 
     let ret;
     if (end_y < start_y) {
         if (start_x !== end_x) {
             alert("You cannot move vertical and horizontal at the same time!");
-        }
+            fillBoard(board);
+            return;
+        }  
 
-        ret = await move(start_y, start_x, 'up')
+        let distance = start_y - end_y;
+        ret = await move(start_y, start_x, 'up', distance)
 
     } else if (end_y > start_y) {
         if (start_x !== end_x) {
             alert("You cannot move vertical and horizontal at the same time!");
+            updateBoard(board);
+            return;
         }
 
-        ret = await move(start_y, start_x, 'down')
+        let distance = end_y - start_y;
+        ret = await move(start_y, start_x, 'down', distance)
 
     } else if (end_x < start_x) {
         if (start_y !== end_y) {
             alert("You cannot move vertical and horizontal at the same time!");
+            updateBoard(board);
+            return;
         }
 
-        ret = await move(start_y, start_x, 'left')
-
+        let distance = start_x - end_x;
+        ret = await move(start_y, start_x, 'left', distance);
     } else if (end_x > start_x) {
         if (start_y !== end_y) {
             alert("You cannot move vertical and horizontal at the same time!");
+            updateBoard(board);
+            return;
         }
 
-        ret = await move(start_y, start_x, 'right')
-
+        let distance = end_x - start_x;
+        ret = await move(start_y, start_x, 'right', distance);
     } else {
         alert("You performed an illigal move.")
         fillBoard(board);
@@ -141,15 +157,16 @@ async function playerMadeMove(start, end, board) {
         if ('board' in ret) {
             fillBoard(ret.board);
         } else {
-            fillBoard(board);
+            updateBoard();
         }
     }
-
-
-
-
 }
 
+
+/**
+ * Fills the board according to the database
+ * @param board parameter containing each tile and its piece
+ */
 function fillBoard(board) {
 
     for (let y = 0; y < 10; y++) {
@@ -182,7 +199,10 @@ function fillBoard(board) {
 
 }
 
-
+/**
+ * Updates the board according to the database and the last move/hit. Also notifies the player after being hit.
+ * @return board updated parameter containing each tile and its piece
+ */
 function updateBoard() {
 
     const board = getPlayerPieces().then(data => {
