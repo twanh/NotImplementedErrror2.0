@@ -46,5 +46,4 @@ class BoardTest extends TestCase
         self::assertEquals($piece1, $board->getPositionOnBoard(0,0));
     }
 
-    // TODO: Add test for not allowing pieces to be placed on the water tiles.
 }
