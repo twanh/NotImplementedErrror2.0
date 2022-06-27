@@ -19,7 +19,7 @@ function pieceToClass(pieceName) {
     return pieces[pieceName];
 }
 
-function make_table_draggable(){
+function makeTableDraggable(){
     for (const cell of document.querySelectorAll("#board tr td")) {
         if (cell.className.split(" ").includes("img-unknown")) {
             cell.draggable = false;
@@ -198,7 +198,7 @@ function updateBoard() {
 
     board.then(board => {
         fillBoard(board);
-        make_table_draggable();
+        makeTableDraggable();
         setupMoving(board);
     });
 

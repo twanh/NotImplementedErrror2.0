@@ -1,4 +1,4 @@
-function board_player_red() {
+function boardPlayerRed() {
     // Setup board for player red
     for (const blue_id of document.querySelectorAll("td[id^='blue-'][id$='-img']")) {
         blue_id.draggable = false;
@@ -8,7 +8,7 @@ function board_player_red() {
     }
 }
 
-function board_player_blue() {
+function boardPlayerBlue() {
     // Setup board for player blue
     for (const red_id of document.querySelectorAll("td[id^='red-'][id$='-img']")) {
         red_id.draggable = false;
@@ -18,16 +18,16 @@ function board_player_blue() {
     }
 }
 
-function change_board_for_player(player_red_or_blue) {
+function changeBoardForPlayer(player_red_or_blue) {
     // changes the board setup for player color
     if (player_red_or_blue === "red") {
-        board_player_red()
+        boardPlayerRed()
     } else if (player_red_or_blue === "blue") {
-        board_player_blue()
+        boardPlayerBlue()
     }
 }
 
-function check_has_piece(event, classString, player_red_or_blue, pieceCount){
+function checkHasPiece(event, classString, player_red_or_blue, pieceCount){
     // checks if td element already has a piece
     let elementClasses = event.target.classList;
     let deleteClass = event.target.className.split(" ").slice(-1);
@@ -119,7 +119,7 @@ function dragstart(){
     }
 }
 
-function drag_drop(player_red_or_blue, pieceCount){
+function dragDrop(player_red_or_blue, pieceCount){
     // Checks if the item gets droped on a dropzone
     for (const dropZone of document.querySelectorAll(".drop-zone")) {
         // When draggable element is over a dropzone
@@ -140,7 +140,7 @@ function drag_drop(player_red_or_blue, pieceCount){
             } else {
                 removeDraggableAttributeById(element, player_red_or_blue, pieceCount);
             }
-            check_has_piece(event, classString, player_red_or_blue, pieceCount);
+            checkHasPiece(event, classString, player_red_or_blue, pieceCount);
             dropZone.classList.add("drop-zone", classString.split(" ").slice(-1));
             dropZone.draggable = true;
         });
@@ -149,7 +149,7 @@ function drag_drop(player_red_or_blue, pieceCount){
 
 
 
-function class_to_piece(element) {
+function classToPiece(element) {
     // Makes the html class name to the php class name of the piece
     classPiece = element.classList[1];
     pieces = {
@@ -170,7 +170,7 @@ function class_to_piece(element) {
     return pieces[classPiece]
 }
 
-function pieces_to_board() {
+function piecesToBoard() {
     board = [
         [],
         [],
@@ -189,7 +189,7 @@ function pieces_to_board() {
     const urlParams = new URLSearchParams(queryString);
     for (const row of table.rows) {  
         for (const cell of row.cells) {
-            piece = class_to_piece(cell);
+            piece = classToPiece(cell);
             if (piece === undefined) {
                 continue;
             } else {
@@ -201,7 +201,7 @@ function pieces_to_board() {
     return board
 }
 
-function piece_to_class(element) {
+function pieceToClass(element) {
     // Makes the php class name to the html class name of the piece
     const pieces = {
         "Marshal": "1",
@@ -262,7 +262,7 @@ function appendToBoard(jsonInst, rowstart) {
         let setupRow = jsonInst[rowCounter];
         let cellCounter = 0;
         for (let j = 0; j < 10; j++) {
-            let piece = piece_to_class(setupRow[cellCounter]);
+            let piece = pieceToClass(setupRow[cellCounter]);
             if (piece !== "" && pieceCount[piece] !== 0) {
                 pieceCount[piece] = pieceCount[piece] - 1;
                 boardRow[cellCounter].className = "dropzone img-" + piece;
@@ -294,7 +294,7 @@ function loadSetup() {
     return pieceCount;
 }
 
-function check_ready(pieceCount) {
+function checkReady(pieceCount) {
     // checks if all players pieces are placed
     list_bool = [];
     for (const entries in pieceCount) {
@@ -305,7 +305,7 @@ function check_ready(pieceCount) {
         }
     }
     if (list_bool.every(element => element === true)) {
-        return [true, pieces_to_board()];
+        return [true, piecesToBoard()];
     } else {
         return [false, []]
     }
@@ -365,7 +365,7 @@ async function eventReady(pieceCount){
     const gameid = urlParams.get('gameid');
     const userid = urlParams.get('userid');
 
-    const [ready, board] = check_ready(pieceCount);
+    const [ready, board] = checkReady(pieceCount);
     if (ready) {
         const data = await apiSetup(board);
         if (data['success']) {
@@ -387,7 +387,7 @@ async function eventReady(pieceCount){
     }
 }
 
-async function setup_game(){
+async function setupGame(){
     let player_info =  await getCurrentUserInfo();
     let player_red_or_blue = player_info.color;
     let pieceCountRed = {
@@ -426,13 +426,13 @@ async function setup_game(){
 
     let pieceCount = player_red_or_blue === "red" ? pieceCountRed : pieceCountBlue;
     if (change_board===false) {
-        change_board_for_player(player_red_or_blue);
+        changeBoardForPlayer(player_red_or_blue);
     }
     document.addEventListener("dragstart", event => {
         event.dataTransfer.setData("text/plain", event.target.id);
         dragstart()
     })
-    drag_drop(player_red_or_blue, pieceCount);
+    dragDrop(player_red_or_blue, pieceCount);
 
     $("#setup-submit").click(function() {
         pieceCount = loadSetup();
@@ -444,4 +444,4 @@ async function setup_game(){
     
     
 }
-setup_game();
+setupGame();
