@@ -22,6 +22,31 @@ if (isset($_POST['gameid']) && isset($_POST['userid'])) {
         }
     }
 
+    $winner = $db->getWinner($gameid);
+    if (!is_null($winner)) {
+
+        $youWon = false;
+        if ($winner === $userid) {
+            $youWon = true;
+        }
+
+        $data = [
+            "message" => "Everything is fine",
+            "success" => true,
+            "gameid" => $gameid,
+            "userid" => $userid,
+            "board" => $board,
+            "lastHit" => $lastHit,
+            "isWinner" => true,
+            "youWon" => $youWon,
+        ];
+
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        die();
+
+    }
+
     /**
      * WIN CONDITION
      */

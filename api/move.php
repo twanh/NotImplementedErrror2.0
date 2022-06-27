@@ -131,6 +131,13 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cur_y'])
         $db->updateGame($gameid, NULL, NULL, $board->getBoard());
         $data['board'] = $db->getBoard($gameid)->getBoardForPlayer($userid);
 
+        $youWin = false;
+        if ($msg === 'Game Over! You hit the flag!') {
+            $db->setWinner($gameid, $userid);
+            $youWin = true;
+        }
+        $data['youWin'] = $youWin;
+
         if (substr($msg, 4, 3) == "hit" or substr($msg, 8, 3) == 'hit') {
             $data['hit'] = true;
             $myPiece = $curPiece->getName();

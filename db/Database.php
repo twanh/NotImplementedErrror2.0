@@ -400,4 +400,33 @@ class Database
 
     }
 
+
+    public function setWinner($gameid, $playerid)
+    {
+
+        $db_content = $this->load();
+
+        foreach ($db_content['games'] as &$game) {
+            if ($game['id'] == $gameid) {
+                $game['winner'] = $playerid;
+            }
+        }
+        unset($game);
+
+        return $this->save($db_content);
+    }
+
+    public function getWinner($gameid)
+    {
+        $game = $this->getGameById($gameid);
+
+        if (array_key_exists('winner', $game)) {
+            return $game['winner'];
+        }
+
+        return NULL;
+
+
+    }
+
 }

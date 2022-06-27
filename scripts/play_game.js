@@ -172,6 +172,11 @@ async function playerMadeMove(start, end, board) {
         if (ret.message.length > 1) {
             alert(ret.message)
         }
+
+        if (ret.youWin) {
+            window.location.replace("result.php?winner=true");
+        }
+
     } else {
         // Undo the move if the move was not valid.
         alert(ret.message);
@@ -241,6 +246,17 @@ function updateBoard() {
 
             if (data['lastHit'] !== null) {
                 alert("You got hit by " + data['lastHit']);
+            }
+
+            console.log(data);
+
+
+            if ('isWinner' in data) {
+                if (data['youWon']) {
+                    window.location.replace('result.php?winner=true');
+                } else {
+                    window.location.replace('result.php?winner=false');
+                }
             }
 
             return data['board'];

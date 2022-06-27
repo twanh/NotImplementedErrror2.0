@@ -135,6 +135,10 @@ class Board
                 return [false, "You cannot hit a piece of your own!"];
             }
 
+            if ($currentPiece->getName() === 'Flag') {
+                return [true, 'Game Over! You hit the flag!'];
+            }
+
             // If there is a piece and the current piece (the one standing there already) can be hit
             // by the piece being moved the piece hit's it and takes it place.
             if ($piece->canHit($currentPiece)) {
