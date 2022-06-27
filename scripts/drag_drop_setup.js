@@ -35,7 +35,6 @@ function check_has_piece(event, classString, player_red_or_blue, pieceCount){
         piece = elementId;
         event.target.classList.remove(deleteClass)
         let deleteClassPiece = deleteClass[0].split("-").slice(-1);
-        console.log(pieceCount[deleteClassPiece]);
         pieceCount[deleteClassPiece] += 1
         let last_char = document.getElementById(player_red_or_blue+"-"+deleteClassPiece+"-count").innerHTML.slice(-1);
         document.getElementById(player_red_or_blue+"-"+deleteClassPiece+"-count").innerHTML = pieceCount[deleteClassPiece]+"/"+last_char;
@@ -136,7 +135,6 @@ function drag_drop(player_red_or_blue, pieceCount){
                 removeDraggableAttributeById(element, player_red_or_blue, pieceCount);
             }
             check_has_piece(event, classString, player_red_or_blue, pieceCount);
-            console.log(classString)
             dropZone.classList.add("drop-zone", classString.split(" ").slice(-1));
             dropZone.draggable = true;
         });
@@ -193,7 +191,6 @@ function pieces_to_board() {
         }  
         row_counter += 1
     }
-    console.log(board)
     return board
 }
 
@@ -285,7 +282,6 @@ function loadSetup() {
     } else if (color === "blue") {
         pieceCount = appendToBoard(fullReverse(setupIn), 1);
     }
-    console.log("Load OK");
     closeNav();
     return pieceCount;
 }
@@ -300,10 +296,8 @@ function check_ready(pieceCount) {
         }
     }
     if (list_bool.every(element => element === true)) {
-        console.log("Ready!");
         return [true, pieces_to_board()];
     } else {
-        console.log("Not Ready!");
         return [false, []]
     }
 }
@@ -327,7 +321,6 @@ function apiSetup(board) {
     });
 
     const data = req.done((data) => {
-        console.log(data);
         return data;
     });
 
@@ -347,16 +340,11 @@ function checkBothReady(intv) {
     });
 
     request.done((data) => {
-        console.log(data);
         if (data['success']) {
-            console.log(data['message']);
             if (data['ready']) {
                 clearInterval(intv);
-                console.log("redirecting to setup now")
                 window.location.replace('play_game.php?gameid=' + gameid + '&userid=' + userid);
             }
-        } else {
-            console.log(data['message']);
         }
     });
 }
@@ -373,10 +361,8 @@ async function eventReady(pieceCount){
         const data = await apiSetup(board);
         if (data['success']) {
             if (data['ready']) {
-                console.log("Both players are ready!");
                 window.location.replace('play_game.php?gameid=' + gameid + '&userid=' + userid);
             }
-            console.log("Waiting for other player to be done!")
             const readyInterval = setInterval(() => {
                 checkBothReady(readyInterval);
             },2000)
@@ -440,7 +426,6 @@ async function setup_game(){
     drag_drop(player_red_or_blue, pieceCount);
 
     $("#setup-submit").click(function() {
-        console.log($("#setupStr").val())
         pieceCount = loadSetup();
     })
 

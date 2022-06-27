@@ -1,13 +1,16 @@
+/* Board size */
 :root {
     --board_size: 42vw;
 }
 
+/* body colors */
 body {
     background-color: #303030;
     color: #fff;
     overflow: hidden;
 }
 
+/* Input field colors */
 #name, input#myLink {
     color: white !important;  
     background-color: rgba(0, 0, 0, 0) !important;
@@ -21,6 +24,7 @@ body {
     border: 5px solid rgba(0,0,0,0.2) !important;
 }
 
+/* Board heght and width from var and color*/
 #board tr td {
     width: calc(var(--board_size)/10);
     height: calc(var(--board_size)/10);
@@ -32,6 +36,7 @@ td[class*="r-"] {
     height: 10%;
 }
 
+/* Side columns */
 #red-pawns tr td {
     width: calc(var(--board_size)/12);
     height: calc(var(--board_size)/12);
@@ -46,6 +51,7 @@ td[class*="r-"] {
     text-align: center;
 }
 
+/* Board image and dimentions */
 #board {
     background-image: url(../images/board.svg);
     background-size: var(--board_size);
@@ -57,6 +63,8 @@ td[class*="img-"] {
     width: calc(var(--board_size)/10);
     height: calc(var(--board_size)/10);
 }
+
+/* img photos */
 
 .img-1 {
     background-size: cover;
@@ -140,6 +148,8 @@ td[class*="img-"] {
 #blue-2-img, #blue-3-img {
     transform: scaleX(-1);
 }
+
+/* End of img photos */
 
 /* The sidebar menu */
 .sidebar {
@@ -235,6 +245,8 @@ td[class*="img-"] {
     background-color: #303030;
 }
 
+
+/* Result.php page to make bending text */
 path {
     fill: transparent;
 }

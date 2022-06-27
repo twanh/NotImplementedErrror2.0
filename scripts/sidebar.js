@@ -76,7 +76,6 @@ function saveSetup() {
         a.download = userid.toString() + "-setup.json";
         a.click();
         a.remove();
-        console.log("Save OK");
     }
 }
 

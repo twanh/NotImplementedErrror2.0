@@ -37,7 +37,6 @@ function setupMoving(board) {
     // For every draggable element make sure that when a drag
     // occurs the id of the current element is passed through.
     for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
-        console.log({draggableElement})
         draggableElement.addEventListener("dragstart", event=> {
             event.dataTransfer.setData("text/plain", event.target.id);
         });
@@ -54,7 +53,6 @@ function setupMoving(board) {
         dz.addEventListener('drop', event => {
             event.preventDefault();
             event.stopImmediatePropagation();
-            console.log("IN DROP!!");
 
             // Get the id of the place where the piece came from.
             const loc = event.dataTransfer.getData('text/plain');
@@ -74,21 +72,6 @@ function setupMoving(board) {
 
         })
     }
-}
-
-function updateDropZones() {
-    
-    const board = document.getElementById('board')
-    const gridPos = board.getElementsByTagName('td')
-
-    for (gd of gridPos) {
-        console.log({gd})
-        if (gd.className.includes('img-unkown')) {
-            console.log('found unkown')
-        }
-    }
-    
-
 }
 
 async function playerMadeMove(start, end, board) {
@@ -134,7 +117,6 @@ async function playerMadeMove(start, end, board) {
 
         let distance = start_x - end_x;
         ret = await move(start_y, start_x, 'left', distance);
-
     } else if (end_x > start_x) {
         if (start_y !== end_y) {
             alert("You cannot move vertical and horizontal at the same time!");
@@ -142,7 +124,6 @@ async function playerMadeMove(start, end, board) {
 
         let distance = end_x - start_x;
         ret = await move(start_y, start_x, 'right', distance);
-
     } else {
         alert("You performed an illigal move.")
         fillBoard(board);
@@ -156,18 +137,13 @@ async function playerMadeMove(start, end, board) {
         }
     } else {
         // Undo the move!
-        console.log(ret);
         alert(ret.message);
         if ('board' in ret) {
             fillBoard(ret.board);
         } else {
-            fillBoard(board);
+            updateBoard();
         }
     }
-
-
-
-
 }
 
 function fillBoard(board) {
@@ -186,7 +162,6 @@ function fillBoard(board) {
             }
             // No need to place anything on empty squares
             if (cur === null) {
-                console.log("ADding dz to: ", tableRowColID)
                 $(tableRowColID).addClass('drop-zone');
                 continue;
             }
