@@ -76,7 +76,7 @@ function fullReverse(arrayIn) {
  * Saves the user's current setup to a JSON file, in red format.
  */
 function saveSetup() {
-    const board = pieces_to_board();
+    const board = piecesToBoard();
     const color = getColor();
     const urlParams = new URLSearchParams(window.location.search);
     const userid = urlParams.get('userid');
