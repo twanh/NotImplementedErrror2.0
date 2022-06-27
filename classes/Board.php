@@ -139,6 +139,12 @@ class Board
                 return [true, 'Game Over! You hit the flag!'];
             }
 
+            // If the same pieces hit each other they both die.
+            if ($currentPiece->getName() === $piece->getName()) {
+                $this->board[$y][$x] = NULL;
+                return [true, 'You got hit by ' . $currentPiece->getName()];
+            }
+
             // If there is a piece and the current piece (the one standing there already) can be hit
             // by the piece being moved the piece hit's it and takes it place.
             if ($piece->canHit($currentPiece)) {
