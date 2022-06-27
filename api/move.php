@@ -136,7 +136,7 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cur_y'])
             $db->setWinner($gameid, $userid);
             $youWin = true;
         }
-        $data['youWin'] = $youWin;
+        $data['youWon'] = $youWin;
 
         if (substr($msg, 4, 3) == "hit" or substr($msg, 8, 3) == 'hit') {
             $data['hit'] = true;

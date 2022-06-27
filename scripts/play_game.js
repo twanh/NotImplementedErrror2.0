@@ -168,26 +168,28 @@ async function playerMadeMove(start, end, board) {
 
     if (ret.success) {
         // Update the pieces locations
-        fillBoard(ret.board);
         if (ret.message.length > 1) {
             alert(ret.message)
         }
 
-        if (ret.youWin) {
+        if (ret.youWon) {
             window.location.replace("result.php?winner=true");
         }
+
+        updateBoard();
 
     } else {
         // Undo the move if the move was not valid.
         alert(ret.message);
-        if ('board' in ret) {
-            // Use the board that was returned with the request.
-            fillBoard(ret.board);
-        } else {
-            // Get the latest version (aka the version before the invalid move) and use
-            // that to restore the board to a valid state.
-            updateBoard();
-        }
+        updateBoard();
+        // if ('board' in ret) {
+        //     // Use the board that was returned with the request.
+        //     fillBoard(ret.board);
+        // } else {
+        //     // Get the latest version (aka the version before the invalid move) and use
+        //     // that to restore the board to a valid state.
+        //     updateBoard();
+        // }
     }
 }
 
