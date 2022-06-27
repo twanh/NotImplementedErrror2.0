@@ -1,4 +1,8 @@
-
+/**
+ * Function that returns the piece image class
+ * @param pieceName Name of the piece
+ * @return {*} Image class used for that piece
+ */
 function pieceToClass(pieceName) {
 
     const pieces = {
@@ -19,7 +23,11 @@ function pieceToClass(pieceName) {
     return pieces[pieceName];
 }
 
-function make_table_draggable(){
+/**
+ * All pieces owned by the player are made draggable
+ */
+function makeTableDraggable(){
+
     for (const cell of document.querySelectorAll("#board tr td")) {
         if (cell.className.split(" ").includes("img-unknown")) {
             cell.draggable = false;
@@ -154,6 +162,11 @@ async function playerMadeMove(start, end, board) {
     }
 }
 
+
+/**
+ * Fills the board according to the database
+ * @param board parameter containing each tile and its piece
+ */
 function fillBoard(board) {
 
     for (let y = 0; y < 10; y++) {
@@ -186,7 +199,10 @@ function fillBoard(board) {
 
 }
 
-
+/**
+ * Updates the board according to the database and the last move/hit. Also notifies the player after being hit.
+ * @return board updated parameter containing each tile and its piece
+ */
 function updateBoard() {
 
     const board = getPlayerPieces().then(data => {
@@ -202,7 +218,7 @@ function updateBoard() {
 
     board.then(board => {
         fillBoard(board);
-        make_table_draggable();
+        makeTableDraggable();
         setupMoving(board);
     });
 

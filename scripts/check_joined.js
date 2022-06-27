@@ -6,6 +6,7 @@
  *                      (this is used to clear the interval when both players have joined).
  */
 function checkJoined(intv) {
+    // sends and api request if the other players has joined
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);

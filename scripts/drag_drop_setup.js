@@ -1,6 +1,7 @@
-
-
-function board_player_red() {
+/**
+ * Setup board for player red
+ */
+function boardPlayerRed() {
     for (const blue_id of document.querySelectorAll("td[id^='blue-'][id$='-img']")) {
         blue_id.draggable = false;
     }
@@ -8,8 +9,10 @@ function board_player_red() {
         dropzone.classList.remove("drop-zone");
     }
 }
-
-function board_player_blue() {
+/**
+ * Setup board for player blue
+ */
+function boardPlayerBlue() {
     for (const red_id of document.querySelectorAll("td[id^='red-'][id$='-img']")) {
         red_id.draggable = false;
     }
@@ -17,16 +20,25 @@ function board_player_blue() {
         dropzone.classList.remove("drop-zone");
     }
 }
-
-function change_board_for_player(player_red_or_blue) {
+/**
+ * Changes the board setup for player color
+ * @param  {String} player_red_or_blue
+ */
+function changeBoardForPlayer() {
     if (player_red_or_blue === "red") {
-        board_player_red()
+        boardPlayerRed()
     } else if (player_red_or_blue === "blue") {
-        board_player_blue()
+        boardPlayerBlue()
     }
 }
-
-function check_has_piece(event, classString, player_red_or_blue, pieceCount){
+/**
+ * Checks if td element already has a piece
+ * @param  {Element} event
+ * @param  {String} classString
+ * @param  {String} player_red_or_blue
+ * @param  {Object} pieceCount
+ */
+function checkHasPiece(event, classString, player_red_or_blue, pieceCount) {
     let elementClasses = event.target.classList;
     let deleteClass = event.target.className.split(" ").slice(-1);
     let elementId = classString.split("-").slice(-1);
@@ -46,7 +58,12 @@ function check_has_piece(event, classString, player_red_or_blue, pieceCount){
 }
 
 
-
+/**
+ * Remove the draggable attribute by ID
+ * @param  {Element} element
+ * @param  {String} player_red_or_blue
+ * @param  {Object} pieceCount
+ */
 function removeDraggableAttributeById(element, player_red_or_blue, pieceCount) {
     let piece = "";
     number = player_red_or_blue === "red" ? 4 : 5;
@@ -76,7 +93,13 @@ function removeDraggableAttributeById(element, player_red_or_blue, pieceCount) {
     document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
 }
 
-
+/**
+ * Remove the draggable attribute by classname
+ * @param  {Element} element
+ * @param  {String} classString
+ * @param  {String} player_red_or_blue
+ * @param  {Object} pieceCount
+ */
 function removeDraggableAttributeByClass(element, classString, player_red_or_blue, pieceCount) {
     let piece = "";
     classString = classString.split(" ")[1];
@@ -105,16 +128,23 @@ function removeDraggableAttributeByClass(element, classString, player_red_or_blu
     let last_char = document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML.slice(-1);
     document.getElementById(player_red_or_blue+"-"+piece+"-count").innerHTML = pieceCount[piece]+"/"+last_char;
 }
-
+/**
+ * Checks if a draggable items gets dragged
+ */
 function dragstart(){
+    // 
     for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
         draggableElement.addEventListener("dragstart", event=> {
             event.dataTransfer.setData("text/plain", event.target.id);
         });
     }
 }
-
-function drag_drop(player_red_or_blue, pieceCount){
+/**
+ * Checks if the item gets droped on a dropzone
+ * @param  {String} player_red_or_blue
+ * @param  {Object} pieceCount
+ */
+function dragDrop(player_red_or_blue, pieceCount){
     for (const dropZone of document.querySelectorAll(".drop-zone")) {
         // When draggable element is over a dropzone
         dropZone.addEventListener("dragover", event => {
@@ -134,7 +164,7 @@ function drag_drop(player_red_or_blue, pieceCount){
             } else {
                 removeDraggableAttributeById(element, player_red_or_blue, pieceCount);
             }
-            check_has_piece(event, classString, player_red_or_blue, pieceCount);
+            checkHasPiece(event, classString, player_red_or_blue, pieceCount);
             dropZone.classList.add("drop-zone", classString.split(" ").slice(-1));
             dropZone.draggable = true;
         });
@@ -142,8 +172,12 @@ function drag_drop(player_red_or_blue, pieceCount){
 }
 
 
-
-function class_to_piece(element) {
+/**
+ * Makes the html class name to the php class name of the piece
+ * @param  {Element} element
+ * @return {Object} pieces
+ */
+function classToPiece(element) {
     classPiece = element.classList[1];
     pieces = {
                 "img-1": "Marshal",
@@ -162,8 +196,11 @@ function class_to_piece(element) {
             };
     return pieces[classPiece]
 }
-
-function pieces_to_board() {
+/**
+ * Returns pieces as a matrix
+ * @return {Matrix} board
+ */
+function piecesToBoard() {
     board = [
         [],
         [],
@@ -182,7 +219,7 @@ function pieces_to_board() {
     const urlParams = new URLSearchParams(queryString);
     for (const row of table.rows) {  
         for (const cell of row.cells) {
-            piece = class_to_piece(cell);
+            piece = classToPiece(cell);
             if (piece === undefined) {
                 continue;
             } else {
@@ -193,8 +230,12 @@ function pieces_to_board() {
     }
     return board
 }
-
-function piece_to_class(element) {
+/**
+ * Makes the php class name to the html class name of the piece
+ * @param  {} element
+ * @return {Object} pieces
+ */
+function pieceToClass(element) {
     const pieces = {
         "Marshal": "1",
         "General": "2",
@@ -254,7 +295,7 @@ function appendToBoard(jsonInst, rowstart) {
         let setupRow = jsonInst[rowCounter];
         let cellCounter = 0;
         for (let j = 0; j < 10; j++) {
-            let piece = piece_to_class(setupRow[cellCounter]);
+            let piece = pieceToClass(setupRow[cellCounter]);
             if (piece !== "" && pieceCount[piece] !== 0) {
                 pieceCount[piece] = pieceCount[piece] - 1;
                 boardRow[cellCounter].className = "dropzone img-" + piece;
@@ -286,7 +327,8 @@ function loadSetup() {
     return pieceCount;
 }
 
-function check_ready(pieceCount) {
+function checkReady(pieceCount) {
+    // checks if all players pieces are placed
     list_bool = [];
     for (const entries in pieceCount) {
         if (pieceCount[entries] === 0) {
@@ -296,7 +338,7 @@ function check_ready(pieceCount) {
         }
     }
     if (list_bool.every(element => element === true)) {
-        return [true, pieces_to_board()];
+        return [true, piecesToBoard()];
     } else {
         return [false, []]
     }
@@ -376,7 +418,7 @@ async function eventReady(pieceCount){
     const gameid = urlParams.get('gameid');
     const userid = urlParams.get('userid');
 
-    const [ready, board] = check_ready(pieceCount);
+    const [ready, board] = checkReady(pieceCount);
     if (ready) {
         const data = await apiSetup(board);
         if (data['success']) {
@@ -398,7 +440,7 @@ async function eventReady(pieceCount){
     }
 }
 
-async function setup_game(){
+async function setupGame(){
     let player_info =  await getCurrentUserInfo();
     let player_red_or_blue = player_info.color;
     let pieceCountRed = {
@@ -437,13 +479,13 @@ async function setup_game(){
 
     let pieceCount = player_red_or_blue === "red" ? pieceCountRed : pieceCountBlue;
     if (change_board===false) {
-        change_board_for_player(player_red_or_blue);
+        changeBoardForPlayer(player_red_or_blue);
     }
     document.addEventListener("dragstart", event => {
         event.dataTransfer.setData("text/plain", event.target.id);
         dragstart()
     })
-    drag_drop(player_red_or_blue, pieceCount);
+    dragDrop(player_red_or_blue, pieceCount);
 
     $("#setup-submit").click(function() {
         pieceCount = loadSetup();
@@ -455,4 +497,4 @@ async function setup_game(){
     
     
 }
-setup_game();
+setupGame();
