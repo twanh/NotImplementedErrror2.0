@@ -118,32 +118,32 @@ async function playerMadeMove(start, end, board) {
             alert("You cannot move vertical and horizontal at the same time!");
         }
 
-        console.log("Moved UP!");
-        ret = await move(start_y, start_x, 'up')
+        let distance = start_y - end_y;
+        ret = await move(start_y, start_x, 'up', distance)
 
     } else if (end_y > start_y) {
         if (start_x !== end_x) {
             alert("You cannot move vertical and horizontal at the same time!");
         }
 
-        console.log("Moved down");
-        ret = await move(start_y, start_x, 'down')
+        let distance = end_y - start_y;
+        ret = await move(start_y, start_x, 'down', distance)
 
     } else if (end_x < start_x) {
         if (start_y !== end_y) {
             alert("You cannot move vertical and horizontal at the same time!");
         }
 
-        console.log("Moved left");
-        ret = await move(start_y, start_x, 'left')
+        let distance = start_x - end_x;
+        ret = await move(start_y, start_x, 'left', distance);
 
     } else if (end_x > start_x) {
         if (start_y !== end_y) {
             alert("You cannot move vertical and horizontal at the same time!");
         }
 
-        console.log("Moved right");
-        ret = await move(start_y, start_x, 'right')
+        let distance = end_x - start_x;
+        ret = await move(start_y, start_x, 'right', distance);
 
     } else {
         alert("You performed an illigal move.")
