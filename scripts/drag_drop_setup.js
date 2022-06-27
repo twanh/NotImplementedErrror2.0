@@ -231,7 +231,7 @@ function piecesToBoard() {
     return board
 }
 /**
- * Makes the php class name to the html class name of the piece
+ * Transforms the PHP class name to the HTML class name of the piece.
  * @param  {} element
  * @return {Object} pieces
  */
@@ -254,6 +254,10 @@ function pieceToClass(element) {
     return pieces[element]
 }
 
+/**
+ * Adds all the pieces in the provided JSON instance to the board,
+ * and adjusts the piece count on the side accordingly.
+ */
 function appendToBoard(jsonInst, rowstart) {
     let rowCounter = 0;
     let pieceCount = {
@@ -313,6 +317,10 @@ function appendToBoard(jsonInst, rowstart) {
     return pieceCount;
 }
 
+/**
+ * Parses the JSON string from the setup load box in the sidebar,
+ * then loads the setup into the game.
+ */
 function loadSetup() {
     const setupIn = JSON.parse($("#setupStr").val());
     $("#setup-load").css("display", "none");
@@ -327,8 +335,10 @@ function loadSetup() {
     return pieceCount;
 }
 
+/**
+ * Checks if all players' pieces are placed.
+ */
 function checkReady(pieceCount) {
-    // checks if all players pieces are placed
     list_bool = [];
     for (const entries in pieceCount) {
         if (pieceCount[entries] === 0) {
@@ -440,6 +450,9 @@ async function eventReady(pieceCount){
     }
 }
 
+/**
+ * Creates the initial setup for the game.
+ */
 async function setupGame(){
     let player_info =  await getCurrentUserInfo();
     let player_red_or_blue = player_info.color;

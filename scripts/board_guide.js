@@ -1,3 +1,8 @@
+/** 
+ * Highlights the selected rows
+ * @param  {Int} rowstart
+ * @param  {string} color
+ */
 function highlightSide(rowstart, color) {
     for (let i = rowstart; i < 4 + rowstart; i++) {
         let rows = $("#row-"+i.toString()).children();
@@ -9,7 +14,9 @@ function highlightSide(rowstart, color) {
         rows.css("background-color", "rgba(0, 0, 0, 0.5)");
     }
 }
-
+/**
+ * Highlights the placeable rows for the player
+ */
 async function tailorToPlayer() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);

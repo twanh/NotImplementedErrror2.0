@@ -1,5 +1,5 @@
 /**
- * Open the sidenavbar
+ * Open the side navbar.
  */
 function openNav() {
     document.getElementById("mySidebar").style.width = "250px";
@@ -7,13 +7,16 @@ function openNav() {
 }
   
 /**
- * Closes the sidenavbar
+ * Closes the side navbar.
  */
 function closeNav() {
     document.getElementById("mySidebar").style.width = "0";
     $("#main").show();
 }
 
+/**
+ * Gets the current player's color.
+ */
 function getColor() {
     let color = "";
     if ($('#red-pawns').css('visibility') === 'hidden') {
@@ -25,6 +28,10 @@ function getColor() {
     return color;
 }
 
+/**
+ * Gets the correct side of the board;
+ * if less than 10 pieces are on a row, then the row is not returned.
+ */
 function getSide(rowstart, board) {
     const rows = [
         [],
@@ -54,6 +61,10 @@ function getSide(rowstart, board) {
     return rows;
 }
 
+/**
+ * Reverses a 2D array of any size (rotates 180 degrees);
+ * intended for loading blue's setup.
+ */
 function fullReverse(arrayIn) {
     let arrayOut = []
     for (const i of arrayIn) {
@@ -62,6 +73,9 @@ function fullReverse(arrayIn) {
     return arrayOut
 }
 
+/**
+ * Saves the user's current setup to a JSON file, in red format.
+ */
 function saveSetup() {
     const board = pieces_to_board();
     const color = getColor();
@@ -85,6 +99,9 @@ function saveSetup() {
     }
 }
 
+/**
+ * Displays the setup loading block.
+ */
 function loadPrep() {
     let loadElement = $("#setup-load");
     if (loadElement.css("display") === "none") {
