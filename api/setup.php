@@ -125,8 +125,6 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['board'])
 
     $gameid = $_POST['gameid'];
     $userid = $_POST['userid'];
-    // TODO: Find a way around the double decode!
-    /* $userBoard = json_decode(json_decode($_POST['board'], true), true); */
     $userBoard = json_decode($_POST['board'], true);
 
     $db = new Database('../data/database.json');
@@ -179,7 +177,7 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['board'])
             // Save the updated board in the DB.
             $db->updateGame($gameid, NULL, NULL, $gameBoard->getBoard());
 
-        } 
+        }
 
         $data = [
             'success' => $valid,
@@ -214,7 +212,7 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['board'])
     $db->setReadyForGame($gameid, $userid);
 
     $data['ready'] = $db->getReadyForGame($gameid);
-    
+
     header('Content-Type: application/json');
     echo json_encode($data);
     die();
