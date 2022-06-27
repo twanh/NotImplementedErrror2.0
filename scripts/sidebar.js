@@ -1,8 +1,14 @@
+/**
+ * Open the sidenavbar
+ */
 function openNav() {
     document.getElementById("mySidebar").style.width = "250px";
    $("#main").hide();
 }
   
+/**
+ * Closes the sidenavbar
+ */
 function closeNav() {
     document.getElementById("mySidebar").style.width = "0";
     $("#main").show();
@@ -76,7 +82,6 @@ function saveSetup() {
         a.download = userid.toString() + "-setup.json";
         a.click();
         a.remove();
-        console.log("Save OK");
     }
 }
 

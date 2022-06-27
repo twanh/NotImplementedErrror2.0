@@ -131,6 +131,12 @@ if (isset($_POST['gameid']) && isset($_POST['userid']) && isset($_POST['cur_y'])
         $db->updateGame($gameid, NULL, NULL, $board->getBoard());
         $data['board'] = $db->getBoard($gameid)->getBoardForPlayer($userid);
 
+        if (substr($msg, 4, 3) == "hit" or substr($msg, 8, 3) == 'hit') {
+            $data['hit'] = true;
+            $myPiece = $curPiece->getName();
+            $db->setLastHitForGame($gameid, $userid, $myPiece);
+        }
+
         if ($turn === 1) {
             $updated = $db->setTurnForGame($gameid, 2);
         } else {

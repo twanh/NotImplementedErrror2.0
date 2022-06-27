@@ -323,4 +323,40 @@ class Database
         return $p1Ready && $p2Ready;
     }
 
+
+    public function setLastHitForGame($gameid, $userid, $pieceName) {
+
+        $db_content = $this->load();
+
+        foreach ($db_content['games'] as &$game) {
+            if ($game['id'] == $gameid) {
+                $game['lastHitBy'] = $userid;
+                $game['lastHitPiece'] = $pieceName;
+            }
+        }
+        unset($game);
+
+        return $this->save($db_content);
+        
+    }
+
+    public function getLastHitForGame($gameid) {
+
+        $game = $this->getGameById($gameid);
+
+        $hitBy = null;
+        if (array_key_exists('lastHitBy', $game)) {
+            $hitBy = $game['lastHitBy'];
+        }
+
+        $piece = NULL;
+        if (array_key_exists('lastHitPiece', $game)) {
+            $piece = $game['lastHitPiece'];
+        }
+
+
+        return [$hitBy, $piece];
+
+    }
+
 }

@@ -1,5 +1,12 @@
-
+/**
+ * Checks wether both players have joined.
+ * If both players have joined the user is redirected to the setup page.
+ *
+ * @param {number} intv The number that references the interval used to call this function
+ *                      (this is used to clear the interval when both players have joined).
+ */
 function checkJoined(intv) {
+    // sends and api request if the other players has joined
 
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -12,14 +19,9 @@ function checkJoined(intv) {
     });
 
     request.done((data) => {
-        console.log(data);
         if (data['success']) {
-            console.log(data['message']);
             clearInterval(intv);
-            console.log("redirecting to setup now")
             window.location.replace('setup.php?gameid=' + gameid + '&userid=' + userid);
-        } else {
-            console.log(data['message']);
         }
     });
 }
