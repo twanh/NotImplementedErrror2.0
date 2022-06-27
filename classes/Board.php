@@ -280,7 +280,7 @@ class Board
         }
 
         // Check if there is room at the bottom to move to (not out of bounds)
-        if ($cur_y + $distance >= 10) {
+        if ($cur_x + $distance >= 10) {
             return [false, "You cannot move outside the board."];
         }
 
