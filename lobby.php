@@ -38,10 +38,8 @@ if ($game['player1Id'] !== $userId and $game['player2Id'] !== $userId) {
     <script src="scripts/check_joined.js"></script>
 <?php
 
-//testing for php and json
-//include __DIR__ . '/scripts/save_to_board.php';
-//include __DIR__ . '/tpl/board.php';
 include __DIR__ . '/tpl/body-end.php';
+
 /* Footer */
 include __DIR__ . '/tpl/footer.php';
 ?>

@@ -5,4 +5,6 @@ function hidePartColumn() {
     $("[id$='-count']").hide();
 }
 
-hidePartColumn();
+$(function() {
+    hidePartColumn();
+});

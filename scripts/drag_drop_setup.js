@@ -510,4 +510,7 @@ async function setupGame(){
 
 
 }
-setupGame();
+
+$(function() {
+    setupGame();
+})

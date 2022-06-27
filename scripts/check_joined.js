@@ -26,6 +26,8 @@ function checkJoined(intv) {
     });
 }
 
-const intv = setInterval(() => {
-  checkJoined(intv);
-}, 2000);
+$(function() {
+    const intv = setInterval(() => {
+      checkJoined(intv);
+    }, 2000);
+})

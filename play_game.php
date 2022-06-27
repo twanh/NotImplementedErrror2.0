@@ -48,7 +48,9 @@ include __DIR__ . '/tpl/board.php';
 <script src="scripts/play_game.js"></script>
 <script src="scripts/hide_part_column.js"></script>
 <script>
-    play();
+    $(function() {
+        play();
+    })
 </script>
 <?php
 include __DIR__ . '/tpl/body-end.php';
