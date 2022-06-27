@@ -174,13 +174,27 @@ class Board
         // Test if moving up will move out of bounds.
         if ($cur_y - $distance < 0) {
             // TOP is index 0.
-            return [false, "You canont move outside of the board!"];
+            return [false, "You cannot move outside of the board!"];
         }
 
         // Check if the current piece can move the given distance (1 by default).
         if(!$currentPiece->canMoveDistance($distance)) {
            return [false, "You cannot move this distance!"];
         }
+
+        // Check if the move is unobstructed (for when scouts move with
+        // a larger step then 1)
+        if ($distance > 1) {
+            $curBoard = $this->getBoard();
+            for ($y = $cur_y - $distance + 1; $y < $cur_y; $y++) {
+                $piece = $curBoard[$y][$cur_x];
+                if (!is_null($piece)) {
+                    return [false, "When moving a larger distance (" . $distance . ") you cannot be obstructed!"];
+                }
+            }
+        }
+
+
 
         list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y-$distance, $cur_x, false, $cur_y, $cur_x);
         // If the piece is moved make it's previous position available.
@@ -214,6 +228,18 @@ class Board
 
         if (!$currentPiece->canMoveDistance($distance)) {
             return [false, "You cannot move this distance."];
+        }
+
+        // Check if the move is unobstructed (for when scouts move with
+        // a larger step then 1)
+        if ($distance > 1) {
+            $curBoard = $this->getBoard();
+            for ($y = $cur_y+1; $y < $cur_y+$distance-1; $y++) {
+                $piece = $curBoard[$y][$cur_x];
+                if (!is_null($piece)) {
+                    return [false, "When moving a larger distance (" . $distance . ") you cannot be obstructed!"];
+                }
+            }
         }
 
         list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y+$distance, $cur_x, false, $cur_y, $cur_x);
@@ -250,6 +276,20 @@ class Board
             return [false, "You cannot move this distance."];
         }
 
+
+        // Check if the move is unobstructed (for when scouts move with
+        // a larger step then 1)
+        if ($distance > 1) {
+            $curBoard = $this->getBoard();
+            $row = $curBoard[$cur_y];
+            for ($x = $cur_x+1; $x < $cur_x+$distance; $x++) {
+                if (!is_null($row[$x])) {
+                    return [false, "When moving a larger distance (" . $distance . ") you cannot be obstructed!"];
+                }
+            }
+
+        }
+
         list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x + $distance, false, $cur_y, $cur_x);
         // If the piece is moved make it's previous position available.
         if ($canMove) {
@@ -284,6 +324,17 @@ class Board
             return [false, "You cannot move this distance!"];
         }
 
+        // Check if the move is unobstructed (for when scouts move with
+        // a larger step then 1)
+        if ($distance > 1) {
+            $curBoard = $this->getBoard();
+            $row = $curBoard[$cur_y];
+            for ($x = $cur_x-1; $x > $cur_x-$distance; $x--) {
+                if (!is_null($row[$x])) {
+                    return [false, "When moving a larger distance (" . $distance . ") you cannot be obstructed!"];
+                }
+            }
+        }
 
         list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y, $cur_x - $distance, false, $cur_y, $cur_x);
         // If the piece is moved make it's previous position available.

@@ -85,7 +85,6 @@ function getPlayerPieces() {
 }
 
 
-// TODO: Add distance!
 function move(cur_y, cur_x, direction, distance = 1){
 
     const queryString = window.location.search;

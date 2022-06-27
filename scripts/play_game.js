@@ -109,8 +109,6 @@ async function playerMadeMove(start, end, board) {
     // Down end_y > start_y  (start_x=end_x)
     // Left end_x < start_x  (start_y=end_y)
     // Right end_x > start_x (start_y=end_y)
-    
-    // TODO: Check and calc distance!
 
     let ret;
     if (end_y < start_y) {
