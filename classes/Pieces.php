@@ -17,7 +17,11 @@ class Piece
     }
 
 
-    // TODO: These parameters are not final
+    /**
+     * Checks if the Piece can move a certain distance.
+     * @param number $move_distance The distance the piece wants to move.
+     * @return bool If the piece can move the wanted distance.
+     */
     public function canMoveDistance($move_distance) : bool
     {
 
@@ -29,42 +33,47 @@ class Piece
             return true;
         }
 
+        // Only the scout can move more than 1.
+        // this is implemented on the scouts own class.
         return false;
 
     }
 
-    // General hit method
-    public function canHit(Piece $piece)
+
+    /**
+     * Checks if the current piece (the current instance of the class) can hit another piece.
+     * @param Piece $piece The piece to hit.
+     * @return bool If the other piece can be hit.
+     */
+    public function canHit(Piece $piece): bool
     {
         // Players cannot hit their own pieces.
         if ($this->ownerId === $piece->getOwnerId()) {
             return false;
         }
-        // But we first need Player classes and then assign them to the pieces.
+        // Pieces can have a numeric or string value (e.g: Flag -> 'F')
+        // pieces that have a numeric value lose from pieces with a string value (exceptions to this rule
+        // are handled on the specific subclasses).
+        // When both pieces their value is numeric the one with the higher value wins (exceptions are again handled in
+        //the specific subclasses (e.g: see Spy).
         if (is_numeric($this->value)) {
             if (is_numeric($piece->getValue())) {
-                // TODO: Should this use intval?
                 if ($this->value > $piece->getValue()) {
                     return true;
                 } elseif ($this->value == $piece->getValue()) {
-                    // TODO: Make sure the other piece also dies!
                     return true;
                 } else {
                     return false;
                 }
             } else {
-                // The current piece is numeric so always lower than the other (str) pawns.
-                // Note: there are some edge cases with this but that is implemented in their own class (see Miner)
                 return false;
             }
         } else {
             // Both are strings
             if (is_string($piece->getValue())) {
-                $own = $this->value;
                 $other = $piece->getValue();
 
                 if ($other === 'F') {
-                    // TODO: Win condition, make sure that this is handled properly
                     return true;
                 }
 
@@ -81,13 +90,16 @@ class Piece
             }
         }
 
+        return false;
+
     }
 
 
     // GETTERS and SETTERS
 
     /**
-     * @return string
+     * Returns the owner id of the piece.
+     * @return string The owner id.
      */
     public function getOwnerId() : string
     {
@@ -103,29 +115,52 @@ class Piece
         $this->ownerId = $ownerId;
     }
 
+    /**
+     * Returns the value of the piece.
+     * @return string The value of the piece.
+     */
     public function getValue(): string
     {
         return $this->value;
     }
 
+    /**
+     * Returns the name of the piece.
+     * @return string The name of the piece.
+     */
     public function getName(): string
     {
         return $this->name;
     }
 
+    /**
+     * Returns if the piece can move.
+     * @return bool If the piece can move.
+     */
     public function getMovable(): bool
     {
         return $this->movable;
     }
 
+    /**
+     * Set the name of the piece.
+     * @param $name string The name of the piece.
+     * @return void
+     */
     public function setName($name)
     {
         $this->name = $name;
     }
 
+    /**
+     * Takes a piece name and creates an instance of the piece with that name.
+     * @param $name string The name of the piece (e.g.: Miner)
+     * @param $ownerId string The owner id to assign to the new piece.
+     * @return Piece The newly created piece instance that corresponds to the given name of the piece.
+     */
     public static function fromPieceName($name, $ownerId) : Piece
     {
-        
+
         $subclasses = [
             new Bomb($ownerId),
             new Captain($ownerId),
@@ -152,6 +187,16 @@ class Piece
 
     }
 
+    /**
+     * Creates a piece based on the given json array.
+     *
+     * This functions main purpose is to be able to load the database (a json file) and be able to regenerate
+     * all classes stored as json so that all functionality of these classes can be used (think of hitting, moving, etc).
+     *
+     * @param $json array The array returned from the json database. The array should at least contain the piece name and
+     *  owner id.
+     * @return Piece The new instance piece created from the given (json) array.
+     */
     public static function fromJson($json)
     {
         $piece = Piece::fromPieceName($json['name'], $json['ownerId']);
@@ -192,12 +237,19 @@ class Spy extends Piece
     public $value = '1';
     public $movable = true;
 
-    public function canHit(Piece $piece)
+    /**
+     * Custom implementation of the spy's hitting method because it can hit the Marshal.
+     *
+     * @param Piece $piece The piece to hit.
+     * @return bool If the spy can hit this piece.
+     */
+    public function canHit(Piece $piece) : bool
     {
         // Spies can hit Marshals.
         if ($piece->getValue() == '10') {
             return true;
         }
+        // If the other piece is not the marshal normal rules apply.
         return parent::canHit($piece);
     }
 
@@ -210,12 +262,14 @@ class Scout extends Piece
     public $value = '2';
     public $movable = true;
 
+    /**
+     * Scouts can move as far as they want so this always returns true.
+     * @param $move_distance int The distance wanting to move.
+     * @return bool Always true -- scouts can move as far as they want.
+     */
     public function canMoveDistance($move_distance): bool
     {
         // Scouts can move as far as they want!
-        // TODO: Find out if scouts can hit in the same turn as they moved.
-        //       If not, handle it!
-        // TODO: checks if its not moving over any pieces.
         return true;
     }
 
@@ -229,7 +283,12 @@ class Miner extends Piece
     public $value = '3';
     public $movable = true;
 
-    function canHit(Piece $piece)
+    /**
+     * Custom implementation of canHit method for the Miner because it can hit bombs.
+     * @param Piece $piece The piece to hit.
+     * @return bool If the Miner can hit the other piece.
+     */
+    function canHit(Piece $piece) : bool
     {
         // Miners can hit bombs.
         if ($piece->getValue() === 'B') {
