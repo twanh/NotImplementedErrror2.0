@@ -1,11 +1,15 @@
+/**
+ * Open the sidenavbar
+ */
 function openNav() {
-    // Open the sidenavbar
     document.getElementById("mySidebar").style.width = "250px";
    $("#main").hide();
 }
   
+/**
+ * Closes the sidenavbar
+ */
 function closeNav() {
-    // closes the sidenavbar
     document.getElementById("mySidebar").style.width = "0";
     $("#main").show();
 }
