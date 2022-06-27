@@ -24,7 +24,7 @@ function boardPlayerBlue() {
  * Changes the board setup for player color
  * @param  {String} player_red_or_blue
  */
-function changeBoardForPlayer() {
+function changeBoardForPlayer(player_red_or_blue) {
     if (player_red_or_blue === "red") {
         boardPlayerRed()
     } else if (player_red_or_blue === "blue") {
@@ -42,7 +42,7 @@ function checkHasPiece(event, classString, player_red_or_blue, pieceCount) {
     let elementClasses = event.target.classList;
     let deleteClass = event.target.className.split(" ").slice(-1);
     let elementId = classString.split("-").slice(-1);
-    
+
     if (elementClasses.length === 2) {
         piece = elementId;
         event.target.classList.remove(deleteClass)
@@ -67,7 +67,7 @@ function checkHasPiece(event, classString, player_red_or_blue, pieceCount) {
 function removeDraggableAttributeById(element, player_red_or_blue, pieceCount) {
     let piece = "";
     number = player_red_or_blue === "red" ? 4 : 5;
-    
+
     if (!isNaN(element.id.charAt(number))) {
         piece = element.id.charAt(number);
     } else {
@@ -132,7 +132,7 @@ function removeDraggableAttributeByClass(element, classString, player_red_or_blu
  * Checks if a draggable items gets dragged
  */
 function dragstart(){
-    // 
+    //
     for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
         draggableElement.addEventListener("dragstart", event=> {
             event.dataTransfer.setData("text/plain", event.target.id);
@@ -158,7 +158,7 @@ function dragDrop(player_red_or_blue, pieceCount){
             const classId = event.dataTransfer.getData('text/plain');
             const element = document.getElementById(classId);
             let classString = element.className;
-            
+
             if (classId.startsWith("r-")) {
                 removeDraggableAttributeByClass(element, classString, player_red_or_blue, pieceCount);
             } else {
@@ -214,10 +214,10 @@ function piecesToBoard() {
         []
     ];
     row_counter = 0
-    const table = document.getElementById("board"); 
+    const table = document.getElementById("board");
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    for (const row of table.rows) {  
+    for (const row of table.rows) {
         for (const cell of row.cells) {
             piece = classToPiece(cell);
             if (piece === undefined) {
@@ -225,7 +225,7 @@ function piecesToBoard() {
             } else {
                 board[row_counter].push({"piece": piece, "player": urlParams.get('userid')});
             }
-        }  
+        }
         row_counter += 1
     }
     return board
@@ -384,10 +384,10 @@ function apiSetup(board) {
     return data;
 }
 /**
- * Hit's the api to check if both players are ready. 
+ * Hit's the api to check if both players are ready.
  *
  * If both players are ready the user is redirected to the play game page to start playing the game.
- * @param {Number} intv The interval number used to call this function repeatedly (so it can be cleared once done.) 
+ * @param {Number} intv The interval number used to call this function repeatedly (so it can be cleared once done.)
  */
 function checkBothReady(intv) {
 
@@ -470,7 +470,7 @@ async function setupGame(){
         "bomb": 6,
         "flag": 1
     }
-    
+
     let pieceCountBlue = {
         "1": 1,
         "2": 1,
@@ -507,7 +507,7 @@ async function setupGame(){
     $("#ready_button").click(function() {
         eventReady(pieceCount);
     })
-    
-    
+
+
 }
 setupGame();
