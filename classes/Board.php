@@ -10,6 +10,9 @@ class Board
 {
     protected $board;
 
+    /**
+     * @return mixed
+     */
     public function getBoard()
     {
         return $this->board;
@@ -18,7 +21,8 @@ class Board
 
     /**
      * Returns the board with all pieces from the opponent
-     * hidden
+     * hidden (they are shown as "UNKNOWN").
+     *
      * @param $playerid string The current players' id.
      * @return Piece[][]|NULL[][] The board with the other players pieces hidden.
      */
@@ -34,7 +38,8 @@ class Board
                 } elseif ($orig_board[$y][$x] === "WATER") {
                     $row[$x] = "WATER";
                 } else {
-                    // It is a Piece
+                    // When the owner id of a piece is not the $playerid the piece
+                    // gets replaced with "UNKNOWN".
                     $curPiece = $orig_board[$y][$x];
                     if ($curPiece->getOwnerId() === $playerid) {
                         $row[$x] = $curPiece;
@@ -49,21 +54,13 @@ class Board
         return $board;
     }
 
-    public function getBoardForBlue()
-    {
-        $current = $this->board;
-        $reverse = array();
-        for ($y = 9; $y >= 0; $y--)
-        {
-            $row = array();
-            for ($x = 9; $x >= 0; $x--) {
-                $row[] = $current[$y][$x];
-            }
-            $reverse[] = $row;
-        }
-        return $reverse;
-    }
 
+    /**
+     * Returns what value is stored on the board on the given coordinates.
+     * @param int $y The y coordinate.
+     * @param int $x The x coordinate.
+     * @return Piece|string|null The value that is on the given coordinates..
+     */
     public function getPositionOnBoard(int $y, int $x)
     {
        return $this->board[$y][$x] ;
@@ -114,12 +111,13 @@ class Board
      * @param bool $force If true, the move is forced.
      * @param int|NULL $cur_y  The current y position of the piece.
      * @param int|NULL $cur_x  The current x position of the piece.
-     * @return array[bool, string] If the piece could be set there and an error message if it could not be done.
+     * @return array[bool|string] If the piece could be set there and an error message if it could not be done.
      *
      */
-    public function setPieceOnPosition(Piece $piece, int $y, int $x, bool $force = false, $cur_y = NULL, $cur_x = NULL)
+    public function setPieceOnPosition(Piece $piece, int $y, int $x, bool $force = false, int $cur_y = NULL, int $cur_x = NULL): array
     {
 
+        // If there is nothing on the board for the given coordinates the piece can always be placed there.
         if (is_null($this->board[$y][$x])) {
             $this->board[$y][$x] = $piece;
             return [true, ''];
@@ -137,6 +135,8 @@ class Board
                 return [false, "You cannot hit a piece of your own!"];
             }
 
+            // If there is a piece and the current piece (the one standing there already) can be hit
+            // by the piece being moved the piece hit's it and takes it place.
             if ($piece->canHit($currentPiece)) {
                 $this->board[$y][$x] = $piece;
                 return [true, 'You hit a ' . $currentPiece->getName()];
@@ -146,6 +146,7 @@ class Board
                 return [true, 'You got hit by ' . $currentPiece->getName()];
             }
         } else {
+            // The move is forced so the piece gets always placed.
             $this->board[$y][$x] = $piece;
             return [true, ''];
         }
@@ -160,7 +161,8 @@ class Board
      * @param int $cur_y The current y position of the piece that wants to move.
      * @param int $cur_x The current x position of the piece that wants to move.
      * @param int $distance The distance the piece wants to move with (default 1 -- only the scout moves more).
-     * @return bool If the piece can move up with the given distance.
+     * @return array Array with as first item a bool to show if the piece can move down with the given distance. The second
+     * item in the array is an (error) message for the move.
      */
     public function moveUp(int $cur_y, int $cur_x, int $distance = 1) : array
     {
@@ -171,9 +173,8 @@ class Board
             return [false, "You cannot move when there is no piece!"];
         }
 
-        // Test if moving up will move out of bounds.
+        // Check if moving up will move out of bounds.
         if ($cur_y - $distance < 0) {
-            // TOP is index 0.
             return [false, "You cannot move outside of the board!"];
         }
 
@@ -194,9 +195,8 @@ class Board
             }
         }
 
-
-
         list($canMove, $msg) = $this->setPieceOnPosition($currentPiece, $cur_y-$distance, $cur_x, false, $cur_y, $cur_x);
+
         // If the piece is moved make it's previous position available.
         if ($canMove) {
             $this->board[$cur_y][$cur_x] = NULL;
@@ -211,7 +211,8 @@ class Board
      * @param int $cur_y The current y position of the piece that wants to move.
      * @param int $cur_x The current x position of the piece that wants to move.
      * @param int $distance The distance the piece wants to move with (default 1 -- only the scout moves more).
-     * @return bool If the piece can move down with the given distance.
+     * @return array Array with as first item a bool to show if the piece can move down with the given distance. The second
+     * item in the array is an (error) message for the move.
      */
     public function moveDown(int $cur_y, int $cur_x, int $distance = 1) : array
     {
@@ -256,7 +257,8 @@ class Board
      * @param int $cur_y The current y position of the piece that wants to move.
      * @param int $cur_x The current x position of the piece that wants to move.
      * @param int $distance The distance the piece wants to move with (default 1 -- only the scout moves more).
-     * @return bool If the piece can move right with the given distance.
+     * @return array Array with as first item a bool to show if the piece can move down with the given distance. The second
+     * item in the array is an (error) message for the move.
      */
     public function moveRight(int $cur_y, int $cur_x, int $distance = 1) : array
     {
@@ -304,7 +306,8 @@ class Board
      * @param int $cur_y The current y position of the piece that wants to move.
      * @param int $cur_x The current x position of the piece that wants to move.
      * @param int $distance The distance the piece wants to move with (default 1 -- only the scout moves more).
-     * @return bool If the piece can move left with the given distance.
+     * @return array Array with as first item a bool to show if the piece can move down with the given distance. The second
+     * item in the array is an (error) message for the move.
      */
     public function moveLeft(int $cur_y, int $cur_x, int $distance = 1) : array
     {
@@ -345,6 +348,15 @@ class Board
     }
 
 
+    /**
+     * Creates a board based on the given json array.
+     *
+     * This function's main purpose is to be able to load the database (a json file) and be able to regenerate
+     * all classes stored as json so that all functionality of these classes can be used (think of moving, etc).
+     *
+     * @param $json array An array representing the board as stored in the database.
+     * @return static A new board instance with all correct positions and pieces;
+     */
     public static function fromJson($json)
     {
         $arr_board = NULL;
