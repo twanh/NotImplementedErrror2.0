@@ -1,7 +1,8 @@
 /**
- * Function that returns the piece image class
- * @param pieceName Name of the piece
- * @return {*} Image class used for that piece
+ * Returns the image class that corresponds to the name of the piece.
+ *
+ * @param  {string} pieceName Name of the piece.
+ * @return {string} Image class used for that piece.
  */
 function pieceToClass(pieceName) {
 
@@ -24,7 +25,7 @@ function pieceToClass(pieceName) {
 }
 
 /**
- * All pieces owned by the player are made draggable
+ * All pieces owned by the player are made draggable.
  */
 function makeTableDraggable(){
 
@@ -39,7 +40,14 @@ function makeTableDraggable(){
         cell.draggable = false;
     }
 }
-
+/**
+ * Sets up the moving of the pieces.
+ *
+ * All the players pieces are made draggable and event handlers are added for dragging and dropping.
+ * When a drag/drop occurs `playerMadeMove` is called to handle the move.
+ *
+ * @param {Array<Array<Object|string|null>>} board The current board for the player.
+ */
 function setupMoving(board) {
 
     // For every draggable element make sure that when a drag
@@ -81,15 +89,28 @@ function setupMoving(board) {
         })
     }
 }
-
+/**
+ * Handles the it when a player made a move.
+ *
+ * @param {string} start The classname of the starting position (of the piece that moved).
+    E.g: `r-1-c-1` -- this is the classname of the position in the board table.
+ * @param  {string} end The classname of the position where the piece got dragged to.
+    E.g.: `r-2-c-1` -- this is the classname of the position in the board table.
+ * @param  {Array<Array<Object|string|null>>} board The board.
+ */
 async function playerMadeMove(start, end, board) {
 
+    // The rows and columns in the board table are not 0-indexed but the board
+    // array is so -1 is applied to all coordinates that come from the table classnames.
     const start_y = parseInt(start.split('-')[1])-1;
     const start_x = parseInt(start.split('-')[3])-1;
 
     const end_y = parseInt(end.split('-')[1])-1;
     const end_x = parseInt(end.split('-')[3])-1;
 
+    // Prevent moving in the water
+    // Note: water tiles are also not enabled as dropzones, so this should
+    // not occur often.
     if (board[end_y][end_x] === "WATER") {
         alert("You cannot move in the water.")
         fillBoard(board);
@@ -107,7 +128,7 @@ async function playerMadeMove(start, end, board) {
             alert("You cannot move vertical and horizontal at the same time!");
             fillBoard(board);
             return;
-        }  
+        }
 
         let distance = start_y - end_y;
         ret = await move(start_y, start_x, 'up', distance)
@@ -152,11 +173,14 @@ async function playerMadeMove(start, end, board) {
             alert(ret.message)
         }
     } else {
-        // Undo the move!
+        // Undo the move if the move was not valid.
         alert(ret.message);
         if ('board' in ret) {
+            // Use the board that was returned with the request.
             fillBoard(ret.board);
         } else {
+            // Get the latest version (aka the version before the invalid move) and use
+            // that to restore the board to a valid state.
             updateBoard();
         }
     }
@@ -164,8 +188,10 @@ async function playerMadeMove(start, end, board) {
 
 
 /**
- * Fills the board according to the database
- * @param board parameter containing each tile and its piece
+ * Updates the board according to the given board.
+ *
+ * @param {Array<Array<Object|string|null>>} board The array of arrays representing the board containing the pieces
+ * and their location, empty tiles (null) and water tiles (string).
  */
 function fillBoard(board) {
 
@@ -173,6 +199,9 @@ function fillBoard(board) {
         for (let x = 0; x < 10; x++) {
             let cur = board[y][x];
 
+            // Note: the table rows and cols are not 0 indexed, but the
+            // board (matrix) is, so for the (y,x) of the board (board[y][x])
+            // correspond to (y+1, x+1) in the table.
             let tableRowColID = '#r-' + (y+1) + '-c-' + (x+1);
 
             $(tableRowColID).attr('class', '')
@@ -188,9 +217,11 @@ function fillBoard(board) {
             }
 
             if (cur === "UNKNOWN") {
+                // Shows the question mark for the pieces of the other players.
                 $(tableRowColID).addClass('img-unknown');
                 $(tableRowColID).addClass('drop-zone');
             } else {
+                // Adds the correct icon for the piece to it's position on the board.
                 $(tableRowColID).addClass(pieceToClass(cur.name));
                 $(tableRowColID).attr('draggable', true);
             }
@@ -200,14 +231,14 @@ function fillBoard(board) {
 }
 
 /**
- * Updates the board according to the database and the last move/hit. Also notifies the player after being hit.
- * @return board updated parameter containing each tile and its piece
+ * Updates the board according to the database and the last move/hit.
+ * Also notifies the player after being hit.
  */
 function updateBoard() {
 
     const board = getPlayerPieces().then(data => {
         if (data['success']) {
-            
+
             if (data['lastHit'] !== null) {
                 alert("You got bit by " + data['lastHit']);
             }
@@ -216,6 +247,10 @@ function updateBoard() {
         }
     });
 
+    // Every time the board is updated:
+    // - Refill the board with the new positions
+    // - Make sure that the new positions are draggable.
+    // - Setup the event handling for making moves.
     board.then(board => {
         fillBoard(board);
         makeTableDraggable();
@@ -223,15 +258,17 @@ function updateBoard() {
     });
 
 }
-
+/**
+ * Main function that first sets the board and then handles turns and moves.
+ */
 function play(){
 
     updateBoard();
 
     // Check if it's the current players turn (every 1s)
     let wasTurn = false;
-    const turnTimeout = setInterval(() => {
-        const data = checkIsTurn().then((isTurn) => {
+    setInterval(() => {
+        checkIsTurn().then((isTurn) => {
             $('#turn-container').show();
             if (isTurn){
                 if (!wasTurn) {
@@ -247,7 +284,4 @@ function play(){
             }
         })
     }, 1000)
-
-    // Let the player make a move
-
 }
