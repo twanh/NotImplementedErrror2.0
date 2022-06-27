@@ -1,6 +1,5 @@
-
-
 function board_player_red() {
+    // Setup board for player red
     for (const blue_id of document.querySelectorAll("td[id^='blue-'][id$='-img']")) {
         blue_id.draggable = false;
     }
@@ -10,6 +9,7 @@ function board_player_red() {
 }
 
 function board_player_blue() {
+    // Setup board for player blue
     for (const red_id of document.querySelectorAll("td[id^='red-'][id$='-img']")) {
         red_id.draggable = false;
     }
@@ -19,6 +19,7 @@ function board_player_blue() {
 }
 
 function change_board_for_player(player_red_or_blue) {
+    // changes the board setup for player color
     if (player_red_or_blue === "red") {
         board_player_red()
     } else if (player_red_or_blue === "blue") {
@@ -27,6 +28,7 @@ function change_board_for_player(player_red_or_blue) {
 }
 
 function check_has_piece(event, classString, player_red_or_blue, pieceCount){
+    // checks if td element already has a piece
     let elementClasses = event.target.classList;
     let deleteClass = event.target.className.split(" ").slice(-1);
     let elementId = classString.split("-").slice(-1);
@@ -48,6 +50,7 @@ function check_has_piece(event, classString, player_red_or_blue, pieceCount){
 
 
 function removeDraggableAttributeById(element, player_red_or_blue, pieceCount) {
+    // Remove the draggable attribute by ID
     let piece = "";
     number = player_red_or_blue === "red" ? 4 : 5;
     
@@ -78,6 +81,7 @@ function removeDraggableAttributeById(element, player_red_or_blue, pieceCount) {
 
 
 function removeDraggableAttributeByClass(element, classString, player_red_or_blue, pieceCount) {
+    // Remove the draggable attribute by classname
     let piece = "";
     classString = classString.split(" ")[1];
     if (!isNaN(classString.charAt(4))) {
@@ -107,6 +111,7 @@ function removeDraggableAttributeByClass(element, classString, player_red_or_blu
 }
 
 function dragstart(){
+    // checks if a draggable items gets dragged
     for (const draggableElement of document.querySelectorAll("[draggable=true]")) {
         draggableElement.addEventListener("dragstart", event=> {
             event.dataTransfer.setData("text/plain", event.target.id);
@@ -115,6 +120,7 @@ function dragstart(){
 }
 
 function drag_drop(player_red_or_blue, pieceCount){
+    // Checks if the item gets droped on a dropzone
     for (const dropZone of document.querySelectorAll(".drop-zone")) {
         // When draggable element is over a dropzone
         dropZone.addEventListener("dragover", event => {
@@ -144,6 +150,7 @@ function drag_drop(player_red_or_blue, pieceCount){
 
 
 function class_to_piece(element) {
+    // Makes the html class name to the php class name of the piece
     classPiece = element.classList[1];
     pieces = {
                 "img-1": "Marshal",
@@ -195,6 +202,7 @@ function pieces_to_board() {
 }
 
 function piece_to_class(element) {
+    // Makes the php class name to the html class name of the piece
     const pieces = {
         "Marshal": "1",
         "General": "2",
@@ -287,6 +295,7 @@ function loadSetup() {
 }
 
 function check_ready(pieceCount) {
+    // checks if all players pieces are placed
     list_bool = [];
     for (const entries in pieceCount) {
         if (pieceCount[entries] === 0) {
