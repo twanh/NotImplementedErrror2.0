@@ -240,7 +240,7 @@ function updateBoard() {
         if (data['success']) {
 
             if (data['lastHit'] !== null) {
-                alert("You got bit by " + data['lastHit']);
+                alert("You got hit by " + data['lastHit']);
             }
 
             return data['board'];
