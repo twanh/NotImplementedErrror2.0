@@ -18,7 +18,6 @@ if (isset($_POST['name']) && isset($_GET['gameid'])) {
     if(!is_null($game['player1Id'])) {
         $player2Name = $_POST['name'];
         $player2Id = $userid;
-        // TODO: Find a better way to add to gameIds
         $u_ret = $db->addUser($userid, $player2Name, [$gameid]);
         $ret = $db->updateGame($gameid, null, $userid, null);
     } else if (!is_null($game['player2Id'])) {

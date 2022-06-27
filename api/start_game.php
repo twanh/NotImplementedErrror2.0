@@ -19,7 +19,6 @@ if (isset($_POST['name']) && isset($_POST['color'])) {
     if ($_POST['color'] === "red") {
         $player1Name = $_POST['name'];
         $player1Id = $userid;
-        // TODO: Find a better way to add to gameIds
         $u_ret = $db->addUser($userid, $player1Name, [$gameid]);
     } else {
         $player2Name = $_POST['name'];

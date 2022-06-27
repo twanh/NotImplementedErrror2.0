@@ -5,7 +5,7 @@ function openNav() {
     document.getElementById("mySidebar").style.width = "250px";
    $("#main").hide();
 }
-  
+
 /**
  * Closes the side navbar.
  */
@@ -24,7 +24,6 @@ function getColor() {
     } else if ($('#blue-pawns').css('visibility') === 'hidden') {
         color = "red";
     }
-    // TODO: create more thorough check for colour
     return color;
 }
 
