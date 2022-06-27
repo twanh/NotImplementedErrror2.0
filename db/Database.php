@@ -18,33 +18,17 @@ class Database
     public function __construct($file)
     {
         $this->file = $file;
-
-        $content  = $this->load();
-
-/*         if (!is_array($content)) { */
-/*             $content = Array( */
-/*                 "games" => [], */
-/*                 "users" => [], */
-/*             ); */
-/*         } */
-
-/*         if(!array_key_exists('games', $content)) { */
-/*             $content['games'] = []; */
-/*         } */
-
-/*         if(!array_key_exists('users', $content)) { */
-/*            $content['users'] = []; */
-/*         } */
-
-/*         $this->save($content); */
-
     }
 
+    /**
+     * Save the given database content to the database file.
+     * @param $db_content array The content to save to the database.
+     * @return bool If the save as successful.
+     */
     private function save($db_content): bool
     {
 
         if (is_null($db_content['games'])){
-            echo "GOT THE NULL!!!";
             return false;
         }
 
@@ -59,6 +43,10 @@ class Database
         return true;
     }
 
+    /**
+     * Load the content of the database.
+     * @return array The loaded content of the database.
+     */
     private function load()
     {
 
@@ -91,14 +79,24 @@ class Database
         return $ret;
     }
 
-    /*
+    /**
      * Returns the user with the given id.
-
-     * @param id string The user id.
-     * @returns array|null The user array or NULL when not found.
      *
+     * Example of a user array (as stored in the db):
+     * ```json
+     *  {
+     *      "userName": "User1",
+     *      "id": "1234234",
+     *      "gameIds": ["game-123"]
+     *  }
+     * ```
+     * So the keys `userName`, `id` and `gameIds` are available on the returned
+     * array.
+     *
+     * @param string $id The user id.
+     * @returns array|null The user array or NULL when not found.
      */
-    public function getUserById($id) 
+    public function getUserById($id)
     {
         $db_content = $this->load();
         $users = $db_content['users'];
@@ -118,13 +116,30 @@ class Database
      * Note: the game here is just the game array as it is stored in the database
      * the board and pieces are also just arrays, not their corresponding classes.
      *
+     * An example of how the game is stored (in the database):
+     * ```json
+     * {
+     *      "id":"62b8c48f78ac7",
+     *      "player1Id":"62b8c48f78acd",
+     *      "player2Id":"62b8c497a578f",
+     *      "board":[...],
+     *      "player1Ready":true,
+     *      "player2Ready":true,
+     *      "turn":1,
+     *      "lastHitBy":null,
+     *      "lastHitPiece":null
+     * },
+     * ```
+     *
+     * Note that not all these 'fields' are always accessible. E.g.: `turn` and `lastHitBy` are only added after
+     * both players are ready. So it is always recommended to use the specialized methods
+     * (e.g.: `getBoard`, `getLastHitForGame`, etc) to get these values if needed.
+     *
      * @param $id string The id of the game.
-     * @return mixed|null The game data.
+     * @return array|null The game data -- NULL if no game is found.
      */
     public function getGameById($id)
     {
-        // TODO: Make sure the the board and pieces are replaced
-        //       by their actual class instances.
         $db_content = $this->load();
         foreach ($db_content['games'] as $game) {
             if ($game['id'] == $id) {
@@ -155,6 +170,7 @@ class Database
 
     /**
      * Adds a game with the given data to the database.
+     *
      * @param $id string The (unique) id for the game.
      * @param $player1Id string The player id for the red player.
      * @param $player2Id string The player id for the blue player.
@@ -282,7 +298,13 @@ class Database
         return $this->save($db_content);
     }
 
-    public function setReadyForGame($gameid, $playerid) 
+    /**
+     * Sets the player with the given $playerid to ready for the game with the given $gameid.
+     * @param $gameid string The id of the game to set the player ready for.
+     * @param $playerid string The id of the player that is ready.
+     * @return bool If the database was updated successfully.
+     */
+    public function setReadyForGame($gameid, $playerid)
     {
 
         $db_content = $this->load();
@@ -302,7 +324,13 @@ class Database
     }
 
 
-    public function getReadyForGame($gameid) 
+    /**
+     * Returns if both players are ready for the game with the given $gameid.
+     *
+     * @param $gameid string The id of the game to check for if the players are ready.
+     * @return bool|null If the players are ready, or null when the game is not found.
+     */
+    public function getReadyForGame($gameid)
     {
 
         $currentGame = $this->getGameById($gameid);
@@ -324,6 +352,14 @@ class Database
     }
 
 
+    /**
+     * Save what piece did the last hit and which player moved that piece.
+     *
+     * @param $gameid string The game for which the hit occurred
+     * @param $userid string The user who moved the hitting piece.
+     * @param $pieceName string The name of the piece that made the hit.
+     * @return bool If the database could be updated successfully.
+     */
     public function setLastHitForGame($gameid, $userid, $pieceName) {
 
         $db_content = $this->load();
@@ -337,9 +373,14 @@ class Database
         unset($game);
 
         return $this->save($db_content);
-        
+
     }
 
+    /**
+     * Returns which player hit which piece last.
+     * @param $gameid string The id of the game to get the last hit for
+     * @return array Who hit the piece and what piece did the move.
+     */
     public function getLastHitForGame($gameid) {
 
         $game = $this->getGameById($gameid);
