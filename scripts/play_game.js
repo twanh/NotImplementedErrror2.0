@@ -88,16 +88,18 @@ async function playerMadeMove(start, end, board) {
     }
 
     // Determine if the player moved up/down/left/right
-    // Up end_y < start_y    (start_x=end_x)
-    // Down end_y > start_y  (start_x=end_x)
-    // Left end_x < start_x  (start_y=end_y)
+    // Up    end_y < start_y (start_x=end_x)
+    // Down  end_y > start_y (start_x=end_x)
+    // Left  end_x < start_x (start_y=end_y)
     // Right end_x > start_x (start_y=end_y)
 
     let ret;
     if (end_y < start_y) {
         if (start_x !== end_x) {
             alert("You cannot move vertical and horizontal at the same time!");
-        }
+            fillBoard(board);
+            return;
+        }  
 
         let distance = start_y - end_y;
         ret = await move(start_y, start_x, 'up', distance)
@@ -105,6 +107,8 @@ async function playerMadeMove(start, end, board) {
     } else if (end_y > start_y) {
         if (start_x !== end_x) {
             alert("You cannot move vertical and horizontal at the same time!");
+            updateBoard(board);
+            return;
         }
 
         let distance = end_y - start_y;
@@ -113,6 +117,8 @@ async function playerMadeMove(start, end, board) {
     } else if (end_x < start_x) {
         if (start_y !== end_y) {
             alert("You cannot move vertical and horizontal at the same time!");
+            updateBoard(board);
+            return;
         }
 
         let distance = start_x - end_x;
@@ -120,6 +126,8 @@ async function playerMadeMove(start, end, board) {
     } else if (end_x > start_x) {
         if (start_y !== end_y) {
             alert("You cannot move vertical and horizontal at the same time!");
+            updateBoard(board);
+            return;
         }
 
         let distance = end_x - start_x;
